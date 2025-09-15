@@ -1,3 +1,11 @@
+
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract green and black background for the hero section",
+      "imageUrl": "https://picsum.photos/seed/toolify-hero/1920/1080",
+      "imageHint": "abstract green"
+    }
+  ]
 }
