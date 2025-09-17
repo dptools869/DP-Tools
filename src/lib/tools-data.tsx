@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -42,6 +42,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert your PDF files to editable Word documents.',
         icon: <FileText className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/to-word',
+      },
+       {
+        title: 'HTML to PDF',
+        description: 'Convert web pages to high-quality PDF files.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/html-to-pdf',
       },
     ],
   },
