@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -195,7 +196,7 @@ export default function HtmlToPdfPage() {
             </CardContent>
             <CardFooter>
                 <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
-            </Footer>
+            </CardFooter>
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
@@ -229,11 +230,3 @@ export default function HtmlToPdfPage() {
     </div>
   );
 }
-
-// Add prose styles to globals.css if they don't exist
-// @layer base {
-//   .prose { @apply text-foreground/80; }
-//   .prose h2 { @apply text-primary; }
-//   .prose a { @apply text-primary; }
-//   ... etc
-// }
