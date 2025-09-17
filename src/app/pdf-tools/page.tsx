@@ -1,7 +1,7 @@
 import AdBanner from "@/components/ad-banner";
 import { RecommendedVideo } from "@/components/recommended-video";
 import { ToolCard } from "@/components/tool-card";
-import { toolsData } from "@/lib/tools-data";
+import { toolsData } from "@/lib/tools-data.tsx";
 import { AlertCircle } from "lucide-react";
 
 export default function PdfToolsPage() {
