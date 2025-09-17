@@ -6,7 +6,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'Toolify - All-in-One Tools Platform',
+  title: 'DP Tools - All-in-One Tools Platform',
   description: 'Fast, reliable, and smart tools for PDFs, Images, and Calculations.',
 };
 
