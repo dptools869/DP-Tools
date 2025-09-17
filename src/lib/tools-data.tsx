@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Compress, CaseSensitive, Repeat, Percent, Ruler } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -34,7 +34,7 @@ export const toolsData: Record<string, ToolCategory> = {
       {
         title: 'Compress PDF',
         description: 'Reduce the file size of your PDF while optimizing for quality.',
-        icon: <Compress className="w-8 h-8 text-primary" />,
+        icon: <Shrink className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/compress',
       },
       {
@@ -64,7 +64,7 @@ export const toolsData: Record<string, ToolCategory> = {
       {
         title: 'Image Compressor',
         description: 'Reduce the file size of your images without losing quality.',
-        icon: <Compress className="w-8 h-8 text-primary" />,
+        icon: <Shrink className="w-8 h-8 text-primary" />,
         href: '/tools/image/compress',
       },
       {
