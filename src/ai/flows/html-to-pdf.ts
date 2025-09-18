@@ -10,8 +10,8 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import FormData from 'form-data';
 
+// ----------- Schemas -----------
 const HtmlToPdfInputSchema = z.object({
   htmlDataUri: z
     .string()
@@ -28,10 +28,12 @@ const HtmlToPdfOutputSchema = z.object({
 });
 export type HtmlToPdfOutput = z.infer<typeof HtmlToPdfOutputSchema>;
 
+// ----------- Public function -----------
 export async function htmlToPdf(input: HtmlToPdfInput): Promise<HtmlToPdfOutput> {
   return htmlToPdfFlow(input);
 }
 
+// ----------- Flow Definition -----------
 const htmlToPdfFlow = ai.defineFlow(
   {
     name: 'htmlToPdfFlow',
@@ -44,25 +46,28 @@ const htmlToPdfFlow = ai.defineFlow(
     }
 
     try {
+      // Decode Base64 HTML
       const base64Data = input.htmlDataUri.split(';base64,').pop();
       if (!base64Data) {
         throw new Error('Invalid HTML data URI.');
       }
-      
+
       const htmlBuffer = Buffer.from(base64Data, 'base64');
       const outputFileName = input.fileName.replace(/\.[^/.]+$/, '') + '.pdf';
-      
+
+      // Use built-in FormData (no external form-data lib needed)
       const formData = new FormData();
-      formData.append('file', htmlBuffer, {
-        filename: input.fileName,
-        contentType: 'text/html',
-      });
+      formData.append('File', new Blob([htmlBuffer], { type: 'text/html' }), input.fileName);
       formData.append('StoreFile', 'true');
 
-      const convertResponse = await fetch(`https://v2.convertapi.com/convert/html/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`, {
-        method: 'POST',
-        body: formData,
-      });
+      // Call ConvertAPI
+      const convertResponse = await fetch(
+        `https://v2.convertapi.com/convert/html/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
 
       if (!convertResponse.ok) {
         const errorText = await convertResponse.text();
@@ -70,15 +75,16 @@ const htmlToPdfFlow = ai.defineFlow(
       }
 
       const convertResult = await convertResponse.json();
-      
+
       if (!convertResult.Files || convertResult.Files.length === 0) {
         throw new Error('Conversion result did not contain any files.');
       }
 
       const pdfFileUrl = convertResult.Files[0].Url;
 
+      // Download PDF
       const pdfResponse = await fetch(pdfFileUrl);
-       if (!pdfResponse.ok) {
+      if (!pdfResponse.ok) {
         throw new Error(`Failed to download converted PDF file from ${pdfFileUrl}`);
       }
 
@@ -87,10 +93,9 @@ const htmlToPdfFlow = ai.defineFlow(
       const pdfDataUri = `data:application/pdf;base64,${pdfBase64}`;
 
       return {
-        pdfDataUri: pdfDataUri,
+        pdfDataUri,
         fileName: outputFileName,
       };
-
     } catch (error) {
       console.error('Error converting HTML to PDF:', error);
       throw new Error(

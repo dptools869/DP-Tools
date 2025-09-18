@@ -32,7 +32,7 @@ export default function HtmlToPdfPage() {
           title: 'Invalid File Type',
           description: 'Please upload an HTML file (.html).',
         });
-        event.target.value = ''; // Reset file input
+        event.target.value = ''; 
       }
     }
   };
@@ -46,7 +46,6 @@ export default function HtmlToPdfPage() {
     const droppedFile = event.dataTransfer.files?.[0];
     if (droppedFile && droppedFile.type === 'text/html') {
       setFile(droppedFile);
-      setFileName(droppedFile.name);
       setConversionResult(null);
     } else {
       toast({
@@ -180,8 +179,8 @@ export default function HtmlToPdfPage() {
                     <FileCheck className="h-5 w-5 text-current" />
                     <AlertTitle className="font-bold">Conversion Successful!</AlertTitle>
                     <AlertDescription className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
-                       Your file <span className="font-semibold">{conversionResult.fileName}</span> is ready.
-                        <div className="flex gap-2">
+                       <p className="text-center sm:text-left">Your file <span className="font-semibold">{conversionResult.fileName}</span> is ready.</p>
+                        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                              <Button onClick={downloadPdf} size="sm" className="bg-primary hover:bg-primary/90">
                                 <Download className="mr-2 h-4 w-4" />
                                 Download PDF
