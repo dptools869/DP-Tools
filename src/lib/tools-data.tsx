@@ -49,6 +49,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/html-to-pdf',
       },
+      {
+        title: 'PDF to HTML',
+        description: 'Convert PDF files to web-ready HTML documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/to-html',
+      },
     ],
   },
   'image-tools': {
