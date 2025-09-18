@@ -53,6 +53,7 @@ const htmlToPdfFlow = ai.defineFlow(
 
       const params = convertApi.createParams();
       params.add('File', Buffer.from(base64Data, 'base64'), input.fileName);
+      params.add('StoreFile', true);
 
       const result = await convertApi.convert('html', 'pdf', params);
 
