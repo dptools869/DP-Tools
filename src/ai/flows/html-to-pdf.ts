@@ -10,7 +10,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import ConvertApi from 'convertapi';
+import FormData from 'form-data';
 
 const HtmlToPdfInputSchema = z.object({
   htmlDataUri: z
@@ -43,32 +43,54 @@ const htmlToPdfFlow = ai.defineFlow(
       throw new Error('CONVERT_API_SECRET is not set in the environment.');
     }
 
-    const convertApi = new ConvertApi(process.env.CONVERT_API_SECRET, {
-      conversionTimeout: 120, // Optional: set conversion timeout
-    });
-
     try {
-      const base64Data = input.htmlDataUri.split(',')[1];
+      const base64Data = input.htmlDataUri.split(';base64,').pop();
+      if (!base64Data) {
+        throw new Error('Invalid HTML data URI.');
+      }
+      
+      const htmlBuffer = Buffer.from(base64Data, 'base64');
       const outputFileName = input.fileName.replace(/\.[^/.]+$/, '') + '.pdf';
+      
+      const formData = new FormData();
+      formData.append('file', htmlBuffer, {
+        filename: input.fileName,
+        contentType: 'text/html',
+      });
+      formData.append('StoreFile', 'true');
 
-      const params = convertApi.createParams();
-      params.add('File', Buffer.from(base64Data, 'base64'), input.fileName);
-      params.add('StoreFile', true);
+      const convertResponse = await fetch(`https://v2.convertapi.com/convert/html/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`, {
+        method: 'POST',
+        body: formData,
+      });
 
-      const result = await convertApi.convert('html', 'pdf', params);
+      if (!convertResponse.ok) {
+        const errorText = await convertResponse.text();
+        throw new Error(`ConvertAPI Error: ${convertResponse.status} ${errorText}`);
+      }
 
-      if (result.files && result.files.length > 0) {
-        const pdfFile = result.files[0];
-        const pdfBase64 = pdfFile.fileData.toString('base64');
-        const pdfDataUri = `data:application/pdf;base64,${pdfBase64}`;
-
-        return {
-          pdfDataUri: pdfDataUri,
-          fileName: outputFileName,
-        };
-      } else {
+      const convertResult = await convertResponse.json();
+      
+      if (!convertResult.Files || convertResult.Files.length === 0) {
         throw new Error('Conversion result did not contain any files.');
       }
+
+      const pdfFileUrl = convertResult.Files[0].Url;
+
+      const pdfResponse = await fetch(pdfFileUrl);
+       if (!pdfResponse.ok) {
+        throw new Error(`Failed to download converted PDF file from ${pdfFileUrl}`);
+      }
+
+      const pdfBuffer = await pdfResponse.arrayBuffer();
+      const pdfBase64 = Buffer.from(pdfBuffer).toString('base64');
+      const pdfDataUri = `data:application/pdf;base64,${pdfBase64}`;
+
+      return {
+        pdfDataUri: pdfDataUri,
+        fileName: outputFileName,
+      };
+
     } catch (error) {
       console.error('Error converting HTML to PDF:', error);
       throw new Error(
