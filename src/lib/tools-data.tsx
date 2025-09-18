@@ -41,7 +41,7 @@ export const toolsData: Record<string, ToolCategory> = {
         title: 'PDF to Word',
         description: 'Convert your PDF files to editable Word documents.',
         icon: <FileText className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/to-word',
+        href: '/tools/pdf/to-docx',
       },
        {
         title: 'HTML to PDF',
