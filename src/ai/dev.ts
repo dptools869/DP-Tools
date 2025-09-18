@@ -6,3 +6,4 @@ import '@/ai/flows/html-to-pdf.ts';
 import '@/ai/flows/compress-pdf.ts';
 import '@/ai/flows/pdf-to-docx.ts';
 import '@/ai/flows/pdf-to-html.ts';
+import '@/ai/flows/pdf-to-jpg.ts';
