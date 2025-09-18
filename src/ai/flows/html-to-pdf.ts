@@ -43,36 +43,38 @@ const htmlToPdfFlow = ai.defineFlow(
       throw new Error('CONVERT_API_SECRET is not set in the environment.');
     }
 
-    const convertApi = new ConvertApi(process.env.CONVERT_API_SECRET);
+    const convertApi = new ConvertApi(process.env.CONVERT_API_SECRET, {
+      conversionTimeout: 120, // Optional: set conversion timeout
+    });
 
     try {
       const base64Data = input.htmlDataUri.split(',')[1];
-      const outputFileName = input.fileName.replace(/\.[^/.]+$/, "") + ".pdf";
+      const outputFileName = input.fileName.replace(/\.[^/.]+$/, '') + '.pdf';
 
       const params = convertApi.createParams();
       params.add('File', Buffer.from(base64Data, 'base64'), input.fileName);
 
       const result = await convertApi.convert('html', 'pdf', params);
 
-      // The result object from convertapi-nodejs client has a 'files' property
-      // which is an array of objects containing file data.
       if (result.files && result.files.length > 0) {
         const pdfFile = result.files[0];
-        // The file data is in a property called FileData, which is a base64 string.
-        const pdfBase64 = pdfFile.fileInfo.FileData;
+        const pdfBase64 = pdfFile.fileData.toString('base64');
         const pdfDataUri = `data:application/pdf;base64,${pdfBase64}`;
 
         return {
           pdfDataUri: pdfDataUri,
-          fileName: outputFileName
+          fileName: outputFileName,
         };
       } else {
         throw new Error('Conversion result did not contain any files.');
       }
-
     } catch (error) {
       console.error('Error converting HTML to PDF:', error);
-      throw new Error(`Failed to convert HTML to PDF. Error: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to convert HTML to PDF. Error: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
     }
   }
 );
