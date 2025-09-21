@@ -62,6 +62,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/to-jpg',
       },
       {
+        title: 'PDF to PNG',
+        description: 'Convert each page of a PDF into a PNG image.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/to-png',
+      },
+      {
         title: 'PDF OCR',
         description: 'Make a PDF searchable and extract text from scans.',
         icon: <ScanText className="w-8 h-8 text-primary" />,
