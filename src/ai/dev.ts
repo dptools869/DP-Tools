@@ -10,3 +10,4 @@ import '@/ai/flows/pdf-to-jpg.ts';
 import '@/ai/flows/pdf-to-png.ts';
 import '@/ai/flows/merge-pdf.ts';
 import '@/ai/flows/pdf-ocr.ts';
+import '@/ai/flows/pdf-to-pptx.ts';
