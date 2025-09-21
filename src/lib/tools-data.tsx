@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -60,6 +60,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert each page of a PDF into a JPG image.',
         icon: <Image className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/to-jpg',
+      },
+      {
+        title: 'PDF OCR',
+        description: 'Make a PDF searchable and extract text from scans.',
+        icon: <ScanText className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/ocr',
       },
     ],
   },
