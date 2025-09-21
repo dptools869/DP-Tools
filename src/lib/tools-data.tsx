@@ -79,6 +79,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ScanText className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/ocr',
       },
+      {
+        title: 'PDF to SVG',
+        description: 'Convert PDF pages to scalable vector graphics.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/to-svg',
+      },
     ],
   },
   'image-tools': {
