@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -91,6 +91,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileText className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/to-text',
       },
+      {
+        title: 'Watermark PDF',
+        description: 'Add a custom text watermark to your PDF files.',
+        icon: <Copyright className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/watermark',
+      }
     ],
   },
   'image-tools': {

@@ -14,3 +14,4 @@ import '@/ai/flows/pdf-to-pptx.ts';
 import '@/ai/flows/split-pdf.ts';
 import '@/ai/flows/pdf-to-svg.ts';
 import '@/ai/flows/pdf-to-text.ts';
+import '@/ai/flows/watermark-pdf.ts';
