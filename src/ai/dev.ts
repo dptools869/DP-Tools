@@ -16,3 +16,4 @@ import '@/ai/flows/pdf-to-svg.ts';
 import '@/ai/flows/pdf-to-text.ts';
 import '@/ai/flows/watermark-pdf.ts';
 import '@/ai/flows/pptx-to-pdf.ts';
+import '@/ai/flows/web-to-pdf.ts';
