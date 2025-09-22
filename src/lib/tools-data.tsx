@@ -62,6 +62,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/pptx-to-pdf',
       },
       {
+        title: 'DOC to PDF',
+        description: 'Convert Word documents (DOC, DOCX) to PDF.',
+        icon: <FileText className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/doc-to-pdf',
+      },
+      {
         title: 'PDF to HTML',
         description: 'Convert PDF files to web-ready HTML documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
