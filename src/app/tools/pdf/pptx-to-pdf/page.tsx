@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -7,22 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Sheet, Loader2, Download } from 'lucide-react';
+import { UploadCloud, FileCheck, Presentation, Loader2, Download, FileType } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { pdfToXlsx, PdfToXlsxOutput } from '@/ai/flows/pdf-to-xlsx';
+import { pptxToPdf, PptxToPdfOutput } from '@/ai/flows/pptx-to-pdf';
 import AdBanner from '@/components/ad-banner';
 
-export default function PdfToXlsxPage() {
+export default function PptxToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<PdfToXlsxOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<PptxToPdfOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type === 'application/pdf') {
+      if (selectedFile.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
         setFile(selectedFile);
         setFileName(selectedFile.name);
         setConversionResult(null); // Reset previous result
@@ -30,7 +29,7 @@ export default function PdfToXlsxPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a PDF file (.pdf).',
+          description: 'Please upload a PowerPoint file (.pptx).',
         });
         event.target.value = '';
       }
@@ -44,14 +43,14 @@ export default function PdfToXlsxPage() {
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && droppedFile.type === 'application/pdf') {
+    if (droppedFile && droppedFile.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
       setFile(droppedFile);
       setConversionResult(null);
     } else {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a PDF file (.pdf).',
+        description: 'Please drop a PowerPoint file (.pptx).',
       });
     }
   };
@@ -61,7 +60,7 @@ export default function PdfToXlsxPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select a PDF file to convert.',
+        description: 'Please select a PowerPoint file to convert.',
       });
       return;
     }
@@ -75,11 +74,11 @@ export default function PdfToXlsxPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await pdfToXlsx({ pdfDataUri: base64File, fileName: file.name });
+          const result = await pptxToPdf({ pptxDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
-            description: 'Your Excel file is ready for download.',
+            description: 'Your PDF file is ready for download.',
           });
         } catch (error) {
            toast({
@@ -109,10 +108,10 @@ export default function PdfToXlsxPage() {
     }
   };
 
-  const downloadXlsx = () => {
+  const downloadPdf = () => {
     if (conversionResult) {
       const link = document.createElement('a');
-      link.href = conversionResult.xlsxDataUri;
+      link.href = conversionResult.pdfDataUri;
       link.download = conversionResult.fileName;
       document.body.appendChild(link);
       link.click();
@@ -136,11 +135,11 @@ export default function PdfToXlsxPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <Sheet className="w-10 h-10 text-primary" />
+                <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">PDF to Excel Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">PowerPoint to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Extract data from your PDFs into editable Excel spreadsheets (XLSX).
+                Effortlessly convert your PowerPoint files into professional, high-quality PDFs.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -155,11 +154,11 @@ export default function PdfToXlsxPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PDF file here'}
+                            {fileName || 'Drag & drop your PPTX file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (
@@ -168,7 +167,7 @@ export default function PdfToXlsxPage() {
                         Converting...
                       </>
                     ) : (
-                      'Convert to Excel'
+                      'Convert to PDF'
                     )}
                   </Button>
                 </div>
@@ -181,9 +180,9 @@ export default function PdfToXlsxPage() {
                     <AlertDescription className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
                        <p className="text-center sm:text-left">Your file <span className="font-semibold">{conversionResult.fileName}</span> is ready.</p>
                         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                             <Button onClick={downloadXlsx} size="sm" className="bg-primary hover:bg-primary/90">
+                             <Button onClick={downloadPdf} size="sm" className="bg-primary hover:bg-primary/90">
                                 <Download className="mr-2 h-4 w-4" />
-                                Download XLSX
+                                Download PDF
                             </Button>
                              <Button onClick={resetTool} size="sm" variant="outline">
                                 Convert Another File
@@ -199,20 +198,20 @@ export default function PdfToXlsxPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Unlock Your Data: PDF to Excel Made Easy</h2>
-            <p>Free your data from the static pages of a PDF and bring it into the dynamic, editable world of Microsoft Excel. Our PDF to Excel (XLSX) converter is an essential tool for analysts, accountants, researchers, and anyone who needs to work with tabular data trapped in a PDF. This tool intelligently recognizes tables within your PDF and converts them into structured spreadsheets, preserving rows, columns, and text as accurately as possible.</p>
+            <h2 id="about-tool">Mastering PowerPoint to PDF Conversion</h2>
+            <p>In the digital age, the ability to transform content from one format to another is not just a convenience—it's a necessity. Our PowerPoint to PDF converter stands at the forefront of this transformation, offering a seamless, powerful, and free solution to convert your presentations into universally accessible PDF files. This tool is meticulously engineered for developers, content creators, and business professionals who demand precision, quality, and efficiency in their document management workflows. Whether you're archiving presentations, creating reports from dynamic data, or preparing documents for printing, our tool ensures your content retains its structure, style, and integrity.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2>How Does PDF to XLSX Conversion Work?</h2>
-            <p>Our converter uses powerful table-recognition technology to analyze the layout of your PDF. It identifies the boundaries of tables, rows, and columns, even in complex documents. The text within each cell is extracted and placed into the corresponding cell in a new Excel worksheet. This automated process saves you countless hours of manual data entry and reduces the risk of transcription errors.</p>
-            <h3>Key Benefits of Converting PDF to Excel</h3>
+            <h2 id="how-it-works">How Does the PPTX to PDF Converter Work?</h2>
+            <p>Our converter leverages advanced rendering engines to accurately interpret and translate PPTX into a PDF format. The process is designed to be intuitive and straightforward. When you upload a PPTX file, our system processes the slides to replicate the visual representation of the presentation. This includes preserving layouts, fonts, images, and links. The core of this technology lies in a virtual environment that "prints" the presentation to a PDF file, much like a physical printer would, but with digital precision. This ensures that what you see in your presentation is what you get in your PDF. We prioritize security and privacy; your uploaded files are encrypted during transit and automatically deleted from our servers after a short period, guaranteeing your data remains confidential.</p>
+            <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>Editable Spreadsheets:</strong> Once in XLSX format, your data is fully editable. You can sort, filter, run calculations, and create charts.</li>
-              <li><strong>Accurate Data Extraction:</strong> Our tool is designed to maintain the integrity of your tabular data during the conversion process.</li>
-              <li><strong>Save Time and Effort:</strong> Avoid re-typing data from invoices, financial statements, reports, and other data-heavy documents.</li>
-              <li><strong>Secure and Private:</strong> Your files are handled with 256-bit SSL encryption and are automatically deleted from our servers after processing.</li>
-              <li><strong>Completely Free:</strong> Convert PDFs to Excel spreadsheets without any cost, subscriptions, or limitations.</li>
+              <li><strong>High-Fidelity Conversion:</strong> Retain the exact look and feel of your original PPTX document. Our tool accurately processes complex layouts and various web fonts to produce pixel-perfect PDFs.</li>
+              <li><strong>SEO-Friendly Content Preservation:</strong> When you convert presentations, all text remains searchable and selectable within the PDF, which is crucial for accessibility and content indexing. Keywords like "PPTX to PDF," "convert presentation to PDF," and "free online PDF converter" are embedded naturally in the content's context.</li>
+              <li><strong>User-Friendly Interface:</strong> With a simple drag-and-drop mechanism, converting a file takes only a few clicks. No complex settings or configurations are required, making it accessible for everyone.</li>
+              <li><strong>Secure and Private:</strong> We understand the importance of data security. All connections are secured with SSL encryption, and your files are never shared or stored long-term.</li>
+              <li><strong>Completely Free:</strong> DP Tools is committed to providing powerful utilities at no cost. This PPTX to PDF converter is free for unlimited use, without watermarks or hidden fees.</li>
             </ul>
-            <p>Using a "PDF to Excel converter" streamlines any data-driven workflow. It's the perfect solution for anyone needing to "extract tables from PDF" or "convert PDF to editable spreadsheet." Unlock the power of your data and start your conversion today.</p>
+            <p>In essence, the DP Tools PPTX to PDF converter is more than just a utility; it's a bridge between the dynamic presentation and the static, reliable world of PDF documents. It's an indispensable asset for anyone looking to streamline their digital life, enhance productivity, and ensure their content is presented professionally across all platforms. Experience the power of seamless conversion and unlock the full potential of your web documents today.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />

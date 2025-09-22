@@ -44,12 +44,6 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/to-docx',
       },
       {
-        title: 'PDF to Excel',
-        description: 'Extract data from PDFs into editable Excel spreadsheets.',
-        icon: <Sheet className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/to-xlsx',
-      },
-      {
         title: 'PDF to PowerPoint',
         description: 'Convert your PDF files to editable PowerPoint presentations.',
         icon: <Presentation className="w-8 h-8 text-primary" />,
@@ -60,6 +54,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert web pages to high-quality PDF files.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/html-to-pdf',
+      },
+      {
+        title: 'PPTX to PDF',
+        description: 'Convert PowerPoint presentations to PDF files.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/pptx-to-pdf',
       },
       {
         title: 'PDF to HTML',
