@@ -108,7 +108,13 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Add a custom text watermark to your PDF files.',
         icon: <Copyright className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/watermark',
-      }
+      },
+      {
+        title: 'BMP to PDF',
+        description: 'Convert BMP images to a single PDF file.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-pdf',
+      },
     ],
   },
   'image-tools': {
@@ -138,12 +144,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert JPG images to PNG format with transparency support.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/jpg-to-png',
-      },
-      {
-        title: 'BMP to PDF',
-        description: 'Convert BMP images to a single PDF file.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/image/bmp-to-pdf',
       },
     ],
   },
