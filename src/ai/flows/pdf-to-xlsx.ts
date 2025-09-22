@@ -31,21 +31,25 @@ export type PdfToXlsxOutput = z.infer<typeof PdfToXlsxOutputSchema>;
 
 // ----------- Public function -----------
 export async function pdfToXlsx(input: PdfToXlsxInput): Promise<PdfToXlsxOutput> {
-  return pdfToXlsxFlow(input);
+  const secret = process.env.CONVERT_API_SECRET;
+  if (!secret) {
+    throw new Error('CONVERT_API_SECRET is not set in the environment.');
+  }
+  return pdfToXlsxFlow({ ...input, secret });
 }
+
+const InternalPdfToXlsxInputSchema = PdfToXlsxInputSchema.extend({
+  secret: z.string(),
+});
 
 // ----------- Flow Definition -----------
 const pdfToXlsxFlow = ai.defineFlow(
   {
     name: 'pdfToXlsxFlow',
-    inputSchema: PdfToXlsxInputSchema,
+    inputSchema: InternalPdfToXlsxInputSchema,
     outputSchema: PdfToXlsxOutputSchema,
   },
   async (input) => {
-    if (!process.env.CONVERT_API_SECRET) {
-      throw new Error('CONVERT_API_SECRET is not set in the environment.');
-    }
-
     try {
       // Decode Base64 PDF
       const base64Data = input.pdfDataUri.split(';base64,').pop();
@@ -62,7 +66,7 @@ const pdfToXlsxFlow = ai.defineFlow(
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/pdf/to/xlsx?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/pdf/to/xlsx?Secret=${input.secret}`,
         {
           method: 'POST',
           body: formData,
