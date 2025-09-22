@@ -133,6 +133,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/djvu-to-pdf',
       },
+      {
+        title: 'DWF to PDF',
+        description: 'Convert AutoCAD DWF files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/dwf-to-pdf',
+      },
     ],
   },
   'image-tools': {
