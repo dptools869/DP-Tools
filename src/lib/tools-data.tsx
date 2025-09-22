@@ -79,6 +79,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Sheet className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/xltx-to-pdf',
       },
+       {
+        title: 'XLSB to PDF',
+        description: 'Convert Excel Binary Workbooks to PDF.',
+        icon: <Sheet className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/xlsb-to-pdf',
+      },
       {
         title: 'PDF to HTML',
         description: 'Convert PDF files to web-ready HTML documents.',
