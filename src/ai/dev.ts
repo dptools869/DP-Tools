@@ -24,3 +24,4 @@ import '@/ai/flows/doc-to-pdf.ts';
 import '@/ai/flows/dot-to-pdf.ts';
 import '@/ai/flows/xltx-to-pdf.ts';
 import '@/ai/flows/xlsb-to-pdf.ts';
+import '@/ai/flows/xls-to-pdf.ts';

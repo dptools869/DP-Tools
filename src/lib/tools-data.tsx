@@ -86,6 +86,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/xlsb-to-pdf',
       },
       {
+        title: 'XLS to PDF',
+        description: 'Convert Excel spreadsheets (XLS, XLSX) to PDF.',
+        icon: <Sheet className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/xls-to-pdf',
+      },
+      {
         title: 'PDF to HTML',
         description: 'Convert PDF files to web-ready HTML documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
