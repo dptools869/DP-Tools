@@ -37,8 +37,28 @@ const prompt = ai.definePrompt({
 
   Tool Name: {{{toolName}}}
 
-  Please provide the videoTitle, videoUrl, and videoDescription for a relevant YouTube tutorial video.  Only provide a single recommendation.
+  Please provide the videoTitle, videoUrl, and videoDescription for a relevant YouTube tutorial video.  Only provide a single recommendation. If you can't find a perfect match, find the most relevant video you can.
   `,
+   config: {
+    safetySettings: [
+        {
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            threshold: 'BLOCK_NONE',
+        },
+        {
+            category: 'HARM_CATEGORY_HARASSMENT',
+            threshold: 'BLOCK_NONE',
+        },
+        {
+            category: 'HARM_CATEGORY_HATE_SPEECH',
+            threshold: 'BLOCK_NONE',
+        },
+        {
+            category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+            threshold: 'BLOCK_NONE',
+        },
+    ]
+  }
 });
 
 const recommendRelevantYouTubeVideosFlow = ai.defineFlow(
