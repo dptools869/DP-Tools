@@ -1,3 +1,4 @@
+'use server';
 import { config } from 'dotenv';
 config();
 
@@ -9,7 +10,7 @@ import '@/ai/flows/pdf-to-html.ts';
 import '@/ai/flows/pdf-to-jpg.ts';
 import '@/ai/flows/pdf-to-png.ts';
 import '@/ai/flows/merge-pdf.ts';
-import '@/aiflows/pdf-ocr.ts';
+import '@/ai/flows/pdf-ocr.ts';
 import '@/ai/flows/pdf-to-pptx.ts';
 import '@/ai/flows/split-pdf.ts';
 import '@/ai/flows/pdf-to-svg.ts';
@@ -17,3 +18,4 @@ import '@/ai/flows/pdf-to-text.ts';
 import '@/ai/flows/watermark-pdf.ts';
 import '@/ai/flows/pptx-to-pdf.ts';
 import '@/ai/flows/web-to-pdf.ts';
+import '@/ai/flows/bmp-to-pdf.ts';

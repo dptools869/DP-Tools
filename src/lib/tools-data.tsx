@@ -139,6 +139,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/jpg-to-png',
       },
+      {
+        title: 'BMP to PDF',
+        description: 'Convert BMP images to a single PDF file.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-pdf',
+      },
     ],
   },
   'calculator-tools': {
