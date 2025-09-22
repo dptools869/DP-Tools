@@ -21,3 +21,4 @@ import '@/ai/flows/web-to-pdf.ts';
 import '@/ai/flows/bmp-to-pdf.ts';
 import '@/ai/flows/djvu-to-pdf.ts';
 import '@/ai/flows/doc-to-pdf.ts';
+import '@/ai/flows/dot-to-pdf.ts';
