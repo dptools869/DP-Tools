@@ -7,22 +7,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Sheet, Loader2, Download } from 'lucide-react';
+import { UploadCloud, FileCheck, FileType, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { csvToPdf, CsvToPdfOutput } from '@/ai/flows/csv-to-pdf';
+import { djvuToPdf, DjvuToPdfOutput } from '@/ai/flows/djvu-to-pdf';
 import AdBanner from '@/components/ad-banner';
 
-export default function CsvToPdfPage() {
+export default function DjvuToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<CsvToPdfOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<DjvuToPdfOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type === 'text/csv' || selectedFile.name.endsWith('.csv')) {
+      if (selectedFile.type === 'image/vnd.djvu' || selectedFile.name.endsWith('.djvu')) {
         setFile(selectedFile);
         setFileName(selectedFile.name);
         setConversionResult(null); // Reset previous result
@@ -30,7 +30,7 @@ export default function CsvToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a CSV file (.csv).',
+          description: 'Please upload a DJVU file (.djvu).',
         });
         event.target.value = ''; 
       }
@@ -44,14 +44,14 @@ export default function CsvToPdfPage() {
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && (droppedFile.type === 'text/csv' || droppedFile.name.endsWith('.csv'))) {
+    if (droppedFile && (droppedFile.type === 'image/vnd.djvu' || droppedFile.name.endsWith('.djvu'))) {
       setFile(droppedFile);
       setConversionResult(null);
     } else {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a CSV file (.csv).',
+        description: 'Please drop a DJVU file (.djvu).',
       });
     }
   };
@@ -61,7 +61,7 @@ export default function CsvToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select a CSV file to convert.',
+        description: 'Please select a DJVU file to convert.',
       });
       return;
     }
@@ -75,7 +75,7 @@ export default function CsvToPdfPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await csvToPdf({ csvDataUri: base64File, fileName: file.name });
+          const result = await djvuToPdf({ djvuDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
@@ -136,11 +136,11 @@ export default function CsvToPdfPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <Sheet className="w-10 h-10 text-primary" />
+                <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">CSV to PDF Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">DJVU to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Effortlessly convert your CSV spreadsheet files into professional PDF documents.
+                Effortlessly convert your DJVU files into universal PDF documents.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -155,11 +155,11 @@ export default function CsvToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your CSV file here'}
+                            {fileName || 'Drag & drop your DJVU file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".csv,text/csv" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".djvu,image/vnd.djvu" disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (
@@ -199,20 +199,20 @@ export default function CsvToPdfPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">Transform Your Data: CSV to PDF Made Simple</h2>
-            <p>Our CSV to PDF converter offers a seamless way to transform your comma-separated value (CSV) files into professional, portable PDF documents. This tool is perfect for data analysts, researchers, and business professionals who need to present tabular data in a clean, universally readable format. Whether you're creating reports, sharing data with colleagues who don't have spreadsheet software, or archiving records, converting your CSV to a PDF ensures your data is presented exactly as you intend.</p>
+            <h2 id="about-tool">Seamless DJVU to PDF Conversion</h2>
+            <p>Our DJVU to PDF converter provides a simple solution for converting DjVu files, a format known for its high compression of scanned documents, into the universally accessible PDF format. This tool is essential for anyone who encounters DjVu files and needs to view, share, or archive them in a more common format. Whether you're a researcher working with digital libraries or a student with old textbooks, our tool makes your documents more accessible.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does CSV to PDF Conversion Work?</h2>
-            <p>The process is designed for simplicity and accuracy. When you upload a CSV file, our system parses the data, recognizing rows and columns. It then renders this data into a formatted table within a high-quality PDF document. The layout is optimized for readability, ensuring that your data tables are clean and easy to understand. We prioritize your data security; files are handled over an encrypted connection and are automatically deleted from our servers after a short period.</p>
+            <h2 id="how-it-works">How Does DJVU to PDF Conversion Work?</h2>
+            <p>The conversion process is designed for ease of use. When you upload a DJVU file, our system uses an advanced rendering engine to interpret the file's content, including text and images. It then reconstructs this content into a high-quality PDF document, preserving the original layout and quality. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>Preserves Data Structure:</strong> Your rows and columns are neatly organized into a table format within the PDF.</li>
-              <li><strong>High-Quality Output:</strong> Creates a professional-looking document suitable for reports and presentations.</li>
-              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your CSV file to start the conversion. No complex settings are needed.</li>
-              <li><strong>Secure and Private:</strong> We value your data's security. All file transfers are encrypted, and we do not store your files long-term.</li>
-              <li><strong>Completely Free:</strong> DP Tools is committed to providing powerful utilities at no cost. This CSV to PDF converter is free for unlimited use.</li>
+              <li><strong>High-Quality Conversion:</strong> Retains the clarity and layout of your original DjVu document.</li>
+              <li><strong>Universal Accessibility:</strong> Convert to PDF for easy viewing on any device without special software.</li>
+              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your DJVU file to begin the conversion process.</li>
+              <li><strong>Secure and Private:</strong> Your files are processed over an encrypted connection and are not stored on our servers.</li>
+              <li><strong>Completely Free:</strong> Use our powerful DJVU to PDF converter at no cost.</li>
             </ul>
-            <p>In essence, the DP Tools CSV to PDF converter is the bridge between raw data and a presentable document. It's an indispensable asset for anyone looking to make their data more accessible and shareable. Experience the power of seamless conversion today!</p>
+            <p>Make your DjVu files more versatile and accessible by converting them to PDF. Experience the simplicity and quality of our free online conversion tool today!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />

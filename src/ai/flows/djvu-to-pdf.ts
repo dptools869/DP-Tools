@@ -1,44 +1,44 @@
 'use server';
 
 /**
- * @fileOverview Converts an uploaded CSV file to a PDF file using ConvertAPI.
+ * @fileOverview Converts an uploaded DJVU file to a PDF file using ConvertAPI.
  *
- * - csvToPdf - A function that handles the CSV to PDF conversion.
- * - CsvToPdfInput - The input type for the csvToPdf function.
- * - CsvToPdfOutput - The return type for the csvToPdf function.
+ * - djvuToPdf - A function that handles the DJVU to PDF conversion.
+ * - DjvuToPdfInput - The input type for the djvuToPdf function.
+ * - DjvuToPdfOutput - The return type for the djvuToPdf function.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // ----------- Schemas -----------
-const CsvToPdfInputSchema = z.object({
-  csvDataUri: z
+const DjvuToPdfInputSchema = z.object({
+  djvuDataUri: z
     .string()
     .describe(
-      "The CSV file content as a data URI. Expected format: 'data:text/csv;base64,<encoded_data>'"
+      "The DJVU file content as a data URI. Expected format: 'data:image/vnd.djvu;base64,<encoded_data>'"
     ),
-  fileName: z.string().describe('The name of the original CSV file.'),
+  fileName: z.string().describe('The name of the original DJVU file.'),
 });
-export type CsvToPdfInput = z.infer<typeof CsvToPdfInputSchema>;
+export type DjvuToPdfInput = z.infer<typeof DjvuToPdfInputSchema>;
 
-const CsvToPdfOutputSchema = z.object({
+const DjvuToPdfOutputSchema = z.object({
   pdfDataUri: z.string().describe('The converted PDF file as a data URI.'),
   fileName: z.string().describe('The name of the output PDF file.'),
 });
-export type CsvToPdfOutput = z.infer<typeof CsvToPdfOutputSchema>;
+export type DjvuToPdfOutput = z.infer<typeof DjvuToPdfOutputSchema>;
 
 // ----------- Public function -----------
-export async function csvToPdf(input: CsvToPdfInput): Promise<CsvToPdfOutput> {
-  return csvToPdfFlow(input);
+export async function djvuToPdf(input: DjvuToPdfInput): Promise<DjvuToPdfOutput> {
+  return djvuToPdfFlow(input);
 }
 
 // ----------- Flow Definition -----------
-const csvToPdfFlow = ai.defineFlow(
+const djvuToPdfFlow = ai.defineFlow(
   {
-    name: 'csvToPdfFlow',
-    inputSchema: CsvToPdfInputSchema,
-    outputSchema: CsvToPdfOutputSchema,
+    name: 'djvuToPdfFlow',
+    inputSchema: DjvuToPdfInputSchema,
+    outputSchema: DjvuToPdfOutputSchema,
   },
   async (input) => {
     if (!process.env.CONVERT_API_SECRET) {
@@ -46,21 +46,21 @@ const csvToPdfFlow = ai.defineFlow(
     }
 
     try {
-      const base64Data = input.csvDataUri.split(';base64,').pop();
+      const base64Data = input.djvuDataUri.split(';base64,').pop();
       if (!base64Data) {
-        throw new Error('Invalid CSV data URI.');
+        throw new Error('Invalid DJVU data URI.');
       }
 
-      const csvBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.csv)$/i, '.pdf');
+      const djvuBuffer = Buffer.from(base64Data, 'base64');
+      const outputFileName = input.fileName.replace(/(\.djvu)$/i, '.pdf');
 
       const formData = new FormData();
-      formData.append('File', new Blob([csvBuffer], { type: 'text/csv' }), input.fileName);
+      formData.append('File', new Blob([djvuBuffer], { type: 'image/vnd.djvu' }), input.fileName);
       formData.append('StoreFile', 'true');
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/csv/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/djvu/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -94,9 +94,9 @@ const csvToPdfFlow = ai.defineFlow(
         fileName: outputFileName,
       };
     } catch (error) {
-      console.error('Error converting CSV to PDF:', error);
+      console.error('Error converting DJVU to PDF:', error);
       throw new Error(
-        `Failed to convert CSV to PDF. Error: ${
+        `Failed to convert DJVU to PDF. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );
