@@ -85,6 +85,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/to-svg',
       },
+       {
+        title: 'PDF to Text',
+        description: 'Extract text from your PDF files into a plain text format.',
+        icon: <FileText className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/to-text',
+      },
     ],
   },
   'image-tools': {
