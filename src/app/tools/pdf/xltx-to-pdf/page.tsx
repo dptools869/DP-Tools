@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -7,22 +6,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, FileType, Loader2, Download } from 'lucide-react';
+import { UploadCloud, FileCheck, FileType, Loader2, Download, Sheet } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { dwfToPdf, DwfToPdfOutput } from '@/ai/flows/dwf-to-pdf';
+import { xltxToPdf, XltxToPdfOutput } from '@/ai/flows/xltx-to-pdf';
 import AdBanner from '@/components/ad-banner';
 
-const acceptedExtensions = ['.dwf', '.dwfx', '.dwg', '.dxf'];
+const acceptedMimeTypes = [
+    'text/csv',
+    'application/vnd.ms-excel',
+    'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+];
 
-export default function DwfToPdfPage() {
+const acceptedExtensions = ['.csv', '.xls', '.xlsb', '.xltx', '.xlsx'];
+
+
+export default function XltxToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<DwfToPdfOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<XltxToPdfOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
-
+  
   const isFileValid = (file: File) => {
-    return acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +44,7 @@ export default function DwfToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a DWF, DWFX, DWG, or DXF file.',
+          description: 'Please upload a valid Excel file (.xltx, .xlsx, .xls, .csv).',
         });
         event.target.value = ''; 
       }
@@ -57,7 +65,7 @@ export default function DwfToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a DWF, DWFX, DWG, or DXF file.',
+        description: 'Please drop a valid Excel file (.xltx, .xlsx, .xls, .csv).',
       });
     }
   };
@@ -67,7 +75,7 @@ export default function DwfToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select an AutoCAD file to convert.',
+        description: 'Please select an Excel file to convert.',
       });
       return;
     }
@@ -81,7 +89,7 @@ export default function DwfToPdfPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await dwfToPdf({ dwfDataUri: base64File, fileName: file.name });
+          const result = await xltxToPdf({ xltxDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
@@ -142,11 +150,11 @@ export default function DwfToPdfPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <FileType className="w-10 h-10 text-primary" />
+                <Sheet className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">DWF to PDF Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">XLTX to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Convert AutoCAD drawing files (DWF, DWG, DXF) to high-quality PDFs.
+                Convert your Excel templates and spreadsheets to high-quality PDFs.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -161,11 +169,11 @@ export default function DwfToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your AutoCAD file here'}
+                            {fileName || 'Drag & drop your Excel file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".dwf,.dwfx,.dwg,.dxf" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept={acceptedExtensions.join(',')} disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (
@@ -205,20 +213,20 @@ export default function DwfToPdfPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">High-Fidelity DWF to PDF Conversion</h2>
-            <p>Our DWF to PDF converter offers a robust solution for architects, engineers, and designers who need to convert their AutoCAD drawings into the universally accessible PDF format. Whether you're working with DWF, DWFX, DWG, or DXF files, this tool ensures your technical drawings are preserved with high fidelity, making them easy to share, view, and print without requiring specialized CAD software.</p>
+            <h2 id="about-tool">Seamless Excel to PDF Conversion</h2>
+            <p>Our XLTX to PDF converter provides an easy and reliable way to turn your Excel templates and spreadsheets into universal PDF files. PDF is the standard for sharing documents because it preserves formatting across all devices, ensuring your data, charts, and tables look exactly as you intended. This tool handles various Excel formats, including `.xltx`, `.xlsx`, `.xls`, `.xlsb`, and `.csv`.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does DWF to PDF Conversion Work?</h2>
-            <p>The process is simple. Upload your AutoCAD file, and our system will use an advanced conversion engine to accurately render your drawing's content—including layers, line weights, and dimensions—into a high-quality PDF. The layout is preserved, so your technical drawings appear exactly as they did in your CAD software. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
+            <h2 id="how-it-works">How Does XLTX to PDF Conversion Work?</h2>
+            <p>The process is simple. When you upload your Excel file, our system uses an advanced conversion engine to replicate your spreadsheet's content—including tables, charts, and formatting—into a high-quality PDF. The layout is preserved, so your data appears just as it did in Excel. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>Accurate Conversion:</strong> Retains the precision and detail of your original AutoCAD drawings.</li>
-              <li><strong>Universal Access:</strong> Create PDFs that can be easily viewed by clients and colleagues on any device.</li>
-              <li><strong>User-Friendly:</strong> Simply drag and drop your file to start the conversion process instantly.</li>
-              <li><strong>Secure and Private:</strong> Your intellectual property is protected with encrypted connections and automatic file deletion.</li>
-              <li><strong>Completely Free:</strong> Convert your design files to PDF as many times as you need, at no cost.</li>
+              <li><strong>High-Fidelity Conversion:</strong> Retains the original layout, formatting, and charts of your Excel spreadsheet.</li>
+              <li><strong>Universal Compatibility:</strong> Create PDFs that can be opened on any device or operating system without needing Excel.</li>
+              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your file to begin the conversion process instantly.</li>
+              <li><strong>Secure and Private:</strong> Your files are processed over an encrypted connection and are not stored on our servers.</li>
+              <li><strong>Completely Free:</strong> Convert as many Excel files to PDF as you need, at no cost.</li>
             </ul>
-            <p>Make your technical drawings more accessible and shareable by converting them to PDF. Experience the simplicity and quality of our free online conversion tool today!</p>
+            <p>Make your spreadsheets and data reports universally accessible and professional by converting them to PDF. Experience the simplicity and quality of our free online conversion tool today!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />

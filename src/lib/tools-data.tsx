@@ -74,6 +74,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/dot-to-pdf',
       },
       {
+        title: 'XLTX to PDF',
+        description: 'Convert Excel templates (XLTX, XLS) to PDF.',
+        icon: <Sheet className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/xltx-to-pdf',
+      },
+      {
         title: 'PDF to HTML',
         description: 'Convert PDF files to web-ready HTML documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
@@ -132,12 +138,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert DJVU files to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/djvu-to-pdf',
-      },
-      {
-        title: 'DWF to PDF',
-        description: 'Convert AutoCAD DWF files to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/dwf-to-pdf',
       },
     ],
   },

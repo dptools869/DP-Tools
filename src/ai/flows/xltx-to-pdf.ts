@@ -1,44 +1,44 @@
 'use server';
 
 /**
- * @fileOverview Converts an uploaded DWF file to a PDF file using ConvertAPI.
+ * @fileOverview Converts an uploaded XLTX file to a PDF file using ConvertAPI.
  *
- * - dwfToPdf - A function that handles the DWF to PDF conversion.
- * - DwfToPdfInput - The input type for the dwfToPdf function.
- * - DwfToPdfOutput - The return type for the dwfToPdf function.
+ * - xltxToPdf - A function that handles the XLTX to PDF conversion.
+ * - XltxToPdfInput - The input type for the xltxToPdf function.
+ * - XltxToPdfOutput - The return type for the xltxToPdf function.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // ----------- Schemas -----------
-const DwfToPdfInputSchema = z.object({
-  dwfDataUri: z
+const XltxToPdfInputSchema = z.object({
+  xltxDataUri: z
     .string()
     .describe(
-      "The DWF file content as a data URI. Supports .dwf, .dwfx, .dwg, .dxf formats. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
+      "The XLTX file content as a data URI. Supports .csv, .xls, .xlsb, .xltx formats. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
-  fileName: z.string().describe('The name of the original DWF file.'),
+  fileName: z.string().describe('The name of the original XLTX file.'),
 });
-export type DwfToPdfInput = z.infer<typeof DwfToPdfInputSchema>;
+export type XltxToPdfInput = z.infer<typeof XltxToPdfInputSchema>;
 
-const DwfToPdfOutputSchema = z.object({
+const XltxToPdfOutputSchema = z.object({
   pdfDataUri: z.string().describe('The converted PDF file as a data URI.'),
   fileName: z.string().describe('The name of the output PDF file.'),
 });
-export type DwfToPdfOutput = z.infer<typeof DwfToPdfOutputSchema>;
+export type XltxToPdfOutput = z.infer<typeof XltxToPdfOutputSchema>;
 
 // ----------- Public function -----------
-export async function dwfToPdf(input: DwfToPdfInput): Promise<DwfToPdfOutput> {
-  return dwfToPdfFlow(input);
+export async function xltxToPdf(input: XltxToPdfInput): Promise<XltxToPdfOutput> {
+  return xltxToPdfFlow(input);
 }
 
 // ----------- Flow Definition -----------
-const dwfToPdfFlow = ai.defineFlow(
+const xltxToPdfFlow = ai.defineFlow(
   {
-    name: 'dwfToPdfFlow',
-    inputSchema: DwfToPdfInputSchema,
-    outputSchema: DwfToPdfOutputSchema,
+    name: 'xltxToPdfFlow',
+    inputSchema: XltxToPdfInputSchema,
+    outputSchema: XltxToPdfOutputSchema,
   },
   async (input) => {
     if (!process.env.CONVERT_API_SECRET) {
@@ -46,21 +46,21 @@ const dwfToPdfFlow = ai.defineFlow(
     }
 
     try {
-      const base64Data = input.dwfDataUri.split(';base64,').pop();
+      const base64Data = input.xltxDataUri.split(';base64,').pop();
       if (!base64Data) {
-        throw new Error('Invalid DWF data URI.');
+        throw new Error('Invalid XLTX data URI.');
       }
 
-      const dwfBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.dwf|\.dwfx|\.dwg|\.dxf)$/i, '.pdf');
+      const xltxBuffer = Buffer.from(base64Data, 'base64');
+      const outputFileName = input.fileName.replace(/(\.csv|\.xls|\.xlsb|\.xltx)$/i, '.pdf');
 
       const formData = new FormData();
-      formData.append('File', new Blob([dwfBuffer]), input.fileName);
+      formData.append('File', new Blob([xltxBuffer]), input.fileName);
       formData.append('StoreFile', 'true');
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/dwf/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/xltx/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -94,9 +94,9 @@ const dwfToPdfFlow = ai.defineFlow(
         fileName: outputFileName,
       };
     } catch (error) {
-      console.error('Error converting DWF to PDF:', error);
+      console.error('Error converting XLTX to PDF:', error);
       throw new Error(
-        `Failed to convert DWF to PDF. Error: ${
+        `Failed to convert XLTX to PDF. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );
