@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -36,6 +36,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Reduce the file size of your PDF while optimizing for quality.',
         icon: <Shrink className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/compress',
+      },
+       {
+        title: 'Extract PDF Data',
+        description: 'Use AI to extract structured data like invoices, receipts, and more.',
+        icon: <BrainCircuit className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/extract-pdf',
       },
       {
         title: 'PDF to Word',
@@ -150,12 +156,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Add a password to your PDF file to protect it from unauthorized access.',
         icon: <Lock className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/protect',
-      },
-      {
-        title: 'PDF Metadata',
-        description: 'View and extract metadata from your PDF files.',
-        icon: <Info className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/metadata',
       },
       {
         title: 'BMP to PDF',
