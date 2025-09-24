@@ -30,7 +30,7 @@ export default function JpgToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a JPG file (.jpg, .jpeg).',
+          description: 'Please upload a JPG or JPEG file.',
         });
         event.target.value = ''; 
       }
@@ -51,7 +51,7 @@ export default function JpgToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a JPG file (.jpg, .jpeg).',
+        description: 'Please drop a JPG or JPEG file.',
       });
     }
   };
@@ -61,7 +61,7 @@ export default function JpgToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select a JPG file to convert.',
+        description: 'Please select a JPG/JPEG file to convert.',
       });
       return;
     }
@@ -138,9 +138,9 @@ export default function JpgToPdfPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">JPG to PDF Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">JPG/JPEG to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Effortlessly convert your JPG images into a single, high-quality PDF document.
+                Effortlessly convert your JPG and JPEG images into a single, high-quality PDF document.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -155,7 +155,7 @@ export default function JpgToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your JPG file here'}
+                            {fileName || 'Drag & drop your JPG/JPEG file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
@@ -199,18 +199,18 @@ export default function JpgToPdfPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">Seamless JPG to PDF Conversion</h2>
-            <p>Our JPG to PDF converter offers a straightforward solution to convert your JPG images into universally compatible PDF documents. This is perfect for compiling photos, scans, or other images into a single file for easy sharing, printing, or archiving. PDF is the standard for document sharing, and this tool makes it simple to get your images into that format.</p>
+            <h2 id="about-tool">Seamless JPG/JPEG to PDF Conversion</h2>
+            <p>Our JPG/JPEG to PDF converter offers a straightforward solution to convert your JPG images into universally compatible PDF documents. This is perfect for compiling photos, scans, or other images into a single file for easy sharing, printing, or archiving. PDF is the standard for document sharing, and this tool makes it simple to get your images into that format.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does JPG to PDF Conversion Work?</h2>
-            <p>The process is simple. Upload your JPG image, and our system will embed it into a standard PDF page. The converter ensures that the image quality is preserved during the process, resulting in a high-fidelity PDF document. Your privacy is important; all files are handled securely and automatically deleted from our servers after processing.</p>
+            <h2 id="how-it-works">How Does JPG/JPEG to PDF Conversion Work?</h2>
+            <p>The process is simple. Upload your JPG or JPEG image, and our system will embed it into a standard PDF page. The converter ensures that the image quality is preserved during the process, resulting in a high-fidelity PDF document. Your privacy is important; all files are handled securely and automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>High-Quality Conversion:</strong> Retains the visual quality of your original JPG image.</li>
+              <li><strong>High-Quality Conversion:</strong> Retains the visual quality of your original JPG/JPEG image.</li>
               <li><strong>Standardized Format:</strong> Create PDFs that are easy to share, print, and view on any device.</li>
-              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your JPG file to start the conversion.</li>
+              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your JPG/JPEG file to start the conversion.</li>
               <li><strong>Secure and Private:</strong> Your files are encrypted during transfer and are not stored long-term.</li>
-              <li><strong>Completely Free:</strong> Convert your JPG images to PDF for free, without limits.</li>
+              <li><strong>Completely Free:</strong> Convert your JPG/JPEG images to PDF for free, without limits.</li>
             </ul>
             <p>Experience the simplicity and quality of our free online conversion tool today and make your JPG images more versatile and professional!</p>
           </article>

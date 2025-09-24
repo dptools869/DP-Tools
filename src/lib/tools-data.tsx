@@ -104,8 +104,8 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/web-to-pdf',
       },
       {
-        title: 'JPG to PDF',
-        description: 'Convert JPG images to a single PDF file.',
+        title: 'JPG/JPEG to PDF',
+        description: 'Convert JPG & JPEG images to a single PDF file.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/jpg-to-pdf',
       },
