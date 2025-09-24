@@ -224,8 +224,8 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/gif-to-pdf',
       },
       {
-        title: 'HEIC to PDF',
-        description: 'Convert HEIC images to PDF documents.',
+        title: 'HEIC/HEIF to PDF',
+        description: 'Convert HEIC/HEIF images to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/heic-to-pdf',
       },

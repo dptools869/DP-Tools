@@ -69,7 +69,7 @@ export default function HeicToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select a HEIC file to convert.',
+        description: 'Please select a HEIC/HEIF file to convert.',
       });
       return;
     }
@@ -146,7 +146,7 @@ export default function HeicToPdfPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">HEIC to PDF Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">HEIC/HEIF to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
                 Effortlessly convert your HEIC/HEIF image files into professional, high-quality PDFs.
               </CardDescription>
@@ -163,7 +163,7 @@ export default function HeicToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your HEIC file here'}
+                            {fileName || 'Drag & drop your HEIC/HEIF file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
@@ -207,20 +207,20 @@ export default function HeicToPdfPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">Convert HEIC Images to PDF Seamlessly</h2>
-            <p>Our HEIC to PDF converter offers a straightforward solution to convert modern HEIC (High-Efficiency Image Container) images into universally compatible PDF documents. HEIC is the format used by default on newer Apple devices, but it's not always supported on other platforms. Converting to PDF ensures your images can be viewed, shared, and printed anywhere.</p>
+            <h2 id="about-tool">Convert HEIC/HEIF Images to PDF Seamlessly</h2>
+            <p>Our HEIC/HEIF to PDF converter offers a straightforward solution to convert modern HEIC (High-Efficiency Image Container) and HEIF images into universally compatible PDF documents. These formats are used by default on newer Apple devices, but they are not always supported on other platforms. Converting to PDF ensures your images can be viewed, shared, and printed anywhere.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does HEIC to PDF Conversion Work?</h2>
+            <h2 id="how-it-works">How Does HEIC/HEIF to PDF Conversion Work?</h2>
             <p>The process is simple. Upload your HEIC or HEIF image, and our system will embed it into a standard PDF page. The converter ensures that the image quality is preserved during the process, resulting in a high-fidelity PDF document. Your privacy is important; all files are handled securely and automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>High-Quality Conversion:</strong> Retains the visual quality of your original HEIC image.</li>
+              <li><strong>High-Quality Conversion:</strong> Retains the visual quality of your original HEIC/HEIF image.</li>
               <li><strong>Universal Compatibility:</strong> Create PDFs that are easy to share, print, and view on any device.</li>
-              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your HEIC file to start the conversion.</li>
+              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your HEIC/HEIF file to start the conversion.</li>
               <li><strong>Secure and Private:</strong> Your files are encrypted during transfer and are not stored long-term.</li>
-              <li><strong>Completely Free:</strong> Convert your HEIC images to PDF for free, without limits.</li>
+              <li><strong>Completely Free:</strong> Convert your HEIC/HEIF images to PDF for free, without limits.</li>
             </ul>
-            <p>Experience the simplicity and quality of our free online conversion tool today and make your HEIC images more versatile!</p>
+            <p>Experience the simplicity and quality of our free online conversion tool today and make your HEIC and HEIF images more versatile!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
