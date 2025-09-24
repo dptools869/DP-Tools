@@ -229,6 +229,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/heic-to-pdf',
       },
+      {
+        title: 'ICO to PDF',
+        description: 'Convert ICO icon files to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/ico-to-pdf',
+      },
     ],
   },
   'image-tools': {

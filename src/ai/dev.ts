@@ -38,3 +38,4 @@ import '@/ai/flows/msg-to-pdf.ts';
 import '@/ai/flows/jpg-to-pdf.ts';
 import '@/ai/flows/gif-to-pdf.ts';
 import '@/ai/flows/heic-to-pdf.ts';
+import '@/ai/flows/ico-to-pdf.ts';
