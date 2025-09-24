@@ -87,8 +87,15 @@ const pdfMetadataFlow = ai.defineFlow(
         throw new Error('Metadata extraction did not return any data.');
       }
 
-      const metadataFile = convertResult.Files[0];
-      const metadata = JSON.parse(Buffer.from(metadataFile.FileData, 'base64').toString('utf8'));
+      const metadataFileUrl = convertResult.Files[0].Url;
+
+      // Fetch the actual metadata from the returned URL
+      const metadataResponse = await fetch(metadataFileUrl);
+       if (!metadataResponse.ok) {
+        throw new Error(`Failed to download metadata file from ${metadataFileUrl}`);
+      }
+
+      const metadata = await metadataResponse.json();
 
       return {
         ...metadata,
