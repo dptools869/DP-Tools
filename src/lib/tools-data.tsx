@@ -199,12 +199,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pub-to-pdf',
       },
-      {
-        title: 'PDF to CSV',
-        description: 'Extract data from PDF to CSV.',
-        icon: <Sheet className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/pdf-to-csv',
-      },
     ],
   },
   'image-tools': {
