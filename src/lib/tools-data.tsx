@@ -217,6 +217,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Mail className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/msg-to-pdf',
       },
+      {
+        title: 'LOG to PDF',
+        description: 'Convert LOG files to PDF documents.',
+        icon: <FileText className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/log-to-pdf',
+      },
     ],
   },
   'image-tools': {
