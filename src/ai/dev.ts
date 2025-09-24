@@ -26,3 +26,4 @@ import '@/ai/flows/xltx-to-pdf.ts';
 import '@/ai/flows/xlsb-to-pdf.ts';
 import '@/ai/flows/xls-to-pdf.ts';
 import '@/ai/flows/webp-to-pdf.ts';
+import '@/ai/flows/text-to-pdf.ts';

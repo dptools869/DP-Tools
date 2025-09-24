@@ -157,6 +157,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/webp-to-pdf',
       },
+      {
+        title: 'Text to PDF',
+        description: 'Convert plain text files to PDF documents.',
+        icon: <FileText className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/text-to-pdf',
+      },
     ],
   },
   'image-tools': {
