@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -144,6 +144,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Rotate all pages in a PDF document by 90, 180, or 270 degrees.',
         icon: <Repeat className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/rotate',
+      },
+      {
+        title: 'Protect PDF',
+        description: 'Add a password to your PDF file to protect it from unauthorized access.',
+        icon: <Lock className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/protect',
       },
       {
         title: 'BMP to PDF',
