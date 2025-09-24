@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Converts an uploaded PPTX file to a PDF file using ConvertAPI.
+ * @fileOverview Converts an uploaded PPT or PPTX file to a PDF file using ConvertAPI.
  *
- * - pptxToPdf - A function that handles the PPTX to PDF conversion.
+ * - pptxToPdf - A function that handles the PowerPoint to PDF conversion.
  * - PptxToPdfInput - The input type for the pptxToPdf function.
  * - PptxToPdfOutput - The return type for the pptxToPdf function.
  */
@@ -16,9 +16,9 @@ const PptxToPdfInputSchema = z.object({
   pptxDataUri: z
     .string()
     .describe(
-      "The PPTX file content as a data URI. Expected format: 'data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,<encoded_data>'"
+      "The PowerPoint file content as a data URI. Supports .ppt and .pptx formats. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
-  fileName: z.string().describe('The name of the original PPTX file.'),
+  fileName: z.string().describe('The name of the original PowerPoint file.'),
 });
 export type PptxToPdfInput = z.infer<typeof PptxToPdfInputSchema>;
 
@@ -48,19 +48,19 @@ const pptxToPdfFlow = ai.defineFlow(
     try {
       const base64Data = input.pptxDataUri.split(';base64,').pop();
       if (!base64Data) {
-        throw new Error('Invalid PPTX data URI.');
+        throw new Error('Invalid PowerPoint data URI.');
       }
 
       const pptxBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.pptx)$/i, '.pdf');
+      const outputFileName = input.fileName.replace(/(\.pptx|\.ppt)$/i, '.pdf');
 
       const formData = new FormData();
-      formData.append('File', new Blob([pptxBuffer], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }), input.fileName);
+      formData.append('File', new Blob([pptxBuffer]), input.fileName);
       formData.append('StoreFile', 'true');
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/pptx/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/ppt/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -94,9 +94,9 @@ const pptxToPdfFlow = ai.defineFlow(
         fileName: outputFileName,
       };
     } catch (error) {
-      console.error('Error converting PPTX to PDF:', error);
+      console.error('Error converting PowerPoint to PDF:', error);
       throw new Error(
-        `Failed to convert PPTX to PDF. Error: ${
+        `Failed to convert PowerPoint to PDF. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );

@@ -6,10 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Presentation, Loader2, Download, FileType } from 'lucide-react';
+import { UploadCloud, FileCheck, Presentation, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { pptxToPdf, PptxToPdfOutput } from '@/ai/flows/pptx-to-pdf';
 import AdBanner from '@/components/ad-banner';
+
+const acceptedMimeTypes = [
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.ms-powerpoint'
+];
+const acceptedExtensions = ['.ppt', '.pptx'];
 
 export default function PptxToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -18,10 +24,14 @@ export default function PptxToPdfPage() {
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
 
+  const isFileValid = (file: File) => {
+    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+  }
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+      if (isFileValid(selectedFile)) {
         setFile(selectedFile);
         setFileName(selectedFile.name);
         setConversionResult(null); // Reset previous result
@@ -29,7 +39,7 @@ export default function PptxToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a PowerPoint file (.pptx).',
+          description: 'Please upload a PowerPoint file (.ppt or .pptx).',
         });
         event.target.value = '';
       }
@@ -43,14 +53,14 @@ export default function PptxToPdfPage() {
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && droppedFile.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+    if (droppedFile && isFileValid(droppedFile)) {
       setFile(droppedFile);
       setConversionResult(null);
     } else {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a PowerPoint file (.pptx).',
+        description: 'Please drop a PowerPoint file (.ppt or .pptx).',
       });
     }
   };
@@ -135,11 +145,11 @@ export default function PptxToPdfPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <FileType className="w-10 h-10 text-primary" />
+                <Presentation className="w-10 h-10 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">PowerPoint to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Effortlessly convert your PowerPoint files into professional, high-quality PDFs.
+                Effortlessly convert your PowerPoint files (.ppt, .pptx) into professional, high-quality PDFs.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -154,11 +164,11 @@ export default function PptxToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PPTX file here'}
+                            {fileName || 'Drag & drop your PowerPoint file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (

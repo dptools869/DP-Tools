@@ -56,9 +56,9 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/html-to-pdf',
       },
       {
-        title: 'PPTX to PDF',
+        title: 'PowerPoint to PDF',
         description: 'Convert PowerPoint presentations to PDF files.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
+        icon: <Presentation className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pptx-to-pdf',
       },
       {
@@ -180,12 +180,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert Publisher files to PDF.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pub-to-pdf',
-      },
-      {
-        title: 'PS to PDF',
-        description: 'Convert PostScript files to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/ps-to-pdf',
       },
     ],
   },
