@@ -199,6 +199,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pub-to-pdf',
       },
+      {
+        title: 'MOBI to PDF',
+        description: 'Convert MOBI e-books to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/mobi-to-pdf',
+      },
     ],
   },
   'image-tools': {
