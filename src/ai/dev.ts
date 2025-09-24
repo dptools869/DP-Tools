@@ -30,3 +30,4 @@ import '@/ai/flows/text-to-pdf.ts';
 import '@/ai/flows/tiff-to-pdf.ts';
 import '@/ai/flows/rtf-to-pdf.ts';
 import '@/ai/flows/pub-to-pdf.ts';
+import '@/ai/flows/png-to-pdf.ts';

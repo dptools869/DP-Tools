@@ -152,6 +152,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/djvu-to-pdf',
       },
       {
+        title: 'PNG to PDF',
+        description: 'Convert PNG images to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/png-to-pdf',
+      },
+      {
         title: 'WEBP to PDF',
         description: 'Convert WEBP images to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
