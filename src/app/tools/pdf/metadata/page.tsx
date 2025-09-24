@@ -133,11 +133,11 @@ export default function PdfMetadataPage() {
   }
 
   const MetadataItem = ({ label, value }: { label: string, value: string | number | undefined }) => {
-    if (!value) return null;
+    if (!value && value !== 0) return null;
     return (
-        <div className="flex justify-between border-b py-2 text-sm">
+        <div className="flex justify-between border-b py-2 text-sm last:border-b-0">
             <span className="font-semibold text-muted-foreground">{label}</span>
-            <span className="text-right">{label === 'File Size' ? formatBytes(value as number) : value}</span>
+            <span className="text-right">{label === 'File Size' ? formatBytes(value as number) : String(value)}</span>
         </div>
     );
   };
@@ -199,17 +199,17 @@ export default function PdfMetadataPage() {
                     </Alert>
                     <Card>
                         <CardContent className="pt-6">
-                           <MetadataItem label="Title" value={processResult.Title} />
-                           <MetadataItem label="Author" value={processResult.Author} />
-                           <MetadataItem label="Subject" value={processResult.Subject} />
-                           <MetadataItem label="Keywords" value={processResult.Keywords} />
-                           <MetadataItem label="Creator" value={processResult.Creator} />
-                           <MetadataItem label="Producer" value={processResult.Producer} />
-                           <MetadataItem label="Creation Date" value={processResult.CreationDate} />
-                           <MetadataItem label="Modification Date" value={processResult.ModDate} />
-                           <MetadataItem label="Trapped" value={processResult.Trapped} />
-                           <MetadataItem label="Page Count" value={processResult.PageCount} />
-                           <MetadataItem label="File Size" value={processResult.FileSize} />
+                           <MetadataItem label="Title" value={processResult.title} />
+                           <MetadataItem label="Author" value={processResult.author} />
+                           <MetadataItem label="Subject" value={processResult.subject} />
+                           <MetadataItem label="Keywords" value={processResult.keywords} />
+                           <MetadataItem label="Creator" value={processResult.creator} />
+                           <MetadataItem label="Producer" value={processResult.producer} />
+                           <MetadataItem label="Creation Date" value={processResult.creationDate} />
+                           <MetadataItem label="Modification Date" value={processResult.modDate} />
+                           <MetadataItem label="Trapped" value={processResult.trapped} />
+                           <MetadataItem label="Page Count" value={processResult.pageCount} />
+                           <MetadataItem label="File Size" value={processResult.fileSize} />
                         </CardContent>
                     </Card>
                      <Button onClick={resetTool} size="lg" variant="outline" className="w-full">

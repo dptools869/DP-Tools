@@ -24,17 +24,17 @@ const PdfMetadataInputSchema = z.object({
 export type PdfMetadataInput = z.infer<typeof PdfMetadataInputSchema>;
 
 const PdfMetadataOutputSchema = z.object({
-  Title: z.string().optional(),
-  Author: z.string().optional(),
-  Subject: z.string().optional(),
-  Keywords: z.string().optional(),
-  Creator: z.string().optional(),
-  Producer: z.string().optional(),
-  CreationDate: z.string().optional(),
-  ModDate: z.string().optional(),
-  Trapped: z.string().optional(),
-  PageCount: z.number().optional(),
-  FileSize: z.number().optional(),
+  title: z.string().optional(),
+  author: z.string().optional(),
+  subject: z.string().optional(),
+  keywords: z.string().optional(),
+  creator: z.string().optional(),
+  producer: z.string().optional(),
+  creationDate: z.string().optional(),
+  modDate: z.string().optional(),
+  trapped: z.string().optional(),
+  pageCount: z.number().optional(),
+  fileSize: z.number().optional(),
 }).describe('The extracted metadata from the PDF file.');
 export type PdfMetadataOutput = z.infer<typeof PdfMetadataOutputSchema>;
 
@@ -96,12 +96,23 @@ const pdfMetadataFlow = ai.defineFlow(
       }
 
       const metadata = await metadataResponse.json();
-
-      return {
-        ...metadata,
-        PageCount: metadata.PageCount ? parseInt(metadata.PageCount, 10) : undefined,
-        FileSize: metadata.FileSize ? parseInt(metadata.FileSize, 10) : undefined,
+      
+      // ConvertAPI returns keys with uppercase first letter. Let's make them camelCase.
+      const camelCaseMetadata = {
+        title: metadata.Title,
+        author: metadata.Author,
+        subject: metadata.Subject,
+        keywords: metadata.Keywords,
+        creator: metadata.Creator,
+        producer: metadata.Producer,
+        creationDate: metadata.CreationDate,
+        modDate: metadata.ModDate,
+        trapped: metadata.Trapped,
+        pageCount: metadata.PageCount ? parseInt(metadata.PageCount, 10) : undefined,
+        fileSize: metadata.FileSize ? parseInt(metadata.FileSize, 10) : undefined,
       };
+
+      return camelCaseMetadata;
 
     } catch (error) {
       console.error('Error extracting PDF metadata:', error);
