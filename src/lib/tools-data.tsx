@@ -151,12 +151,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Lock className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/protect',
       },
-       {
-        title: 'Delete PDF Pages',
-        description: 'Remove one or more pages from a PDF document.',
-        icon: <FileMinus className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/delete-pages',
-      },
       {
         title: 'BMP to PDF',
         description: 'Convert BMP images to a single PDF file.',
