@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -150,6 +150,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Add a password to your PDF file to protect it from unauthorized access.',
         icon: <Lock className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/protect',
+      },
+       {
+        title: 'Delete PDF Pages',
+        description: 'Remove one or more pages from a PDF document.',
+        icon: <FileMinus className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/delete-pages',
       },
       {
         title: 'BMP to PDF',
