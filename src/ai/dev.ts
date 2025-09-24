@@ -34,3 +34,4 @@ import '@/ai/flows/png-to-pdf.ts';
 import '@/ai/flows/rotate-pdf.ts';
 import '@/ai/flows/protect-pdf.ts';
 import '@/ai/flows/mobi-to-pdf.ts';
+import '@/ai/flows/msg-to-pdf.ts';

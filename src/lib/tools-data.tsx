@@ -1,4 +1,4 @@
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -204,6 +204,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert MOBI e-books to PDF.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/mobi-to-pdf',
+      },
+      {
+        title: 'MSG to PDF',
+        description: 'Convert MSG & EML email files to PDF.',
+        icon: <Mail className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/msg-to-pdf',
       },
     ],
   },
