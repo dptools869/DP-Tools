@@ -217,6 +217,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Mail className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/msg-to-pdf',
       },
+       {
+        title: 'GIF to PDF',
+        description: 'Convert GIF images to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/gif-to-pdf',
+      },
     ],
   },
   'image-tools': {
