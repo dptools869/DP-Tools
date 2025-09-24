@@ -37,12 +37,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Shrink className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/compress',
       },
-       {
-        title: 'Extract PDF Data',
-        description: 'Use AI to extract structured data like invoices, receipts, and more.',
-        icon: <BrainCircuit className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/extract-pdf',
-      },
       {
         title: 'PDF to Word',
         description: 'Convert your PDF files to editable Word documents.',
