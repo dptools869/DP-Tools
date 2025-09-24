@@ -163,6 +163,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileText className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/text-to-pdf',
       },
+      {
+        title: 'TIFF to PDF',
+        description: 'Convert TIFF images to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/tiff-to-pdf',
+      },
     ],
   },
   'image-tools': {
