@@ -140,6 +140,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/watermark',
       },
       {
+        title: 'Rotate PDF',
+        description: 'Rotate all pages in a PDF document by 90, 180, or 270 degrees.',
+        icon: <Repeat className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/rotate',
+      },
+      {
         title: 'BMP to PDF',
         description: 'Convert BMP images to a single PDF file.',
         icon: <FileType className="w-8 h-8 text-primary" />,
