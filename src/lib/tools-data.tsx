@@ -181,6 +181,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pub-to-pdf',
       },
+      {
+        title: 'PS to PDF',
+        description: 'Convert PostScript files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/ps-to-pdf',
+      },
     ],
   },
   'image-tools': {
