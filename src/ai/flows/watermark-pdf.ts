@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Adds a text watermark to an uploaded PDF file.
+ * @fileOverview Adds a text box watermark to an uploaded PDF file.
  *
  * - watermarkPdf - A function that handles the PDF watermarking.
  * - WatermarkPdfInput - The input type for the watermarkPdf function.
@@ -20,7 +20,7 @@ const WatermarkPdfInputSchema = z.object({
       "The PDF file content as a data URI. Expected format: 'data:application/pdf;base64,<encoded_data>'"
     ),
   fileName: z.string().describe('The name of the original PDF file.'),
-  watermarkText: z.string().describe('The text to use as the watermark.'),
+  watermarkText: z.string().describe('The text to use as the watermark. Supports variables like %PAGE%, %DATE%, etc.'),
 });
 export type WatermarkPdfInput = z.infer<typeof WatermarkPdfInputSchema>;
 
@@ -63,7 +63,7 @@ const watermarkPdfFlow = ai.defineFlow(
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/pdf/to/watermark?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/pdf/to/watermark-textbox?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,

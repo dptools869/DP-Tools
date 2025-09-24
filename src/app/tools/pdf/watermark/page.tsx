@@ -181,11 +181,12 @@ export default function WatermarkPdfPage() {
                     <Input 
                       id="watermark-text"
                       type="text"
-                      placeholder="e.g., CONFIDENTIAL, DRAFT, Your Name"
+                      placeholder="e.g., CONFIDENTIAL, DRAFT, %PAGE%/%PAGES%"
                       value={watermarkText}
                       onChange={(e) => setWatermarkText(e.target.value)}
                       disabled={isProcessing}
                     />
+                    <p className="text-xs text-muted-foreground">Use variables like %PAGE%, %PAGES%, %DATE%, %TIME%.</p>
                   </div>
 
                    <Button onClick={processFile} className="w-full text-lg py-6" size="lg" disabled={!file || !watermarkText.trim() || isProcessing}>
@@ -229,12 +230,13 @@ export default function WatermarkPdfPage() {
             <h2>Protect Your Documents with a Custom Watermark</h2>
             <p>Adding a watermark to your PDF is a simple yet effective way to protect your intellectual property, assert ownership, or indicate the status of a document. Our Watermark PDF tool allows you to easily add custom text watermarks to your files. Whether you need to mark a document as a "DRAFT," label it "CONFIDENTIAL," or add your company name or copyright notice, this tool provides a quick and secure solution.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2>How Does PDF Watermarking Work?</h2>
-            <p>The process is straightforward. First, you upload the PDF document you wish to watermark. Next, you enter the desired text for your watermark in the input field. When you click the "Add Watermark" button, our tool sends the file and your text to a secure service that overlays the text onto each page of your PDF. The service offers various customization options (which can be expanded upon) such as font, size, color, and position to ensure the watermark meets your needs without obscuring the original content. The result is a new, watermarked PDF that is ready for you to download.</p>
+            <h2 id="how-it-works">How Does PDF Watermarking Work?</h2>
+            <p>The process is straightforward. First, you upload the PDF document you wish to watermark. Next, you enter the desired text for your watermark in the input field. You can use dynamic variables like <code>%PAGE%</code> for the current page number, <code>%PAGES%</code> for the total number of pages, or <code>%DATE%</code> for the current date. When you click the "Add Watermark" button, our tool overlays the text onto each page of your PDF. The service offers various customization options such as font, size, color, and position to ensure the watermark meets your needs without obscuring the original content. The result is a new, watermarked PDF that is ready for you to download.</p>
             <h3>Key Benefits of Using Our Watermark PDF Tool</h3>
             <ul>
               <li><strong>Protect Your Content:</strong> Discourage unauthorized use and distribution of your documents by clearly marking them with your ownership details.</li>
               <li><strong>Indicate Document Status:</strong> Use watermarks like "DRAFT," "SAMPLE," or "CONFIDENTIAL" to prevent misuse of non-final or sensitive documents.</li>
+              <li><strong>Dynamic Text:</strong> Automatically insert page numbers, dates, and other information into your watermark.</li>
               <li><strong>Easy and Fast:</strong> The simple interface allows you to upload a file, enter your text, and get your watermarked PDF in seconds.</li>
               <li><strong>Secure Processing:</strong> Your files are always handled over a secure, encrypted connection and are deleted from our servers after processing to ensure your privacy.</li>
               <li><strong>Free to Use:</strong> Add watermarks to as many PDF files as you need, completely free of charge.</li>

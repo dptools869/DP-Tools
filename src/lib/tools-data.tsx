@@ -135,7 +135,7 @@ export const toolsData: Record<string, ToolCategory> = {
       },
       {
         title: 'Watermark PDF',
-        description: 'Add a custom text watermark to your PDF files.',
+        description: 'Add a custom text watermark with dynamic variables.',
         icon: <Copyright className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/watermark',
       },
