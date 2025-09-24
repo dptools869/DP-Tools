@@ -169,6 +169,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/tiff-to-pdf',
       },
+       {
+        title: 'RTF to PDF',
+        description: 'Convert Rich Text Format files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/rtf-to-pdf',
+      },
     ],
   },
   'image-tools': {

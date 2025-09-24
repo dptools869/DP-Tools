@@ -28,3 +28,4 @@ import '@/ai/flows/xls-to-pdf.ts';
 import '@/ai/flows/webp-to-pdf.ts';
 import '@/ai/flows/text-to-pdf.ts';
 import '@/ai/flows/tiff-to-pdf.ts';
+import '@/ai/flows/rtf-to-pdf.ts';
