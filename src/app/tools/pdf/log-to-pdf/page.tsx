@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -22,7 +23,8 @@ export default function LogToPdfPage() {
   const { toast } = useToast();
 
   const isFileValid = (file: File) => {
-    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.includes(fileExtension);
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
