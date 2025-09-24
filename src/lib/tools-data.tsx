@@ -175,6 +175,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/rtf-to-pdf',
       },
+      {
+        title: 'PUB to PDF',
+        description: 'Convert Publisher files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/pub-to-pdf',
+      },
     ],
   },
   'image-tools': {
