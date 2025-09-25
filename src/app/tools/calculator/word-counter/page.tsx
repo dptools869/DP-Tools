@@ -49,7 +49,7 @@ export default function WordCounterPage() {
               <CardTitle className="text-3xl font-headline">Word and Character Counter</CardTitle>
               <CardDescription className="text-lg">
                 Instantly count words, characters, sentences, and paragraphs in your text.
-              </d-CardDescription>
+              </CardDescription>
             </CardHeader>
           </Card>
 
