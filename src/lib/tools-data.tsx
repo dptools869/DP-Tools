@@ -266,6 +266,18 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/dwg-to-jpg',
       },
       {
+        title: 'DWG to PNG',
+        description: 'Convert AutoCAD drawings to PNG images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/dwg-to-png',
+      },
+       {
+        title: 'EPUB to JPG',
+        description: 'Convert EPUB e-books to JPG images.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/epub-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
