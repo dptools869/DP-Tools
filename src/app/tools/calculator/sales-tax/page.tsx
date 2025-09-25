@@ -47,7 +47,7 @@ export default function SalesTaxCalculatorPage() {
             </CardHeader>
           </Card>
 
-            <Card>
+          <Card>
               <CardHeader>
                 <CardTitle>Enter Price and Tax Rate</CardTitle>
                 <CardDescription>Find out the sales tax and the final price.</CardDescription>
@@ -89,7 +89,7 @@ export default function SalesTaxCalculatorPage() {
               <li><strong>Convert the Tax Rate to a Decimal:</strong> Divide the sales tax rate by 100. For example, a rate of 8.25% becomes <code>0.0825</code>.</li>
               <li><strong>Calculate the Tax Amount:</strong> Multiply the pre-tax price of the item by the decimal tax rate. For an item that costs $50 with an 8.25% tax rate, the calculation is <code>$50 * 0.0825 = $4.13</code>.</li>
               <li><strong>Calculate the Final Price:</strong> Add the tax amount to the original price: <code>$50 + $4.13 = $54.13</code>.</li>
-            </ul>
+            </ol>
             <p>Our calculator automates these steps, providing a quick and error-free way to determine both the tax amount and the total cost of your purchase. This is especially helpful when dealing with multiple items or complex tax rates.</p>
           </article>
 
