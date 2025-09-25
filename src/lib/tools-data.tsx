@@ -200,6 +200,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/bmp-to-png',
       },
       {
+        title: 'BMP to PNM',
+        description: 'Convert BMP images to PNM format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-pnm',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
