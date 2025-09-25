@@ -1,5 +1,5 @@
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -403,6 +403,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Calculate your running pace, time, or distance.',
         icon: <Timer className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/pace',
+      },
+      {
+        title: 'Due Date Calculator',
+        description: 'Estimate your pregnancy due date.',
+        icon: <Baby className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/due-date',
       },
     ],
   },
