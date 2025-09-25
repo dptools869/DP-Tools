@@ -369,6 +369,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/sales-tax',
       },
       {
+        title: 'Discount Calculator',
+        description: 'Calculate final price after a discount.',
+        icon: <Percent className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/discount',
+      },
+      {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
