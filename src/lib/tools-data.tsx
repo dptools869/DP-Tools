@@ -79,12 +79,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ScanText className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/ocr',
       },
-      {
-        title: 'PDF to SVG',
-        description: 'Convert PDF pages to scalable vector graphics.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/to-svg',
-      },
        {
         title: 'PDF to Text',
         description: 'Extract text from your PDF files into a plain text format.',
@@ -240,6 +234,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert each page of a PDF into a PNG image.',
         icon: <Image className="w-8 h-8 text-primary" />,
         href: '/tools/image/pdf-to-png',
+      },
+      {
+        title: 'PDF to SVG',
+        description: 'Convert PDF pages to scalable vector graphics.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/pdf-to-svg',
       },
     ],
   },
