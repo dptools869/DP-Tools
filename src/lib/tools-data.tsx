@@ -217,6 +217,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/bmp-to-webp',
       },
+       {
+        title: 'DJVU to JPG',
+        description: 'Convert DJVU e-books to JPG images.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/djvu-to-jpg',
+      },
       {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',

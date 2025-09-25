@@ -38,3 +38,4 @@ import '@/ai/flows/bmp-to-png.ts';
 import '@/ai/flows/bmp-to-pnm.ts';
 import '@/ai/flows/bmp-to-svg.ts';
 import '@/ai/flows/bmp-to-webp.ts';
+import '@/ai/flows/djvu-to-jpg.ts';
