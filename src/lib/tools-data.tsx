@@ -74,18 +74,6 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/web-to-pdf',
       },
       {
-        title: 'JPG/JPEG to PDF',
-        description: 'Convert JPG & JPEG images to a single PDF file.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/jpg-to-pdf',
-      },
-      {
-        title: 'PDF to JPG',
-        description: 'Convert each page of a PDF into a JPG image.',
-        icon: <Image className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/to-jpg',
-      },
-      {
         title: 'PDF to PNG',
         description: 'Convert each page of a PDF into a PNG image.',
         icon: <Image className="w-8 h-8 text-primary" />,
@@ -211,6 +199,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/odc-to-pdf',
       },
+      {
+        title: 'RTF to PDF',
+        description: 'Convert Rich Text Format files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/rtf-to-pdf',
+      },
     ],
   },
   'image-tools': {
@@ -240,6 +234,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert JPG images to PNG format with transparency support.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/jpg-to-png',
+      },
+      {
+        title: 'PDF to JPG',
+        description: 'Convert each page of a PDF into a JPG image.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/pdf-to-jpg',
       },
     ],
   },
