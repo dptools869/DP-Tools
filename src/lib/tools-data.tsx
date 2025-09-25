@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -356,6 +356,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Calculate your Grade Point Average (GPA).',
         icon: <GraduationCap className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/gpa',
+      },
+       {
+        title: 'Fuel Cost Calculator',
+        description: 'Estimate the fuel cost for a trip.',
+        icon: <Fuel className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/fuel-cost',
       },
       {
         title: 'Percentage Calculator',
