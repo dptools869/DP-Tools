@@ -235,6 +235,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/ico-to-pdf',
       },
+      {
+        title: 'EPS to PDF',
+        description: 'Convert EPS vector graphics to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/eps-to-pdf',
+      },
     ],
   },
   'image-tools': {
