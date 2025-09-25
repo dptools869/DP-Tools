@@ -241,6 +241,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/eps-to-pdf',
       },
+      {
+        title: 'EPUB to PDF',
+        description: 'Convert EPUB e-books to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/epub-to-pdf',
+      },
     ],
   },
   'image-tools': {

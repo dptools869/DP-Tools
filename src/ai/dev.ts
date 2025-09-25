@@ -40,3 +40,4 @@ import '@/ai/flows/gif-to-pdf.ts';
 import '@/ai/flows/heic-to-pdf.ts';
 import '@/ai/flows/ico-to-pdf.ts';
 import '@/ai/flows/eps-to-pdf.ts';
+import '@/ai/flows/epub-to-pdf.ts';
