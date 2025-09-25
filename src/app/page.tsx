@@ -1,9 +1,10 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, Scale } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -26,6 +27,12 @@ const categories = [
     description: 'A collection of calculators for finance, health, and mathematics.',
     icon: <Calculator className="w-12 h-12 text-primary" />,
     href: '/calculator-tools',
+  },
+  {
+    title: 'Unit Converter Tools',
+    description: 'Convert between different units of measurement for length, weight, and more.',
+    icon: <Scale className="w-12 h-12 text-primary" />,
+    href: '/unit-converter-tools',
   },
 ];
 
@@ -82,7 +89,7 @@ export default function Home() {
 
             {/* Main Categories Section */}
             <section id="categories" className="scroll-mt-20">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {categories.map((category) => (
                   <Card key={category.title} className="bg-card/80 backdrop-blur-sm border-primary/20 hover:border-primary transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20">
                     <CardHeader className="items-center text-center">

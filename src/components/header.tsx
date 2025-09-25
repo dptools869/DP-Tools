@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -16,6 +17,7 @@ const navLinks = [
   { label: 'PDF Tools', href: '/pdf-tools' },
   { label: 'Image Tools', href: '/image-tools' },
   { label: 'Calculator Tools', href: '/calculator-tools' },
+  { label: 'Unit Converter Tools', href: '/unit-converter-tools'},
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];

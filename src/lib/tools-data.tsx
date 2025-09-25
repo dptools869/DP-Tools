@@ -1,5 +1,5 @@
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -412,4 +412,16 @@ export const toolsData: Record<string, ToolCategory> = {
       },
     ],
   },
+  'unit-converter-tools': {
+    title: 'Unit Converter Tools',
+    description: 'A collection of converters for length, weight, temperature, and more.',
+    tools: [
+      {
+        title: 'Length Converter',
+        description: 'Convert between meters, feet, inches, and other units of length.',
+        icon: <Scale className="w-8 h-8 text-primary" />,
+        href: '/tools/unit-converter/length',
+      }
+    ],
+  }
 };
