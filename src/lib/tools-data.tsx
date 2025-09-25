@@ -247,6 +247,18 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Image className="w-8 h-8 text-primary" />,
         href: '/tools/image/doc-to-png',
       },
+       {
+        title: 'DOC to JPG',
+        description: 'Convert Word documents to JPG images.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/doc-to-jpg',
+      },
+      {
+        title: 'DWF to SVG',
+        description: 'Convert AutoCAD files (DWF, DWG) to SVG.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/dwf-to-svg',
+      },
       {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',

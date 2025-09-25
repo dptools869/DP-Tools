@@ -40,3 +40,5 @@ import '@/ai/flows/bmp-to-svg.ts';
 import '@/ai/flows/bmp-to-webp.ts';
 import '@/ai/flows/djvu-to-jpg.ts';
 import '@/ai/flows/doc-to-png.ts';
+import '@/ai/flows/doc-to-jpg.ts';
+import '@/ai/flows/dwf-to-svg.ts';
