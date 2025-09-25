@@ -363,6 +363,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/tip',
       },
       {
+        title: 'Sales Tax Calculator',
+        description: 'Calculate sales tax for a given price and rate.',
+        icon: <Percent className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/sales-tax',
+      },
+      {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
