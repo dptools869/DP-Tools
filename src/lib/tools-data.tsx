@@ -181,18 +181,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/epub-to-pdf',
       },
-      {
-        title: 'ODC to PDF',
-        description: 'Convert OpenOffice documents to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/odc-to-pdf',
-      },
-      {
-        title: 'RTF to PDF',
-        description: 'Convert Rich Text Format files to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/rtf-to-pdf',
-      },
     ],
   },
   'image-tools': {
@@ -200,10 +188,10 @@ export const toolsData: Record<string, ToolCategory> = {
     description: 'Easily edit, convert, and resize your images for any purpose.',
     tools: [
       {
-        title: 'AI to JPG',
-        description: 'Convert Adobe Illustrator files to JPG images.',
+        title: 'BMP to JPG',
+        description: 'Convert BMP images to JPG format.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
-        href: '/tools/image/ai-to-jpg',
+        href: '/tools/image/bmp-to-jpg',
       },
       {
         title: 'Image Resizer',

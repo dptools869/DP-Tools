@@ -1,44 +1,45 @@
+
 'use server';
 
 /**
- * @fileOverview Converts an uploaded AI (Adobe Illustrator) file to a JPG file using ConvertAPI.
+ * @fileOverview Converts an uploaded BMP file to a JPG file using ConvertAPI.
  *
- * - aiToJpg - A function that handles the AI to JPG conversion.
- * - AiToJpgInput - The input type for the aiToJpg function.
- * - AiToJpgOutput - The return type for the aiToJpg function.
+ * - bmpToJpg - A function that handles the BMP to JPG conversion.
+ * - BmpToJpgInput - The input type for the bmpToJpg function.
+ * - BmpToJpgOutput - The return type for the bmpToJpg function.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // ----------- Schemas -----------
-const AiToJpgInputSchema = z.object({
-  aiDataUri: z
+const BmpToJpgInputSchema = z.object({
+  bmpDataUri: z
     .string()
     .describe(
-      "The AI file content as a data URI. Expected format: 'data:application/postscript;base64,<encoded_data>'"
+      "The BMP file content as a data URI. Expected format: 'data:image/bmp;base64,<encoded_data>'"
     ),
-  fileName: z.string().describe('The name of the original AI file.'),
+  fileName: z.string().describe('The name of the original BMP file.'),
 });
-export type AiToJpgInput = z.infer<typeof AiToJpgInputSchema>;
+export type BmpToJpgInput = z.infer<typeof BmpToJpgInputSchema>;
 
-const AiToJpgOutputSchema = z.object({
+const BmpToJpgOutputSchema = z.object({
   jpgDataUri: z.string().describe('The converted JPG file as a data URI.'),
   fileName: z.string().describe('The name of the output JPG file.'),
 });
-export type AiToJpgOutput = z.infer<typeof AiToJpgOutputSchema>;
+export type BmpToJpgOutput = z.infer<typeof BmpToJpgOutputSchema>;
 
 // ----------- Public function -----------
-export async function aiToJpg(input: AiToJpgInput): Promise<AiToJpgOutput> {
-  return aiToJpgFlow(input);
+export async function bmpToJpg(input: BmpToJpgInput): Promise<BmpToJpgOutput> {
+  return bmpToJpgFlow(input);
 }
 
 // ----------- Flow Definition -----------
-const aiToJpgFlow = ai.defineFlow(
+const bmpToJpgFlow = ai.defineFlow(
   {
-    name: 'aiToJpgFlow',
-    inputSchema: AiToJpgInputSchema,
-    outputSchema: AiToJpgOutputSchema,
+    name: 'bmpToJpgFlow',
+    inputSchema: BmpToJpgInputSchema,
+    outputSchema: BmpToJpgOutputSchema,
   },
   async (input) => {
     if (!process.env.CONVERT_API_SECRET) {
@@ -46,21 +47,21 @@ const aiToJpgFlow = ai.defineFlow(
     }
 
     try {
-      const base64Data = input.aiDataUri.split(';base64,').pop();
+      const base64Data = input.bmpDataUri.split(';base64,').pop();
       if (!base64Data) {
-        throw new Error('Invalid AI data URI.');
+        throw new Error('Invalid BMP data URI.');
       }
 
-      const aiBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.ai)$/i, '.jpg');
+      const bmpBuffer = Buffer.from(base64Data, 'base64');
+      const outputFileName = input.fileName.replace(/(\.bmp)$/i, '.jpg');
 
       const formData = new FormData();
-      formData.append('File', new Blob([aiBuffer]), input.fileName);
+      formData.append('File', new Blob([bmpBuffer], { type: 'image/bmp' }), input.fileName);
       formData.append('StoreFile', 'true');
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/ai/to/jpg?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/bmp/to/jpg?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -94,9 +95,9 @@ const aiToJpgFlow = ai.defineFlow(
         fileName: outputFileName,
       };
     } catch (error) {
-      console.error('Error converting AI to JPG:', error);
+      console.error('Error converting BMP to JPG:', error);
       throw new Error(
-        `Failed to convert AI to JPG. Error: ${
+        `Failed to convert BMP to JPG. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );

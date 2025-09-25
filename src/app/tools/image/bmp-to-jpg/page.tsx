@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -8,36 +9,28 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, FileCheck, FileType, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { aiToJpg, AiToJpgOutput } from '@/ai/flows/ai-to-jpg';
+import { bmpToJpg, BmpToJpgOutput } from '@/ai/flows/bmp-to-jpg';
 import AdBanner from '@/components/ad-banner';
 
-const acceptedMimeTypes = ['application/postscript', 'application/illustrator'];
-const acceptedExtensions = ['.ai'];
-
-export default function AiToJpgPage() {
+export default function BmpToJpgPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<AiToJpgOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<BmpToJpgOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
-
-  const isFileValid = (file: File) => {
-    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
-    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.includes(fileExtension);
-  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (isFileValid(selectedFile)) {
+      if (selectedFile.type === 'image/bmp') {
         setFile(selectedFile);
         setFileName(selectedFile.name);
-        setConversionResult(null);
+        setConversionResult(null); // Reset previous result
       } else {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload an Adobe Illustrator file (.ai).',
+          description: 'Please upload a BMP file (.bmp).',
         });
         event.target.value = ''; 
       }
@@ -51,14 +44,14 @@ export default function AiToJpgPage() {
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && isFileValid(droppedFile)) {
+    if (droppedFile && droppedFile.type === 'image/bmp') {
       setFile(droppedFile);
       setConversionResult(null);
     } else {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop an Adobe Illustrator file (.ai).',
+        description: 'Please drop a BMP file (.bmp).',
       });
     }
   };
@@ -68,7 +61,7 @@ export default function AiToJpgPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select an AI file to convert.',
+        description: 'Please select a BMP file to convert.',
       });
       return;
     }
@@ -82,7 +75,7 @@ export default function AiToJpgPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await aiToJpg({ aiDataUri: base64File, fileName: file.name });
+          const result = await bmpToJpg({ bmpDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
@@ -145,9 +138,9 @@ export default function AiToJpgPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">AI to JPG Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">BMP to JPG Converter</CardTitle>
               <CardDescription className="text-lg">
-                Easily convert your Adobe Illustrator (.ai) files to JPG images.
+                Effortlessly convert your BMP image files into professional, high-quality JPGs.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -162,11 +155,11 @@ export default function AiToJpgPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your AI file here'}
+                            {fileName || 'Drag & drop your BMP file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".ai,application/postscript,application/illustrator" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/bmp" disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (
@@ -206,20 +199,20 @@ export default function AiToJpgPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">Convert AI files to JPG with Ease</h2>
-            <p>Our AI to JPG converter provides a simple and reliable way to turn your Adobe Illustrator vector files into universal JPG images. This is perfect for creating web graphics, social media posts, or previews of your design work that can be viewed by anyone, anywhere, without needing specialized software.</p>
+            <h2 id="about-tool">Convert BMP images to JPG with Ease</h2>
+            <p>Our BMP to JPG converter provides a simple and reliable way to turn your bitmap images into universal JPG files. JPG is the standard for photos and web graphics due to its excellent compression. This tool is perfect for converting uncompressed BMPs into a more web-friendly format.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does AI to JPG Conversion Work?</h2>
-            <p>The process is straightforward. When you upload your AI document, our system uses an advanced conversion engine to render your vector artwork into a high-quality JPG image. The layout, colors, and details are preserved, ensuring your JPG looks just like the original AI file. We prioritize your privacy; all files are handled securely over an encrypted connection and are automatically deleted from our servers after processing.</p>
+            <h2 id="how-it-works">How Does BMP to JPG Conversion Work?</h2>
+            <p>The process is simple. When you upload your BMP file, our system uses an advanced conversion engine to change the file format to JPG, optimizing it for the web while preserving quality. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>High-Fidelity Conversion:</strong> Retains the original colors and details of your Illustrator artwork.</li>
-              <li><strong>Universal Compatibility:</strong> Create JPGs that can be opened on any device or platform.</li>
+              <li><strong>High-Quality Conversion:</strong> Retains the original quality of your bitmap images.</li>
+              <li><strong>Web-Friendly Format:</strong> Create JPGs that are perfect for websites, social media, and email.</li>
               <li><strong>User-Friendly Interface:</strong> Simply drag and drop your file to begin the conversion process instantly.</li>
-              <li><strong>Secure and Private:</strong> Your files are processed securely and are never stored on our servers.</li>
-              <li><strong>Completely Free:</strong> Convert as many AI files to JPG as you need, at no cost.</li>
+              <li><strong>Secure and Private:</strong> Your files are processed over an encrypted connection and are not stored on our servers.</li>
+              <li><strong>Completely Free:</strong> Convert as many BMP files to JPG as you need, at no cost.</li>
             </ul>
-            <p>Make your vector artwork more accessible by converting it to JPG. Experience the simplicity and quality of our free online conversion tool today!</p>
+            <p>Make your BMP images more accessible and web-friendly by converting them to JPG. Experience the simplicity and quality of our free online conversion tool today!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
