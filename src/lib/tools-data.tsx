@@ -1,3 +1,4 @@
+
 import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark } from 'lucide-react';
 import React from 'react';
 
@@ -104,16 +105,34 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/protect',
       },
       {
-        title: 'BMP to PDF',
-        description: 'Convert BMP images to a single PDF file.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/image/bmp-to-pdf',
+        title: 'Delete PDF Pages',
+        description: 'Remove one or more pages from your PDF document.',
+        icon: <FileMinus className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/delete-pages',
       },
       {
         title: 'DJVU to PDF',
         description: 'Convert DJVU files to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/djvu-to-pdf',
+      },
+      {
+        title: 'EPS to PDF',
+        description: 'Convert EPS vector graphics to PDF documents.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/eps-to-pdf',
+      },
+      {
+        title: 'PUB to PDF',
+        description: 'Convert Microsoft Publisher files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/pub-to-pdf',
+      },
+      {
+        title: 'JPG/JPEG to PDF',
+        description: 'Convert JPG images to a single PDF file.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/jpg-to-pdf',
       },
       {
         title: 'PNG to PDF',
