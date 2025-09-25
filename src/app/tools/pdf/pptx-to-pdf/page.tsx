@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -13,9 +14,14 @@ import AdBanner from '@/components/ad-banner';
 
 const acceptedMimeTypes = [
   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  'application/vnd.ms-powerpoint'
+  'application/vnd.ms-powerpoint',
+  'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+  'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+  'application/vnd.openxmlformats-officedocument.presentationml.template',
+  'application/vnd.ms-powerpoint.template.macroEnabled.12',
 ];
-const acceptedExtensions = ['.ppt', '.pptx'];
+const acceptedExtensions = ['.ppt', '.pptx', '.pps', '.ppsx', '.pot', '.potx'];
 
 export default function PptxToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +31,8 @@ export default function PptxToPdfPage() {
   const { toast } = useToast();
 
   const isFileValid = (file: File) => {
-    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.includes(fileExtension);
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +46,7 @@ export default function PptxToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a PowerPoint file (.ppt or .pptx).',
+          description: 'Please upload a valid PowerPoint file (.ppt, .pptx, .pps, etc.).',
         });
         event.target.value = '';
       }
@@ -60,7 +67,7 @@ export default function PptxToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a PowerPoint file (.ppt or .pptx).',
+        description: 'Please drop a valid PowerPoint file (.ppt, .pptx, .pps, etc.).',
       });
     }
   };
@@ -149,7 +156,7 @@ export default function PptxToPdfPage() {
               </div>
               <CardTitle className="text-3xl font-headline">PowerPoint to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Effortlessly convert your PowerPoint files (.ppt, .pptx) into professional, high-quality PDFs.
+                Convert your PowerPoint files (.ppt, .pptx, .pps, .ppsx, .potx) into professional, high-quality PDFs.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -168,7 +175,7 @@ export default function PptxToPdfPage() {
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" disabled={isConverting} />
+                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept={acceptedExtensions.join(',')} disabled={isConverting} />
                   </Label>
                    <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                     {isConverting ? (

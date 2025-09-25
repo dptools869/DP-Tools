@@ -57,7 +57,7 @@ export const toolsData: Record<string, ToolCategory> = {
       },
       {
         title: 'PowerPoint to PDF',
-        description: 'Convert PowerPoint presentations to PDF files.',
+        description: 'Convert PowerPoint files (.ppt, .pptx, .pps) to PDF.',
         icon: <Presentation className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/pptx-to-pdf',
       },
