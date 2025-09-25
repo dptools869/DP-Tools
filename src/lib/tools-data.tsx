@@ -205,6 +205,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/epub-to-pdf',
       },
+      {
+        title: 'ODC to PDF',
+        description: 'Convert OpenOffice documents to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/odc-to-pdf',
+      },
     ],
   },
   'image-tools': {
