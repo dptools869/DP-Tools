@@ -260,6 +260,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/dwf-to-webp',
       },
       {
+        title: 'DWG to JPG',
+        description: 'Convert AutoCAD drawings to JPG images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/dwg-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,

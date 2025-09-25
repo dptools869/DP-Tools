@@ -43,3 +43,4 @@ import '@/ai/flows/doc-to-png.ts';
 import '@/ai/flows/doc-to-jpg.ts';
 import '@/ai/flows/dwf-to-svg.ts';
 import '@/ai/flows/dwf-to-webp.ts';
+import '@/ai/flows/dwg-to-jpg.ts';
