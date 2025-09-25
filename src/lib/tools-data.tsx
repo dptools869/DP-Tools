@@ -206,6 +206,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/bmp-to-pnm',
       },
       {
+        title: 'BMP to SVG',
+        description: 'Convert BMP images to SVG format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-svg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,

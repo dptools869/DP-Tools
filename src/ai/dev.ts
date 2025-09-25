@@ -34,5 +34,6 @@ import '@/ai/flows/eps-to-pdf.ts';
 import '@/ai/flows/epub-to-pdf.ts';
 import '@/ai/flows/office-to-pdf.ts';
 import '@/ai/flows/bmp-to-jpg.ts';
-import '@/ai'flows/bmp-to-png.ts';
-import '@/ai'flows/bmp-to-pnm.ts';
+import '@/ai/flows/bmp-to-png.ts';
+import '@/ai/flows/bmp-to-pnm.ts';
+import '@/ai/flows/bmp-to-svg.ts';
