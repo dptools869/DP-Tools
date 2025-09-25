@@ -278,6 +278,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/epub-to-jpg',
       },
       {
+        title: 'GIF to JPG',
+        description: 'Convert animated GIFs to static JPG images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/gif-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,

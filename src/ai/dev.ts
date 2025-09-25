@@ -48,3 +48,4 @@ import '@/ai/flows/bmp-to-svg.ts';
 import '@/ai/flows/bmp-to-webp.ts';
 import '@/ai/flows/bmp-to-pdf.ts';
 import '@/ai/flows/epub-to-jpg.ts';
+import '@/ai/flows/gif-to-jpg.ts';
