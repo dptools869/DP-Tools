@@ -194,6 +194,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/bmp-to-jpg',
       },
       {
+        title: 'BMP to PNG',
+        description: 'Convert BMP images to PNG format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-png',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
