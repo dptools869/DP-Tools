@@ -284,6 +284,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/gif-to-jpg',
       },
       {
+        title: 'HEIC to JPG',
+        description: 'Convert HEIC/HEIF images to JPG format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/heic-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
