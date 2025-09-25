@@ -212,6 +212,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/bmp-to-svg',
       },
       {
+        title: 'BMP to WEBP',
+        description: 'Convert BMP images to WEBP format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/bmp-to-webp',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
