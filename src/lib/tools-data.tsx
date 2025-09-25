@@ -271,7 +271,7 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/dwg-to-png',
       },
-       {
+      {
         title: 'EPUB to JPG',
         description: 'Convert EPUB e-books to JPG images.',
         icon: <Image className="w-8 h-8 text-primary" />,
