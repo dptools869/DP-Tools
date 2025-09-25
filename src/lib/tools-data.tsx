@@ -242,10 +242,10 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/djvu-to-jpg',
       },
       {
-        title: 'DOC to JPG',
-        description: 'Convert Word documents to JPG images.',
+        title: 'DOC to PNG',
+        description: 'Convert Word documents to PNG images.',
         icon: <Image className="w-8 h-8 text-primary" />,
-        href: '/tools/image/doc-to-jpg',
+        href: '/tools/image/doc-to-png',
       },
       {
         title: 'Image Resizer',

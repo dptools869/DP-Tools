@@ -2,11 +2,11 @@
 'use server';
 
 /**
- * @fileOverview Converts an uploaded Word document to JPG images using ConvertAPI.
+ * @fileOverview Converts an uploaded Word document to PNG images using ConvertAPI.
  *
- * - docToJpg - A function that handles the DOC to JPG conversion.
- * - DocToJpgInput - The input type for the docToJpg function.
- * - DocToJpgOutput - The return type for the docToJpg function.
+ * - docToPng - A function that handles the DOC to PNG conversion.
+ * - DocToPngInput - The input type for the docToPng function.
+ * - DocToPngOutput - The return type for the docToPng function.
  */
 
 import { ai } from '@/ai/genkit';
@@ -14,7 +14,7 @@ import { z } from 'genkit';
 import JSZip from 'jszip';
 
 // ----------- Schemas -----------
-const DocToJpgInputSchema = z.object({
+const DocToPngInputSchema = z.object({
   docDataUri: z
     .string()
     .describe(
@@ -22,26 +22,26 @@ const DocToJpgInputSchema = z.object({
     ),
   fileName: z.string().describe('The name of the original document file.'),
 });
-export type DocToJpgInput = z.infer<typeof DocToJpgInputSchema>;
+export type DocToPngInput = z.infer<typeof DocToPngInputSchema>;
 
-const DocToJpgOutputSchema = z.object({
-  zipDataUri: z.string().describe('The converted JPG files as a zipped data URI.'),
+const DocToPngOutputSchema = z.object({
+  zipDataUri: z.string().describe('The converted PNG files as a zipped data URI.'),
   fileName: z.string().describe('The name of the output ZIP file.'),
   imageCount: z.number().describe('The number of images generated.')
 });
-export type DocToJpgOutput = z.infer<typeof DocToJpgOutputSchema>;
+export type DocToPngOutput = z.infer<typeof DocToPngOutputSchema>;
 
 // ----------- Public function -----------
-export async function docToJpg(input: DocToJpgInput): Promise<DocToJpgOutput> {
-  return docToJpgFlow(input);
+export async function docToPng(input: DocToPngInput): Promise<DocToPngOutput> {
+  return docToPngFlow(input);
 }
 
 // ----------- Flow Definition -----------
-const docToJpgFlow = ai.defineFlow(
+const docToPngFlow = ai.defineFlow(
   {
-    name: 'docToJpgFlow',
-    inputSchema: DocToJpgInputSchema,
-    outputSchema: DocToJpgOutputSchema,
+    name: 'docToPngFlow',
+    inputSchema: DocToPngInputSchema,
+    outputSchema: DocToPngOutputSchema,
   },
   async (input) => {
     if (!process.env.CONVERT_API_SECRET) {
@@ -62,7 +62,7 @@ const docToJpgFlow = ai.defineFlow(
       formData.append('StoreFile', 'true');
 
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/doc/to/jpg?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/doc/to/png?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -105,9 +105,9 @@ const docToJpgFlow = ai.defineFlow(
         imageCount: convertResult.Files.length
       };
     } catch (error) {
-      console.error('Error converting DOC to JPG:', error);
+      console.error('Error converting DOC to PNG:', error);
       throw new Error(
-        `Failed to convert DOC to JPG. Error: ${
+        `Failed to convert DOC to PNG. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );

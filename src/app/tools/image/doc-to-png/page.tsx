@@ -9,15 +9,15 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, FileCheck, Image, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { docToJpg, DocToJpgOutput } from '@/ai/flows/doc-to-jpg';
+import { docToPng, DocToPngOutput } from '@/ai/flows/doc-to-png';
 import AdBanner from '@/components/ad-banner';
 
 const acceptedExtensions = ['.doc', '.docx', '.rtf', '.txt', '.dot', '.dotx'];
 
-export default function DocToJpgPage() {
+export default function DocToPngPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<DocToJpgOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<DocToPngOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
 
@@ -82,11 +82,11 @@ export default function DocToJpgPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await docToJpg({ docDataUri: base64File, fileName: file.name });
+          const result = await docToPng({ docDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
-            description: `Your document has been converted into ${result.imageCount} JPG image(s).`,
+            description: `Your document has been converted into ${result.imageCount} PNG image(s).`,
           });
         } catch (error) {
            toast({
@@ -145,9 +145,9 @@ export default function DocToJpgPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Image className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">Word to JPG Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">Word to PNG Converter</CardTitle>
               <CardDescription className="text-lg">
-                Convert each page of your Word document into high-quality JPG images.
+                Convert each page of your Word document into high-quality PNG images.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -175,7 +175,7 @@ export default function DocToJpgPage() {
                         Converting...
                       </>
                     ) : (
-                      'Convert to JPG'
+                      'Convert to PNG'
                     )}
                   </Button>
                 </div>
@@ -210,24 +210,24 @@ export default function DocToJpgPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>From Document to Image: Word to JPG Conversion</h2>
-            <p>Unlock the visual content of your Word documents by converting them into high-quality JPG images. Our Word to JPG converter is an essential tool for anyone who needs to create image previews of their documents, share content on social media, or embed document pages into websites. Whether you're a marketer, student, or professional, this tool provides a simple and effective solution. We handle multi-page documents by conveniently packaging all your converted JPGs into a single ZIP file for easy download.</p>
+            <h2>From Document to Image: Word to PNG Conversion</h2>
+            <p>Unlock the visual content of your Word documents by converting them into high-quality, lossless PNG images. Our Word to PNG converter is an essential tool for creating sharp, clear images of your document pages, perfect for when quality and transparency are key. This is ideal for marketers, designers, and anyone needing to share document content as high-fidelity images. We handle multi-page documents by conveniently packaging all your converted PNGs into a single ZIP file for easy download.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2>How Does DOC to JPG Conversion Work?</h2>
-            <p>Our tool simplifies the process of converting a Word document into a series of JPG images. When you upload a DOC or DOCX file, our service communicates with a powerful conversion engine that renders each page of your document individually. This rendering process creates a high-resolution snapshot of each page, capturing all text, graphics, and layout elements exactly as they appear in the original file. These snapshots are then encoded as JPG images.</p>
+            <h2>How Does DOC to PNG Conversion Work?</h2>
+            <p>Our tool simplifies the process of converting a Word document into a series of PNG images. When you upload a DOC or DOCX file, our service communicates with a powerful conversion engine that renders each page of your document individually. This rendering process creates a high-resolution snapshot of each page, capturing all text, graphics, and layout elements exactly as they appear. These snapshots are then encoded as PNG images, which are known for their lossless quality.</p>
             <ul>
               <li><strong>Page-by-Page Rendering:</strong> Each page in your document is treated as a separate canvas, ensuring no content is lost.</li>
-              <li><strong>Quality Optimization:</strong> The conversion maintains a high DPI to ensure the resulting JPGs are crisp and clear.</li>
-              <li><strong>ZIP Archiving:</strong> To make downloading multiple pages easy, all generated JPG images are automatically compiled into a single ZIP archive.</li>
+              <li><strong>Lossless Quality:</strong> PNG format ensures that the quality of your text and graphics is perfectly preserved.</li>
+              <li><strong>ZIP Archiving:</strong> To make downloading multiple pages easy, all generated PNG images are automatically compiled into a single ZIP archive.</li>
             </ul>
-            <h2>Key Benefits of Converting Word to JPG</h2>
+            <h2>Key Benefits of Converting Word to PNG</h2>
             <ul>
-                <li><strong>Easy Sharing:</strong> JPG images are universally supported, making them easy to share on social media, in emails, or on websites.</li>
-                <li><strong>Content Previews:</strong> Generate thumbnail images of your document pages for previews.</li>
+                <li><strong>Highest Quality Previews:</strong> PNG is a lossless format, making it perfect for when you need the sharpest possible images of your document.</li>
+                <li><strong>Transparency Support:</strong> If your document contains graphics with transparency, PNG will preserve it.</li>
                 <li><strong>Secure and Private:</strong> Your privacy is paramount. All uploaded and converted files are protected with encryption and are permanently deleted from our servers after a short period.</li>
                 <li><strong>Free and Unlimited:</strong> Convert as many Word documents as you need without any cost, subscriptions, or limitations.</li>
             </ul>
-            <p>By using a reliable "DOC to JPG converter," you streamline your workflow and make your document content more versatile. This tool is your go-to solution for transforming Word files into a universally compatible and easy-to-use image format.</p>
+            <p>By using a reliable "DOC to PNG converter," you make your document content more versatile for high-quality sharing and embedding. This tool is your go-to solution for transforming Word files into a universally compatible and high-quality image format.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
