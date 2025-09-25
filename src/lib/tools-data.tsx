@@ -386,6 +386,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Calculator className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/bmi',
       },
+      {
+        title: 'BMR Calculator',
+        description: 'Estimate your Basal Metabolic Rate (BMR).',
+        icon: <BrainCircuit className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/bmr',
+      },
     ],
   },
 };
