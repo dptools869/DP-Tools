@@ -346,6 +346,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/age',
       },
       {
+        title: 'Date Calculator',
+        description: 'Calculate the duration between two dates or add/subtract time.',
+        icon: <CalendarIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/date',
+      },
+      {
         title: 'GPA Calculator',
         description: 'Calculate your Grade Point Average (GPA).',
         icon: <GraduationCap className="w-8 h-8 text-primary" />,
