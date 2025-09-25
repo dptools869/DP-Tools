@@ -1,44 +1,44 @@
 'use server';
 
 /**
- * @fileOverview Converts an uploaded XLS file to a PDF file using ConvertAPI.
+ * @fileOverview Converts various Office documents to PDF using ConvertAPI.
  *
- * - xlsToPdf - A function that handles the XLS to PDF conversion.
- * - XlsToPdfInput - The input type for the xlsToPdf function.
- * - XlsToPdfOutput - The return type for the xlsToPdf function.
+ * - officeToPdf - A function that handles the Office to PDF conversion.
+ * - OfficeToPdfInput - The input type for the officeToPdf function.
+ * - OfficeToPdfOutput - The return type for the officeToPdf function.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // ----------- Schemas -----------
-const XlsToPdfInputSchema = z.object({
-  xlsDataUri: z
+const OfficeToPdfInputSchema = z.object({
+  fileDataUri: z
     .string()
     .describe(
-      "The XLS file content as a data URI. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
+      "The Office file content as a data URI. Supports .docx, .doc, .rtf, .xls, .xlsx, .ppt, .pptx and more. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
-  fileName: z.string().describe('The name of the original XLS file.'),
+  fileName: z.string().describe('The name of the original Office file.'),
 });
-export type XlsToPdfInput = z.infer<typeof XlsToPdfInputSchema>;
+export type OfficeToPdfInput = z.infer<typeof OfficeToPdfInputSchema>;
 
-const XlsToPdfOutputSchema = z.object({
+const OfficeToPdfOutputSchema = z.object({
   pdfDataUri: z.string().describe('The converted PDF file as a data URI.'),
   fileName: z.string().describe('The name of the output PDF file.'),
 });
-export type XlsToPdfOutput = z.infer<typeof XlsToPdfOutputSchema>;
+export type OfficeToPdfOutput = z.infer<typeof OfficeToPdfOutputSchema>;
 
 // ----------- Public function -----------
-export async function xlsToPdf(input: XlsToPdfInput): Promise<XlsToPdfOutput> {
-  return xlsToPdfFlow(input);
+export async function officeToPdf(input: OfficeToPdfInput): Promise<OfficeToPdfOutput> {
+  return officeToPdfFlow(input);
 }
 
 // ----------- Flow Definition -----------
-const xlsToPdfFlow = ai.defineFlow(
+const officeToPdfFlow = ai.defineFlow(
   {
-    name: 'xlsToPdfFlow',
-    inputSchema: XlsToPdfInputSchema,
-    outputSchema: XlsToPdfOutputSchema,
+    name: 'officeToPdfFlow',
+    inputSchema: OfficeToPdfInputSchema,
+    outputSchema: OfficeToPdfOutputSchema,
   },
   async (input) => {
     if (!process.env.CONVERT_API_SECRET) {
@@ -46,21 +46,21 @@ const xlsToPdfFlow = ai.defineFlow(
     }
 
     try {
-      const base64Data = input.xlsDataUri.split(';base64,').pop();
+      const base64Data = input.fileDataUri.split(';base64,').pop();
       if (!base64Data) {
-        throw new Error('Invalid XLS data URI.');
+        throw new Error('Invalid file data URI.');
       }
 
-      const xlsBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.csv|\.xls|\.xlsb|\.xltx)$/i, '.pdf');
+      const fileBuffer = Buffer.from(base64Data, 'base64');
+      const outputFileName = input.fileName.replace(/\.[^/.]+$/, '.pdf');
 
       const formData = new FormData();
-      formData.append('File', new Blob([xlsBuffer]), input.fileName);
+      formData.append('File', new Blob([fileBuffer]), input.fileName);
       formData.append('StoreFile', 'true');
 
       // Call ConvertAPI
       const convertResponse = await fetch(
-        `https://v2.convertapi.com/convert/xls/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
+        `https://v2.convertapi.com/convert/office/to/pdf?Secret=${process.env.CONVERT_API_SECRET}`,
         {
           method: 'POST',
           body: formData,
@@ -94,9 +94,9 @@ const xlsToPdfFlow = ai.defineFlow(
         fileName: outputFileName,
       };
     } catch (error) {
-      console.error('Error converting XLS to PDF:', error);
+      console.error('Error converting Office to PDF:', error);
       throw new Error(
-        `Failed to convert XLS to PDF. Error: ${
+        `Failed to convert Office to PDF. Error: ${
           error instanceof Error ? error.message : String(error)
         }`
       );

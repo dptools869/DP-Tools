@@ -7,27 +7,27 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, FileType, Loader2, Download, Sheet } from 'lucide-react';
+import { UploadCloud, FileCheck, FileType, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { xlsbToPdf, XlsbToPdfOutput } from '@/ai/flows/xlsb-to-pdf';
+import { officeToPdf, OfficeToPdfOutput } from '@/ai/flows/office-to-pdf';
 import AdBanner from '@/components/ad-banner';
 
-const acceptedMimeTypes = [
-    'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+const acceptedExtensions = [
+    '.docx', '.doc', '.dot', '.dotx', '.wpd', '.rtf', '.log', 
+    '.potx', '.pps', '.ppsx', '.ppt', '.pptx', 
+    '.csv', '.xls', '.xlsb', '.xlsx', '.xltx'
 ];
 
-const acceptedExtensions = ['.xlsb'];
-
-
-export default function XlsbToPdfPage() {
+export default function OfficeToPdfPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<XlsbToPdfOutput | null>(null);
+  const [conversionResult, setConversionResult] = useState<OfficeToPdfOutput | null>(null);
   const [fileName, setFileName] = useState('');
   const { toast } = useToast();
-  
+
   const isFileValid = (file: File) => {
-    return acceptedMimeTypes.includes(file.type) || acceptedExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    return acceptedExtensions.includes(fileExtension);
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,7 @@ export default function XlsbToPdfPage() {
         toast({
           variant: 'destructive',
           title: 'Invalid File Type',
-          description: 'Please upload a valid Excel Binary Workbook file (.xlsb).',
+          description: 'Please upload a supported Office document.',
         });
         event.target.value = ''; 
       }
@@ -62,7 +62,7 @@ export default function XlsbToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'Invalid File Type',
-        description: 'Please drop a valid Excel Binary Workbook file (.xlsb).',
+        description: 'Please drop a supported Office document.',
       });
     }
   };
@@ -72,7 +72,7 @@ export default function XlsbToPdfPage() {
       toast({
         variant: 'destructive',
         title: 'No File Selected',
-        description: 'Please select an Excel file to convert.',
+        description: 'Please select an Office file to convert.',
       });
       return;
     }
@@ -86,7 +86,7 @@ export default function XlsbToPdfPage() {
       reader.onload = async () => {
         const base64File = reader.result as string;
         try {
-          const result = await xlsbToPdf({ xlsbDataUri: base64File, fileName: file.name });
+          const result = await officeToPdf({ fileDataUri: base64File, fileName: file.name });
           setConversionResult(result);
           toast({
             title: 'Conversion Successful',
@@ -147,11 +147,11 @@ export default function XlsbToPdfPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <Sheet className="w-10 h-10 text-primary" />
+                <FileType className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">XLSB to PDF Converter</CardTitle>
+              <CardTitle className="text-3xl font-headline">Office to PDF Converter</CardTitle>
               <CardDescription className="text-lg">
-                Convert your Excel Binary Workbooks to high-quality PDFs.
+                Convert Word, PowerPoint, Excel, and other Office documents to PDF.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -166,7 +166,7 @@ export default function XlsbToPdfPage() {
                     <div className="flex flex-col items-center space-y-4">
                         <UploadCloud className="h-12 w-12 text-muted-foreground" />
                         <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your XLSB file here'}
+                            {fileName || 'Drag & drop your Office file here'}
                         </span>
                         <span className="text-muted-foreground">or click to browse</span>
                     </div>
@@ -210,20 +210,21 @@ export default function XlsbToPdfPage() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2 id="about-tool">Seamless Excel Binary Workbook to PDF Conversion</h2>
-            <p>Our XLSB to PDF converter provides an easy and reliable way to turn your Excel Binary Workbooks into universal PDF files. PDF is the standard for sharing documents because it preserves formatting across all devices, ensuring your data, charts, and tables look exactly as you intended. This tool is perfect for sharing data reports in a fixed, read-only format.</p>
+            <h2 id="about-tool">The Ultimate Office to PDF Converter</h2>
+            <p>Our Office to PDF converter is your all-in-one solution for turning a wide variety of documents into universal PDF files. PDF is the professional standard for sharing documents because it preserves formatting across all devices, ensuring your work looks exactly as intended for every recipient. This powerful tool handles all major Microsoft Office formats and more, including Word, Excel, and PowerPoint.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does XLSB to PDF Conversion Work?</h2>
-            <p>The process is simple. When you upload your XLSB file, our system uses an advanced conversion engine to replicate your spreadsheet's content—including tables, charts, and formatting—into a high-quality PDF. The layout is preserved, so your data appears just as it did in Excel. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
+            <h2 id="how-it-works">How Does Office to PDF Conversion Work?</h2>
+            <p>The process is simple. When you upload your document, our system uses an advanced conversion engine to faithfully replicate your file's content—including text, tables, charts, images, and formatting—into a high-quality PDF. The layout is preserved, so your document appears just as it did in its original application. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>High-Fidelity Conversion:</strong> Retains the original layout, formatting, and charts of your Excel spreadsheet.</li>
-              <li><strong>Universal Compatibility:</strong> Create PDFs that can be opened on any device or operating system without needing Excel.</li>
+              <li><strong>Broad Format Support:</strong> Convert `.docx`, `.doc`, `.rtf`, `.xls`, `.xlsx`, `.ppt`, `.pptx`, and many other document types.</li>
+              <li><strong>High-Fidelity Conversion:</strong> Retains the original layout, formatting, fonts, and images of your document.</li>
+              <li><strong>Universal Compatibility:</strong> Create PDFs that can be opened on any device or operating system without needing the original software.</li>
               <li><strong>User-Friendly Interface:</strong> Simply drag and drop your file to begin the conversion process instantly.</li>
-              <li><strong>Secure and Private:</strong> Your files are processed over an encrypted connection and are not stored on our servers.</li>
-              <li><strong>Completely Free:</strong> Convert as many Excel files to PDF as you need, at no cost.</li>
+              <li><strong>Secure and Private:</strong> Your files are processed over an encrypted connection and are not stored.</li>
+              <li><strong>Completely Free:</strong> Convert as many Office documents to PDF as you need, at no cost.</li>
             </ul>
-            <p>Make your spreadsheets and data reports universally accessible and professional by converting them to PDF. Experience the simplicity and quality of our free online conversion tool today!</p>
+            <p>Make your documents universally accessible and professional by converting them to PDF. Experience the simplicity and quality of our free online conversion tool today!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />

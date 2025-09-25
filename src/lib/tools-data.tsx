@@ -38,6 +38,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/compress',
       },
       {
+        title: 'Office to PDF',
+        description: 'Convert Word, Excel, and PowerPoint files to PDF.',
+        icon: <FileType className="w-8 h-8 text-primary" />,
+        href: '/tools/pdf/office-to-pdf',
+      },
+      {
         title: 'PDF to Word',
         description: 'Convert your PDF files to editable Word documents.',
         icon: <FileText className="w-8 h-8 text-primary" />,
@@ -54,42 +60,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert web pages to high-quality PDF files.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/html-to-pdf',
-      },
-      {
-        title: 'PowerPoint to PDF',
-        description: 'Convert PowerPoint files (.ppt, .pptx, .pps) to PDF.',
-        icon: <Presentation className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/pptx-to-pdf',
-      },
-      {
-        title: 'DOC to PDF',
-        description: 'Convert Word documents (DOC, DOCX) to PDF.',
-        icon: <FileText className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/doc-to-pdf',
-      },
-      {
-        title: 'DOT to PDF',
-        description: 'Convert Word templates (DOT, DOTX) to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/dot-to-pdf',
-      },
-      {
-        title: 'XLTX to PDF',
-        description: 'Convert Excel templates (XLTX, XLS) to PDF.',
-        icon: <Sheet className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/xltx-to-pdf',
-      },
-       {
-        title: 'XLSB to PDF',
-        description: 'Convert Excel Binary Workbooks to PDF.',
-        icon: <Sheet className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/xlsb-to-pdf',
-      },
-      {
-        title: 'XLS to PDF',
-        description: 'Convert Excel spreadsheets (XLS, XLSX) to PDF.',
-        icon: <Sheet className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/xls-to-pdf',
       },
       {
         title: 'PDF to HTML',
@@ -193,18 +163,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/tiff-to-pdf',
       },
-       {
-        title: 'RTF to PDF',
-        description: 'Convert Rich Text Format files to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/rtf-to-pdf',
-      },
-      {
-        title: 'PUB to PDF',
-        description: 'Convert Publisher files to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/pub-to-pdf',
-      },
       {
         title: 'MOBI to PDF',
         description: 'Convert MOBI e-books to PDF.',
@@ -246,12 +204,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert EPUB e-books to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
         href: '/tools/pdf/epub-to-pdf',
-      },
-      {
-        title: 'ODC to PDF',
-        description: 'Convert OpenOffice documents to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/odc-to-pdf',
       },
     ],
   },
