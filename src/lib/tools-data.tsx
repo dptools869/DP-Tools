@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -350,6 +350,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Calculate percentages for various scenarios.',
         icon: <Percent className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/percentage',
+      },
+      {
+        title: "Ohm's Law Calculator",
+        description: 'Calculate Voltage, Current, or Resistance.',
+        icon: <Zap className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/ohms-law',
       },
       {
         title: 'Interest Calculator',
