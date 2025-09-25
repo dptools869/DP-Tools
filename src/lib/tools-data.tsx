@@ -1,5 +1,5 @@
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -355,6 +355,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Estimate your loan payments.',
         icon: <Calculator className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/loan',
+      },
+       {
+        title: 'Tip Calculator',
+        description: 'Calculate tips and split the bill.',
+        icon: <HandCoins className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/tip',
       },
       {
         title: 'Word Counter',
