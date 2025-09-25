@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -339,6 +339,12 @@ export const toolsData: Record<string, ToolCategory> = {
     title: 'Calculator Tools',
     description: 'A variety of calculators for your financial, health, and everyday needs.',
     tools: [
+       {
+        title: 'Age Calculator',
+        description: 'Find out your exact age in years, months, and days.',
+        icon: <CalendarIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/age',
+      },
       {
         title: 'GPA Calculator',
         description: 'Calculate your Grade Point Average (GPA).',
