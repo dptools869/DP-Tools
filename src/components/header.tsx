@@ -59,14 +59,6 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-2">
-            <div className="relative w-full max-w-xs">
-              <Input
-                type="search"
-                placeholder="Search tools..."
-                className="pl-9"
-              />
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            </div>
             <Button variant="default">Login</Button>
           </div>
 
@@ -94,14 +86,6 @@ export default function Header() {
                   ))}
                 </nav>
                 <div className="p-4 border-t space-y-4">
-                  <div className="relative w-full">
-                    <Input
-                      type="search"
-                      placeholder="Search tools..."
-                      className="pl-9"
-                    />
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  </div>
                   <Button variant="default" className="w-full">Login</Button>
                 </div>
               </div>
