@@ -1,5 +1,5 @@
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -397,6 +397,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Estimate your daily calorie needs for maintenance, loss, or gain.',
         icon: <Activity className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/calorie',
+      },
+      {
+        title: 'Pace Calculator',
+        description: 'Calculate your running pace, time, or distance.',
+        icon: <Timer className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/pace',
       },
     ],
   },
