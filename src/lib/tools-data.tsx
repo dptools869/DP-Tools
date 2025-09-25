@@ -351,6 +351,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/interest',
       },
       {
+        title: 'Loan Calculator',
+        description: 'Estimate your loan payments.',
+        icon: <Calculator className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/loan',
+      },
+      {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
@@ -361,12 +367,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Calculate your Body Mass Index (BMI).',
         icon: <Calculator className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/bmi',
-      },
-      {
-        title: 'Loan Calculator',
-        description: 'Estimate your loan payments.',
-        icon: <Calculator className="w-8 h-8 text-primary" />,
-        href: '/tools/calculator/loan',
       },
     ],
   },
