@@ -188,6 +188,24 @@ export const toolsData: Record<string, ToolCategory> = {
     description: 'Easily edit, convert, and resize your images for any purpose.',
     tools: [
       {
+        title: 'PDF to JPG',
+        description: 'Convert each page of a PDF into a JPG image.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/pdf-to-jpg',
+      },
+       {
+        title: 'PDF to PNG',
+        description: 'Convert each page of a PDF into a PNG image.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/pdf-to-png',
+      },
+      {
+        title: 'PDF to SVG',
+        description: 'Convert PDF pages to scalable vector graphics.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/pdf-to-svg',
+      },
+      {
         title: 'BMP to JPG',
         description: 'Convert BMP images to JPG format.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
@@ -224,6 +242,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/djvu-to-jpg',
       },
       {
+        title: 'DOC to JPG',
+        description: 'Convert Word documents to JPG images.',
+        icon: <Image className="w-8 h-8 text-primary" />,
+        href: '/tools/image/doc-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
@@ -246,24 +270,6 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert JPG images to PNG format with transparency support.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/jpg-to-png',
-      },
-      {
-        title: 'PDF to JPG',
-        description: 'Convert each page of a PDF into a JPG image.',
-        icon: <Image className="w-8 h-8 text-primary" />,
-        href: '/tools/image/pdf-to-jpg',
-      },
-       {
-        title: 'PDF to PNG',
-        description: 'Convert each page of a PDF into a PNG image.',
-        icon: <Image className="w-8 h-8 text-primary" />,
-        href: '/tools/image/pdf-to-png',
-      },
-      {
-        title: 'PDF to SVG',
-        description: 'Convert PDF pages to scalable vector graphics.',
-        icon: <Image className="w-8 h-8 text-primary" />,
-        href: '/tools/image/pdf-to-svg',
       },
     ],
   },
