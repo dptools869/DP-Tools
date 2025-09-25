@@ -170,12 +170,6 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/pdf/ico-to-pdf',
       },
       {
-        title: 'EPS to PDF',
-        description: 'Convert EPS vector graphics to PDF.',
-        icon: <FileType className="w-8 h-8 text-primary" />,
-        href: '/tools/pdf/eps-to-pdf',
-      },
-      {
         title: 'EPUB to PDF',
         description: 'Convert EPUB e-books to PDF documents.',
         icon: <FileType className="w-8 h-8 text-primary" />,
@@ -258,6 +252,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert AutoCAD files (DWF, DWG) to SVG.',
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/dwf-to-svg',
+      },
+      {
+        title: 'DWF to WEBP',
+        description: 'Convert AutoCAD files (DWF, DWG) to WEBP.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/dwf-to-webp',
       },
       {
         title: 'Image Resizer',
