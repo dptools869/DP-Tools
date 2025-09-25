@@ -200,6 +200,12 @@ export const toolsData: Record<string, ToolCategory> = {
     description: 'Easily edit, convert, and resize your images for any purpose.',
     tools: [
       {
+        title: 'AI to JPG',
+        description: 'Convert Adobe Illustrator files to JPG images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/ai-to-jpg',
+      },
+      {
         title: 'Image Resizer',
         description: 'Change the dimensions of your images quickly.',
         icon: <Ruler className="w-8 h-8 text-primary" />,
