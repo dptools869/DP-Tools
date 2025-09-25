@@ -1,4 +1,5 @@
 
+
 import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap } from 'lucide-react';
 import React from 'react';
 
@@ -427,6 +428,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert between meters, feet, inches, and other units of length.',
         icon: <Scale className="w-8 h-8 text-primary" />,
         href: '/tools/unit-converter/length',
+      },
+      {
+        title: 'Weight Converter',
+        description: 'Convert between kilograms, pounds, ounces, and more.',
+        icon: <Scale className="w-8 h-8 text-primary" />,
+        href: '/tools/unit-converter/weight',
       }
     ],
   }
