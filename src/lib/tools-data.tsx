@@ -381,6 +381,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/percentage',
       },
       {
+        title: 'Profit Margin Calculator',
+        description: 'Calculate profit margin, a key indicator of profitability.',
+        icon: <Percent className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/profit-margin',
+      },
+      {
         title: "Ohm's Law Calculator",
         description: 'Calculate Voltage, Current, or Resistance.',
         icon: <Zap className="w-8 h-8 text-primary" />,
