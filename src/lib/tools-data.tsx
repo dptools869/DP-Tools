@@ -411,6 +411,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/word-counter',
       },
+       {
+        title: 'Reading Speed Calculator (WPM)',
+        description: 'Measure your reading speed in Words Per Minute.',
+        icon: <Timer className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/reading-speed',
+      },
       {
         title: 'BMI Calculator',
         description: 'Calculate your Body Mass Index (BMI).',
