@@ -368,6 +368,12 @@ export const toolsData: Record<string, ToolCategory> = {
     title: 'Calculator & Unit Converter Tools',
     description: 'A variety of calculators and unit converters for your financial, health, and everyday needs.',
     tools: [
+      {
+        title: 'Aspect Ratio Calculator',
+        description: 'Calculate image dimensions for a specific aspect ratio.',
+        icon: <Ratio className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/aspect-ratio',
+      },
        {
         title: 'Age Calculator',
         description: 'Find out your exact age in years, months, and days.',
