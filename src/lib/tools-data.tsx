@@ -336,7 +336,7 @@ export const toolsData: Record<string, ToolCategory> = {
     ],
   },
   'calculator-tools': {
-    title: 'Calculator & Unit Converter Tools',
+    title: 'Calculator &amp; Unit Converter Tools',
     description: 'A variety of calculators and unit converters for your financial, health, and everyday needs.',
     tools: [
        {
@@ -446,6 +446,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Estimate how much paint you need for your project.',
         icon: <Paintbrush className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/paint',
+      },
+      {
+        title: 'Flooring Calculator',
+        description: 'Estimate the flooring needed for a room.',
+        icon: <Ruler className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/flooring',
       },
       {
         title: 'Length Converter',
