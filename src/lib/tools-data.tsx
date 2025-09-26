@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -464,6 +464,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Estimate the soil needed for your garden bed.',
         icon: <Leaf className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/garden-soil',
+      },
+      {
+        title: 'Recipe Scaler',
+        description: 'Scale recipe ingredients up or down for your needs.',
+        icon: <Soup className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/recipe-scaler',
       },
       {
         title: 'Length Converter',
