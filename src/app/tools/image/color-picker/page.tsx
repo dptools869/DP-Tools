@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ function hexToRgb(hex: string) {
 }
 
 function rgbToHex(r: number, g: number, b: number) {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
 }
 
 function rgbToHsl(r: number, g: number, b: number) {
@@ -45,6 +45,17 @@ function rgbToHsl(r: number, g: number, b: number) {
     return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
 }
 
+function hslToRgb(h: number, s: number, l: number) {
+    s /= 100;
+    l /= 100;
+    const k = (n:number) => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = (n:number) =>
+      l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+    return { r: Math.round(255 * f(0)), g: Math.round(255 * f(8)), b: Math.round(255 * f(4)) };
+}
+
+
 const basicColors = [
     "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF",
     "#000000", "#FFFFFF", "#808080", "#FF6347", "#4682B4", "#32CD32"
@@ -55,18 +66,41 @@ function generateShades(hex: string, count = 10) {
     if (!rgb) return [];
     const shades = [];
     for (let i = 0; i < count; i++) {
-        const factor = i / (count - 1); // 0 to 1
-        const r = Math.round(rgb.r * factor);
-        const g = Math.round(rgb.g * factor);
-        const b = Math.round(rgb.b * factor);
+        const factor = i / (count - 1);
+        const r = Math.round(rgb.r * (1-factor) + 255 * factor);
+        const g = Math.round(rgb.g * (1-factor) + 255 * factor);
+        const b = Math.round(rgb.b * (1-factor) + 255 * factor);
         shades.push(rgbToHex(r, g, b));
     }
     return shades.reverse();
 }
 
+function generateTints(hex: string, count = 10) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return [];
+    const tints = [];
+    for (let i = 0; i < count; i++) {
+        const factor = i / (count-1);
+        const r = Math.round(rgb.r * (1-factor));
+        const g = Math.round(rgb.g * (1-factor));
+        const b = Math.round(rgb.b * (1-factor));
+        tints.push(rgbToHex(r, g, b));
+    }
+    return tints;
+}
+
+
 export default function ColorPickerPage() {
-    const [color, setColor] = useState("#00C853");
+    const [hue, setHue] = useState(145);
+    const [saturation, setSaturation] = useState(100);
+    const [lightness, setLightness] = useState(39);
+    
     const { toast } = useToast();
+
+    const color = useMemo(() => {
+        const {r,g,b} = hslToRgb(hue, saturation, lightness);
+        return rgbToHex(r,g,b);
+    }, [hue, saturation, lightness]);
 
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -75,21 +109,72 @@ export default function ColorPickerPage() {
             description: text,
         });
     };
-    
-    const rgb = useMemo(() => hexToRgb(color), [color]);
-    const hsl = useMemo(() => rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null, [rgb]);
-    const shades = useMemo(() => generateShades(color), [color]);
-    
+
     const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         if (!value.startsWith('#')) {
             value = '#' + value;
         }
         if (/^#[0-9A-F]{6}$/i.test(value)) {
-            setColor(value);
+            const rgb = hexToRgb(value);
+            if (rgb) {
+                const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+                setHue(hsl.h);
+                setSaturation(hsl.s);
+                setLightness(hsl.l);
+            }
         }
     }
+    
+    const rgb = useMemo(() => hexToRgb(color), [color]);
+    const hsl = useMemo(() => rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null, [rgb]);
+    const tints = useMemo(() => generateTints(color), [color]);
+    const shades = useMemo(() => generateShades(color), [color]);
+    
+    const saturationCanvasRef = useRef<HTMLCanvasElement>(null);
 
+    useEffect(() => {
+        const canvas = saturationCanvasRef.current;
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                const width = canvas.width;
+                const height = canvas.height;
+
+                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+                ctx.fillRect(0, 0, width, height);
+
+                const whiteGradient = ctx.createLinearGradient(0, 0, width, 0);
+                whiteGradient.addColorStop(0, 'rgba(255,255,255,1)');
+                whiteGradient.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = whiteGradient;
+                ctx.fillRect(0, 0, width, height);
+                
+                const blackGradient = ctx.createLinearGradient(0, 0, 0, height);
+                blackGradient.addColorStop(0, 'rgba(0,0,0,0)');
+                blackGradient.addColorStop(1, 'rgba(0,0,0,1)');
+                ctx.fillStyle = blackGradient;
+                ctx.fillRect(0, 0, width, height);
+            }
+        }
+    }, [hue]);
+
+    const handleSaturationLightnessPick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+        const canvas = e.currentTarget;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const newSaturation = Math.round((x / canvas.width) * 100);
+        const newLightness = Math.round(100 - (y / canvas.height) * 100);
+        
+        setSaturation(newSaturation);
+        setLightness(newLightness);
+    };
+
+    const pickerX = (saturation / 100) * 288;
+    const pickerY = (1 - (lightness / 100)) * 200;
+  
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
@@ -109,18 +194,21 @@ export default function ColorPickerPage() {
           <Card>
               <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col items-center gap-4">
-                    <Label htmlFor="color-picker-input" className="sr-only">Color Picker</Label>
-                    <div className="relative">
-                        <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)`}}></div>
-                        <Input
-                            id="color-picker-input"
-                            type="color"
-                            value={color}
-                            onChange={(e) => setColor(e.target.value)}
-                            className="w-48 h-48 p-0 border-none rounded-full cursor-pointer bg-transparent"
-                            style={{'WebkitAppearance': 'none'}}
+                     <div className="w-full h-52 relative cursor-crosshair" onMouseDown={handleSaturationLightnessPick}>
+                        <canvas ref={saturationCanvasRef} width={288} height={200} className="w-full h-full rounded-md border" />
+                         <div
+                            className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg"
+                            style={{
+                                left: `${pickerX - 8}px`,
+                                top: `${pickerY - 8}px`,
+                                backgroundColor: color
+                            }}
                         />
-                    </div>
+                     </div>
+                     <div className="w-full space-y-2">
+                        <Label>Hue</Label>
+                        <Input type="range" min="0" max="360" value={hue} onChange={(e) => setHue(parseInt(e.target.value))} className="w-full h-2 p-0 rounded-lg appearance-none cursor-pointer" style={{ background: 'linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)'}} />
+                     </div>
                      <div className="h-24 w-full rounded-lg border-2 border-border" style={{ backgroundColor: color }}></div>
                 </div>
 
@@ -145,20 +233,28 @@ export default function ColorPickerPage() {
                     </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex-col items-start p-6 bg-muted/50 rounded-b-lg">
-                <div className="w-full mb-6">
+              <CardFooter className="flex-col items-start p-6 bg-muted/50 rounded-b-lg space-y-6">
+                <div className="w-full">
                     <h3 className="text-xl font-bold mb-4">Basic Colors</h3>
                     <div className="flex flex-wrap gap-2">
                         {basicColors.map(c => (
-                            <Button key={c} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: c}} onClick={() => setColor(c)} aria-label={c}></Button>
+                            <Button key={c} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: c}} onClick={() => handleHexChange({ target: { value: c } } as React.ChangeEvent<HTMLInputElement>)} aria-label={c}></Button>
                         ))}
                     </div>
                 </div>
                  <div className="w-full">
+                    <h3 className="text-xl font-bold mb-4">Tints</h3>
+                    <div className="flex flex-wrap gap-2">
+                        {tints.map(tint => (
+                             <Button key={tint} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: tint}} onClick={() => handleHexChange({ target: { value: tint } } as React.ChangeEvent<HTMLInputElement>)} aria-label={tint}></Button>
+                        ))}
+                    </div>
+                </div>
+                <div className="w-full">
                     <h3 className="text-xl font-bold mb-4">Shades</h3>
                     <div className="flex flex-wrap gap-2">
                         {shades.map(shade => (
-                             <Button key={shade} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => setColor(shade)} aria-label={shade}></Button>
+                             <Button key={shade} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => handleHexChange({ target: { value: shade } } as React.ChangeEvent<HTMLInputElement>)} aria-label={shade}></Button>
                         ))}
                     </div>
                 </div>
@@ -190,3 +286,4 @@ export default function ColorPickerPage() {
     </div>
   );
 }
+
