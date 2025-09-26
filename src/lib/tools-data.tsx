@@ -380,6 +380,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <LinkIcon className="w-8 h-8 text-primary" />,
         href: '/tools/text/permalink-generator',
       },
+       {
+        title: 'Text Case Converter',
+        description: 'Convert text between different letter cases.',
+        icon: <CaseSensitive className="w-8 h-8 text-primary" />,
+        href: '/tools/text/case-converter',
+      },
     ]
   },
   'calculator-tools': {

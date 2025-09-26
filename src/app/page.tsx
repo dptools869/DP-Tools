@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -22,6 +22,12 @@ const categories = [
     description: 'Resize, crop, convert, and edit your images in seconds.',
     icon: <ImageIcon className="w-12 h-12 text-primary" />,
     href: '/image-tools',
+  },
+  {
+    title: 'Text & SEO Tools',
+    description: 'A collection of tools to analyze and manipulate text.',
+    icon: <CaseSensitive className="w-12 h-12 text-primary" />,
+    href: '/text-tools',
   },
   {
     title: 'Calculator Tools',
