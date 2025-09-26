@@ -488,6 +488,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
         icon: <Thermometer className="w-8 h-8 text-primary" />,
         href: '/tools/unit-converter/temperature',
+      },
+      {
+        title: 'Cooking Measurement Converter',
+        description: 'Convert between cups, tablespoons, ml, grams, and more.',
+        icon: <Scale className="w-8 h-8 text-primary" />,
+        href: '/tools/unit-converter/cooking',
       }
     ],
   },
