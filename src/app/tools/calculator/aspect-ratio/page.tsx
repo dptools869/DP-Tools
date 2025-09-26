@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AspectRatio, ArrowRight, X } from 'lucide-react';
+import { Ratio, ArrowRight, X } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { Button } from '@/components/ui/button';
 
@@ -54,7 +54,7 @@ export default function AspectRatioCalculatorPage() {
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <AspectRatio className="w-10 h-10 text-primary" />
+                <Ratio className="w-10 h-10 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">Aspect Ratio Calculator</CardTitle>
               <CardDescription className="text-lg">

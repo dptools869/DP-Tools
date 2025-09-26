@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, AspectRatio } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -215,7 +215,7 @@ export const toolsData: Record<string, ToolCategory> = {
        {
         title: 'Aspect Ratio Calculator',
         description: 'Calculate the dimensions of an image to fit a specific aspect ratio.',
-        icon: <AspectRatio className="w-8 h-8 text-primary" />,
+        icon: <Ratio className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/aspect-ratio',
       },
       {
