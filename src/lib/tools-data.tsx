@@ -16,6 +16,17 @@ export interface ToolCategory {
   tools: Tool[];
 }
 
+const YarnIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-primary">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+        <path d="M15.5 15.5c-2-2-5-2.5-7.5-1.5"/>
+        <path d="M20 10c-.5-5-4.5-9-9.5-9"/>
+        <path d="M4 14c.5 5 4.5 9 9.5 9"/>
+        <path d="M16 4.5c-3 3-6 4-8.5 3.5"/>
+        <path d="M8 19.5c3-3 6-4 8.5-3.5"/>
+    </svg>
+)
+
 export const toolsData: Record<string, ToolCategory> = {
   'pdf-tools': {
     title: 'PDF Tools',
@@ -416,6 +427,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Measure your reading speed in Words Per Minute.',
         icon: <Timer className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/reading-speed',
+      },
+      {
+        title: 'Stitch Counter',
+        description: 'A simple counter for knitting and crochet projects.',
+        icon: <YarnIcon />,
+        href: '/tools/calculator/stitch-counter',
       },
       {
         title: 'BMI Calculator',
