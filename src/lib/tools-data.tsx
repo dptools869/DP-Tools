@@ -416,6 +416,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Percent className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/discount',
       },
+       {
+        title: 'Hourly to Salary Converter',
+        description: 'Convert your hourly wage to weekly, monthly, and annual salary.',
+        icon: <Landmark className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/hourly-to-salary',
+      },
       {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',
