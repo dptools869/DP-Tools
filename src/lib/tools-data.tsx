@@ -336,8 +336,8 @@ export const toolsData: Record<string, ToolCategory> = {
     ],
   },
   'calculator-tools': {
-    title: 'Calculator Tools',
-    description: 'A variety of calculators for your financial, health, and everyday needs.',
+    title: 'Calculator & Unit Converter Tools',
+    description: 'A variety of calculators and unit converters for your financial, health, and everyday needs.',
     tools: [
        {
         title: 'Age Calculator',
@@ -441,12 +441,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Baby className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/due-date',
       },
-    ],
-  },
-  'unit-converter-tools': {
-    title: 'Unit Converter Tools',
-    description: 'A collection of converters for length, weight, temperature, and more.',
-    tools: [
       {
         title: 'Length Converter',
         description: 'Convert between meters, feet, inches, and other units of length.',
@@ -466,5 +460,5 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/unit-converter/temperature',
       }
     ],
-  }
+  },
 };
