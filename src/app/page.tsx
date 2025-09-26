@@ -1,10 +1,11 @@
 
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -39,6 +40,12 @@ const categories = [
     description: 'Explore colors, get codes, and create palettes for your projects.',
     icon: <Palette className="w-12 h-12 text-primary" />,
     href: '/tools/image/color-picker',
+  },
+  {
+    title: 'Circle Crop Tool',
+    description: 'Crop your images into a perfect circle for profiles and logos.',
+    icon: <Crop className="w-12 h-12 text-primary" />,
+    href: '/tools/image/circle-crop',
   }
 ];
 
