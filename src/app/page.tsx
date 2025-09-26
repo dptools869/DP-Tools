@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -28,6 +28,12 @@ const categories = [
     icon: <Calculator className="w-12 h-12 text-primary" />,
     href: '/calculator-tools',
   },
+  {
+    title: 'Thumbnail Preview',
+    description: 'See how your video thumbnails will look on different platforms.',
+    icon: <View className="w-12 h-12 text-primary" />,
+    href: '/thumbnail-preview',
+  }
 ];
 
 const youtubeVideos = [
