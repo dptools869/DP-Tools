@@ -535,6 +535,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert between cups, tablespoons, ml, grams, and more.',
         icon: <Scale className="w-8 h-8 text-primary" />,
         href: '/tools/unit-converter/cooking',
+      },
+      {
+        title: 'Breakeven Point Calculator',
+        description: 'Determine the sales volume needed to cover your costs.',
+        icon: <Calculator className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/breakeven-point',
       }
     ],
   },
