@@ -67,12 +67,12 @@ function generateShades(hex: string, count = 10) {
     const shades = [];
     for (let i = 0; i < count; i++) {
         const factor = i / (count - 1);
-        const r = Math.round(rgb.r * (1-factor) + 255 * factor);
-        const g = Math.round(rgb.g * (1-factor) + 255 * factor);
-        const b = Math.round(rgb.b * (1-factor) + 255 * factor);
+        const r = Math.round(rgb.r * (1 - factor));
+        const g = Math.round(rgb.g * (1 - factor));
+        const b = Math.round(rgb.b * (1 - factor));
         shades.push(rgbToHex(r, g, b));
     }
-    return shades.reverse();
+    return shades;
 }
 
 function generateTints(hex: string, count = 10) {
@@ -81,9 +81,9 @@ function generateTints(hex: string, count = 10) {
     const tints = [];
     for (let i = 0; i < count; i++) {
         const factor = i / (count-1);
-        const r = Math.round(rgb.r * (1-factor));
-        const g = Math.round(rgb.g * (1-factor));
-        const b = Math.round(rgb.b * (1-factor));
+        const r = Math.round(rgb.r + (255 - rgb.r) * factor);
+        const g = Math.round(rgb.g + (255 - rgb.g) * factor);
+        const b = Math.round(rgb.b + (255 - rgb.b) * factor);
         tints.push(rgbToHex(r, g, b));
     }
     return tints;
@@ -94,6 +94,7 @@ export default function ColorPickerPage() {
     const [hue, setHue] = useState(145);
     const [saturation, setSaturation] = useState(100);
     const [lightness, setLightness] = useState(39);
+    const isDraggingRef = useRef(false);
     
     const { toast } = useToast();
 
@@ -127,7 +128,7 @@ export default function ColorPickerPage() {
     }
     
     const rgb = useMemo(() => hexToRgb(color), [color]);
-    const hsl = useMemo(() => rgb ? rgbToHsl(rgb.r, rgb.g, rgb.b) : null, [rgb]);
+    const hsl = useMemo(() => ({h: hue, s: saturation, l: lightness}), [hue, saturation, lightness]);
     const tints = useMemo(() => generateTints(color), [color]);
     const shades = useMemo(() => generateShades(color), [color]);
     
@@ -159,21 +160,76 @@ export default function ColorPickerPage() {
         }
     }, [hue]);
 
-    const handleSaturationLightnessPick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        const canvas = e.currentTarget;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    const updateColorFromPosition = (e: React.PointerEvent<HTMLCanvasElement> | PointerEvent) => {
+        const canvas = saturationCanvasRef.current;
+        if (!canvas) return;
 
-        const newSaturation = Math.round((x / canvas.width) * 100);
-        const newLightness = Math.round(100 - (y / canvas.height) * 100);
+        const rect = canvas.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        x = Math.max(0, Math.min(canvas.width, x));
+        y = Math.max(0, Math.min(canvas.height, y));
         
+        const ctx = canvas.getContext('2d');
+        if(ctx) {
+            const imageData = ctx.getImageData(x, y, 1, 1).data;
+            const { h, s, l } = rgbToHsl(imageData[0], imageData[1], imageData[2]);
+            setSaturation(s);
+            setLightness(l);
+        }
+    };
+    
+    const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+        isDraggingRef.current = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+        updateColorFromPosition(e);
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+        if(isDraggingRef.current) {
+            updateColorFromPosition(e);
+        }
+    };
+
+    const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
+        isDraggingRef.current = false;
+        e.currentTarget.releasePointerCapture(e.pointerId);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
+        let newSaturation = saturation;
+        let newLightness = lightness;
+        const step = 1;
+    
+        switch (e.key) {
+          case 'ArrowLeft':
+            newSaturation = Math.max(0, saturation - step);
+            e.preventDefault();
+            break;
+          case 'ArrowRight':
+            newSaturation = Math.min(100, saturation + step);
+            e.preventDefault();
+            break;
+          case 'ArrowUp':
+            newLightness = Math.min(100, lightness + step);
+            e.preventDefault();
+            break;
+          case 'ArrowDown':
+            newLightness = Math.max(0, lightness - step);
+            e.preventDefault();
+            break;
+          default:
+            return;
+        }
+    
         setSaturation(newSaturation);
         setLightness(newLightness);
     };
 
-    const pickerX = (saturation / 100) * 288;
-    const pickerY = (1 - (lightness / 100)) * 200;
+
+    const pickerX = (saturation / 100) * (saturationCanvasRef.current?.width || 0);
+    const pickerY = (1 - (lightness / 100)) * (saturationCanvasRef.current?.height || 0);
   
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -194,10 +250,19 @@ export default function ColorPickerPage() {
           <Card>
               <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col items-center gap-4">
-                     <div className="w-full h-52 relative cursor-crosshair" onMouseDown={handleSaturationLightnessPick}>
+                     <div
+                        className="w-full h-52 relative cursor-crosshair focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={handlePointerUp}
+                        onKeyDown={handleKeyDown}
+                        tabIndex={0}
+                        role="slider"
+                        aria-label="Color saturation and lightness picker"
+                     >
                         <canvas ref={saturationCanvasRef} width={288} height={200} className="w-full h-full rounded-md border" />
                          <div
-                            className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg"
+                            className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg pointer-events-none"
                             style={{
                                 left: `${pickerX - 8}px`,
                                 top: `${pickerY - 8}px`,
@@ -206,8 +271,8 @@ export default function ColorPickerPage() {
                         />
                      </div>
                      <div className="w-full space-y-2">
-                        <Label>Hue</Label>
-                        <Input type="range" min="0" max="360" value={hue} onChange={(e) => setHue(parseInt(e.target.value))} className="w-full h-2 p-0 rounded-lg appearance-none cursor-pointer" style={{ background: 'linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)'}} />
+                        <Label htmlFor="hue-slider">Hue</Label>
+                        <Input id="hue-slider" type="range" min="0" max="360" value={hue} onChange={(e) => setHue(parseInt(e.target.value))} className="w-full h-2 p-0 rounded-lg appearance-none cursor-pointer" style={{ background: 'linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)'}} />
                      </div>
                      <div className="h-24 w-full rounded-lg border-2 border-border" style={{ backgroundColor: color }}></div>
                 </div>
@@ -286,4 +351,3 @@ export default function ColorPickerPage() {
     </div>
   );
 }
-
