@@ -441,6 +441,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/calculator/hourly-to-salary',
       },
       {
+        title: 'Freelance Rate Calculator',
+        description: 'Determine your minimum hourly rate to meet financial goals.',
+        icon: <Landmark className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/freelance-rate',
+      },
+      {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
