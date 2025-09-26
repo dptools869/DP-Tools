@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop, Link as LinkIcon } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -363,6 +363,24 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/jpg-to-png',
       },
     ],
+  },
+  'text-tools': {
+    title: 'Text & SEO Tools',
+    description: 'Optimize your text and improve your search engine rankings.',
+    tools: [
+      {
+        title: 'Word Counter',
+        description: 'Count words and characters in your text.',
+        icon: <CaseSensitive className="w-8 h-8 text-primary" />,
+        href: '/tools/calculator/word-counter',
+      },
+      {
+        title: 'Permalink Generator',
+        description: 'Create clean, SEO-friendly URLs.',
+        icon: <LinkIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/text/permalink-generator',
+      },
+    ]
   },
   'calculator-tools': {
     title: 'Calculator & Unit Converter Tools',

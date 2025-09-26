@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -52,6 +52,12 @@ const categories = [
     description: 'Calculate image dimensions for a specific aspect ratio.',
     icon: <Ratio className="w-12 h-12 text-primary" />,
     href: '/tools/calculator/aspect-ratio',
+  },
+  {
+    title: 'Permalink Generator',
+    description: 'Create clean, SEO-friendly URLs for your blog posts and pages.',
+    icon: <LinkIcon className="w-12 h-12 text-primary" />,
+    href: '/tools/text/permalink-generator',
   }
 ];
 
