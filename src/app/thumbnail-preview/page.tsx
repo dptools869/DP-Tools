@@ -30,14 +30,14 @@ const PreviewCard: React.FC<{ title: string; children: React.ReactNode; icon: Re
       {icon}
       <h3 className="font-semibold text-sm">{title}</h3>
     </div>
-    <div className="p-4">{children}</div>
+    <div className="p-4 flex justify-center">{children}</div>
   </div>
 );
 
 const WebHomeLargePreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
   const metadata = useSampleMetadata(seed);
   return (
-    <div className="max-w-sm">
+    <div className="w-full max-w-md">
       <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg aspect-video object-cover" />
       <div className="flex gap-3 pt-3">
         <div className="w-9 h-9 rounded-full bg-muted mt-1 flex-shrink-0"></div>
@@ -55,10 +55,10 @@ const WebHomeLargePreview = ({ image, title, seed }: { image: string, title: str
 const WebHomeSmallPreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
   const metadata = useSampleMetadata(seed);
   return (
-    <div className="max-w-xs">
+    <div className="w-full max-w-sm">
       <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg aspect-video object-cover" />
       <div className="flex gap-3 pt-2">
-        <div className="w-9 h-9 rounded-full bg-muted mt-1 flex-shrink-0"></div>
+        <div className="w-8 h-8 rounded-full bg-muted mt-1 flex-shrink-0"></div>
         <div className="flex-grow">
           <h4 className="font-semibold text-sm line-clamp-2 leading-snug">{title || "Your Awesome Video Title"}</h4>
           <p className="text-xs text-muted-foreground mt-1">Your Channel</p>
@@ -72,12 +72,12 @@ const WebHomeSmallPreview = ({ image, title, seed }: { image: string, title: str
 const SidebarPreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
   const metadata = useSampleMetadata(seed);
   return (
-    <div className="flex gap-2 max-w-sm">
+    <div className="flex gap-2 w-full max-w-xs">
       <div className="w-40 flex-shrink-0">
         <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-md aspect-video object-cover" />
       </div>
       <div className="flex-grow">
-        <h4 className="font-bold text-sm line-clamp-2 leading-tight">{title || "Your Awesome Video Title"}</h4>
+        <h4 className="font-bold text-xs line-clamp-2 leading-tight">{title || "Your Awesome Video Title"}</h4>
         <p className="text-xs text-muted-foreground mt-1">Your Channel</p>
         <p className="text-xs text-muted-foreground">{metadata}</p>
       </div>
@@ -88,7 +88,7 @@ const SidebarPreview = ({ image, title, seed }: { image: string, title: string, 
 const ChannelPageGridPreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
     const metadata = useSampleMetadata(seed);
     return (
-      <div className="max-w-[210px]">
+      <div className="w-full max-w-xs">
         <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg aspect-video object-cover" />
         <div className="pt-2">
           <h4 className="font-semibold text-sm line-clamp-2 leading-snug">{title || "Your Awesome Video Title"}</h4>
@@ -101,8 +101,8 @@ const ChannelPageGridPreview = ({ image, title, seed }: { image: string, title: 
 const HistoryListPreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
     const metadata = useSampleMetadata(seed);
     return (
-      <div className="flex gap-4 max-w-lg">
-        <div className="w-48 flex-shrink-0">
+      <div className="flex gap-4 w-full max-w-lg">
+        <div className="w-56 flex-shrink-0">
           <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg aspect-video object-cover" />
         </div>
         <div className="flex-grow">
@@ -117,7 +117,7 @@ const HistoryListPreview = ({ image, title, seed }: { image: string, title: stri
 const MobileHomePreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
     const metadata = useSampleMetadata(seed);
     return (
-        <div className="bg-background max-w-[360px] mx-auto rounded-md border">
+        <div className="bg-background max-w-sm mx-auto rounded-md border w-full">
             <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto aspect-video object-cover"/>
             <div className="flex gap-3 p-3">
                 <div className="w-9 h-9 rounded-full bg-muted mt-1 flex-shrink-0"></div>
@@ -133,11 +133,11 @@ const MobileHomePreview = ({ image, title, seed }: { image: string, title: strin
 
 const AppleTVPreview = ({ image, title }: { image: string, title: string }) => {
     return (
-        <div className="relative aspect-video max-w-md rounded-lg overflow-hidden bg-muted">
+        <div className="relative aspect-video w-full max-w-xl rounded-lg overflow-hidden bg-muted">
             <Image src={image} alt="Thumbnail" layout="fill" objectFit="cover" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                <h4 className="font-bold text-xl text-white shadow-lg line-clamp-2">{title || "Your Awesome Video Title"}</h4>
-                <p className="text-sm text-white/80 shadow-md mt-1">Your Channel</p>
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                <h4 className="font-bold text-2xl text-white shadow-lg line-clamp-2">{title || "Your Awesome Video Title"}</h4>
+                <p className="text-base text-white/80 shadow-md mt-1">Your Channel</p>
             </div>
         </div>
     );
@@ -145,7 +145,7 @@ const AppleTVPreview = ({ image, title }: { image: string, title: string }) => {
 
 const OriginalImagePreview = ({ image }: { image: string }) => {
     return (
-        <div className="max-w-md">
+        <div className="w-full max-w-2xl">
             <Image src={image} alt="Original Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg border-2" />
             <p className="text-center text-sm text-muted-foreground mt-2">Original size: 1280 × 720 px</p>
         </div>
@@ -257,14 +257,15 @@ export default function ThumbnailPreviewPage() {
           {image && (
             <div className="mt-12">
               <h2 className="text-2xl font-bold font-headline mb-6 text-center">Thumbnail Previews</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                 <PreviewCard title="Web - Home Feed (Large)" icon={<Monitor className="w-4 h-4"/>}><WebHomeLargePreview image={image} title={title} seed="seed1" /></PreviewCard>
-                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="seed2" /></PreviewCard>
-                 <PreviewCard title="Web - Channel Page" icon={<Monitor className="w-4 h-4"/>}><ChannelPageGridPreview image={image} title={title} seed="seed3" /></PreviewCard>
-                 <PreviewCard title="Web - History/List View" icon={<History className="w-4 h-4"/>}><HistoryListPreview image={image} title={title} seed="seed4" /></PreviewCard>
-                 <PreviewCard title="Mobile - Home Feed" icon={<Smartphone className="w-4 h-4"/>}><MobileHomePreview image={image} title={title} seed="seed5" /></PreviewCard>
-                 <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
+              <div className="grid grid-cols-1 gap-8">
                  <PreviewCard title="Original Image" icon={<ImageIcon className="w-4 h-4"/>}><OriginalImagePreview image={image} /></PreviewCard>
+                 <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
+                 <PreviewCard title="Web - Channel Page (Large)" icon={<Monitor className="w-4 h-4"/>}><WebHomeLargePreview image={image} title={title} seed="seed1" /></PreviewCard>
+                 <PreviewCard title="Web - History/List View" icon={<History className="w-4 h-4"/>}><HistoryListPreview image={image} title={title} seed="seed4" /></PreviewCard>
+                 <PreviewCard title="Web - Home Feed (Small)" icon={<Monitor className="w-4 h-4"/>}><WebHomeSmallPreview image={image} title={title} seed="seed2" /></PreviewCard>
+                 <PreviewCard title="Mobile - Home Feed" icon={<Smartphone className="w-4 h-4"/>}><MobileHomePreview image={image} title={title} seed="seed5" /></PreviewCard>
+                 <PreviewCard title="Web - Channel Page (Small Grid)" icon={<Monitor className="w-4 h-4"/>}><ChannelPageGridPreview image={image} title={title} seed="seed3" /></PreviewCard>
+                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="seed2" /></PreviewCard>
               </div>
             </div>
           )}
