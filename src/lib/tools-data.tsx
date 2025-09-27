@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop, Link as LinkIcon, Bolt } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop, Link as LinkIcon, Bolt, UserPlus } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -385,6 +385,12 @@ export const toolsData: Record<string, ToolCategory> = {
         description: 'Convert text between different letter cases.',
         icon: <CaseSensitive className="w-8 h-8 text-primary" />,
         href: '/tools/text/case-converter',
+      },
+      {
+        title: 'Nickname Generator',
+        description: 'Generate creative and unique nicknames.',
+        icon: <UserPlus className="w-8 h-8 text-primary" />,
+        href: '/tools/text/nickname-generator',
       },
     ]
   },

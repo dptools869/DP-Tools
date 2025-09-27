@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -70,6 +70,12 @@ const categories = [
     description: 'Estimate your electricity usage and cost.',
     icon: <Bolt className="w-12 h-12 text-primary" />,
     href: '/tools/calculator/energy-consumption',
+  },
+  {
+    title: 'Nickname Generator',
+    description: 'Generate creative and unique nicknames.',
+    icon: <UserPlus className="w-12 h-12 text-primary" />,
+    href: '/tools/text/nickname-generator',
   }
 ];
 
