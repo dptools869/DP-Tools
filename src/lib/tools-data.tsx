@@ -392,6 +392,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <UserPlus className="w-8 h-8 text-primary" />,
         href: '/tools/text/nickname-generator',
       },
+      {
+        title: 'Email Extractor',
+        description: 'Extract email addresses from text.',
+        icon: <Mail className="w-8 h-8 text-primary" />,
+        href: '/tools/text/email-extractor',
+      },
     ]
   },
   'calculator-tools': {

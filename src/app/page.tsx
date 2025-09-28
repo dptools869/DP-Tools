@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -76,6 +76,12 @@ const categories = [
     description: 'Generate creative and unique nicknames.',
     icon: <UserPlus className="w-12 h-12 text-primary" />,
     href: '/tools/text/nickname-generator',
+  },
+  {
+    title: 'Email Extractor',
+    description: 'Extract email addresses from any text.',
+    icon: <Mail className="w-12 h-12 text-primary" />,
+    href: '/tools/text/email-extractor',
   }
 ];
 
