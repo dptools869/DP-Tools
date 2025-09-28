@@ -1,8 +1,8 @@
 import AdBanner from "@/components/ad-banner";
 import { RecommendedVideo } from "@/components/recommended-video";
-import { ToolCard } from "@/components/tool-card";
 import { toolsData } from "@/lib/tools-data.tsx";
 import { AlertCircle } from "lucide-react";
+import { CalculatorToolsClient } from "./client";
 
 export default function CalculatorToolsPage() {
   const category = toolsData['calculator-tools'];
@@ -22,24 +22,7 @@ export default function CalculatorToolsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         {/* Main Content */}
         <main className="lg:col-span-3">
-          <header className="mb-12 text-center lg:text-left">
-            <h1 className="text-4xl lg:text-5xl font-bold font-headline text-primary">{category.title}</h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0">{category.description}</p>
-          </header>
-
-          <AdBanner type="top-banner" className="mb-12" />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {category.tools.map((tool) => (
-              <ToolCard
-                key={tool.title}
-                title={tool.title}
-                description={tool.description}
-                icon={tool.icon}
-                href={tool.href}
-              />
-            ))}
-          </div>
+          <CalculatorToolsClient category={category} />
 
           <section className="mt-16">
             <h2 className="text-3xl font-bold font-headline mb-6 text-center lg:text-left">Recommended Tutorial</h2>
