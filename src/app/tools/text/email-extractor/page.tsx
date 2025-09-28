@@ -46,7 +46,7 @@ export default function EmailExtractorPage() {
         a.click();
         URL.revokeObjectURL(url);
     }
-  }
+  };
 
   const clearText = () => {
     setInputText('');
@@ -103,7 +103,7 @@ export default function EmailExtractorPage() {
               <li><strong>Paste Your Text:</strong> Copy the text from which you want to extract email addresses and paste it into the input box.</li>
               <li><strong>Instant Results:</strong> The tool will automatically process the text and display all unique email addresses it finds in the results box.</li>
               <li><strong>Copy or Download:</strong> You can then use the "Copy All" button to copy the list to your clipboard or download it as a simple text file.</li>
-            </ul>
+            </ol>
             <p>This tool is invaluable for marketers creating mailing lists, researchers gathering contact information, or anyone who needs to quickly compile a list of email addresses from unstructured text. It's fast, free, and does all the work on your device, ensuring your data remains private.</p>
           </article>
 
