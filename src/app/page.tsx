@@ -157,7 +157,7 @@ export default function Home() {
                 ))}
               </div>
               <div className="text-center">
-                <Button asChild size="lg" className="bg-blue-500 hover:bg-blue-600 text-white">
+                <Button asChild size="lg">
                   <Link href="#" target="_blank" rel="noopener noreferrer">
                     <Send className="mr-2 h-5 w-5" />
                     Join our Telegram Channel
