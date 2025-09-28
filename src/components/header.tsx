@@ -17,7 +17,6 @@ const navLinks = [
   { label: 'PDF Tools', href: '/pdf-tools' },
   { label: 'Image Tools', href: '/image-tools' },
   { label: 'Calculator Tools', href: '/calculator-tools' },
-  { label: 'Thumbnail Preview', href: '/thumbnail-preview' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
