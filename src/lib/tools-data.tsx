@@ -339,6 +339,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/ai-to-png',
       },
       {
+        title: 'AI to WEBP',
+        description: 'Convert Adobe Illustrator files to WEBP images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/ai-to-webp',
+      },
+      {
         title: 'Circle Crop Tool',
         description: 'Crop your images into a perfect circle.',
         icon: <Crop className="w-8 h-8 text-primary" />,
