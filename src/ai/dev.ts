@@ -53,3 +53,4 @@ import '@/ai/flows/gif-to-jpg.ts';
 import '@/ai/flows/heic-to-jpg.ts';
 import '@/ai/flows/ai-to-png.ts';
 import '@/ai/flows/ai-to-webp.ts';
+import '@/ai/flows/webp-to-svg.ts';

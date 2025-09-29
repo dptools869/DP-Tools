@@ -344,6 +344,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <ImageIcon className="w-8 h-8 text-primary" />,
         href: '/tools/image/ai-to-webp',
       },
+       {
+        title: 'WEBP to SVG',
+        description: 'Convert WEBP images to SVG format.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/webp-to-svg',
+      },
       {
         title: 'Circle Crop Tool',
         description: 'Crop your images into a perfect circle.',
