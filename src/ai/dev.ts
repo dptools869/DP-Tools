@@ -50,3 +50,4 @@ import '@/ai/flows/bmp-to-pdf.ts';
 import '@/ai/flows/epub-to-jpg.ts';
 import '@/ai/flows/gif-to-jpg.ts';
 import '@/ai/flows/heic-to-jpg.ts';
+import '@/ai/flows/ai-to-png.ts';

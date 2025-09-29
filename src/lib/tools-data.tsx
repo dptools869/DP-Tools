@@ -333,6 +333,12 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/image/heic-to-jpg',
       },
       {
+        title: 'AI to PNG',
+        description: 'Convert Adobe Illustrator files to PNG images.',
+        icon: <ImageIcon className="w-8 h-8 text-primary" />,
+        href: '/tools/image/ai-to-png',
+      },
+      {
         title: 'Circle Crop Tool',
         description: 'Crop your images into a perfect circle.',
         icon: <Crop className="w-8 h-8 text-primary" />,
