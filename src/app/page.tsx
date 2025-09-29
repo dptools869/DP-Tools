@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -42,6 +42,12 @@ const categories = [
     href: '/calculator-tools',
   },
   {
+    title: 'Internet Speed Checker',
+    description: 'Test your internet download and upload speed.',
+    icon: <Wifi className="w-12 h-12 text-primary" />,
+    href: '/tools/internet-speed-checker',
+  },
+   {
     title: 'Facebook Password Generator',
     description: 'Generate strong, secure passwords for your social media accounts.',
     icon: <KeyRound className="w-12 h-12 text-primary" />,
