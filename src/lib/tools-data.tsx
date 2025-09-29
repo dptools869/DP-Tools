@@ -398,6 +398,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Mail className="w-8 h-8 text-primary" />,
         href: '/tools/text/email-extractor',
       },
+      {
+        title: 'Facebook Password Generator',
+        description: 'Generate strong, secure passwords for your social media accounts.',
+        icon: <KeyRound className="w-8 h-8 text-primary" />,
+        href: '/tools/text/facebook-password-generator',
+      },
     ]
   },
   'calculator-tools': {
