@@ -404,6 +404,12 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <KeyRound className="w-8 h-8 text-primary" />,
         href: '/tools/text/facebook-password-generator',
       },
+      {
+        title: 'Instagram Password Generator',
+        description: 'Create strong passwords to protect your Instagram account.',
+        icon: <KeyRound className="w-8 h-8 text-primary" />,
+        href: '/tools/text/instagram-password-generator',
+      },
     ]
   },
   'calculator-tools': {

@@ -47,6 +47,12 @@ const categories = [
     icon: <KeyRound className="w-12 h-12 text-primary" />,
     href: '/tools/text/facebook-password-generator',
   },
+  {
+    title: 'Instagram Password Generator',
+    description: 'Create strong and unique passwords to protect your Instagram account.',
+    icon: <KeyRound className="w-12 h-12 text-primary" />,
+    href: '/tools/text/instagram-password-generator',
+  },
    {
     title: 'Color Picker',
     description: 'Explore colors, get codes, and create palettes for your projects.',
