@@ -118,13 +118,10 @@ export default function Home() {
       <section className="relative h-[60vh] w-full flex items-center justify-center text-center text-white overflow-hidden bg-gradient-to-br from-green-900 via-card to-black">
         <div className="relative z-10 flex flex-col items-center gap-4 p-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight font-headline animate-fade-in-down">
-            The Ultimate Suite of Online Tools
+            DP Tools – Smart, Simple & Free Online Tools
           </h1>
           <p className="max-w-2xl text-xl md:text-2xl text-foreground/80 animate-fade-in-up">
-            From <span className="text-green-400">PDFs</span> and <span className="text-blue-400">Images</span> to everyday calculations.
-          </p>
-          <p className="max-w-2xl text-md md:text-lg text-muted-foreground animate-fade-in-up animation-delay-300">
-            Fast, reliable, and smart utilities for all your digital needs.
+            Get quick access to calculators, PDF tools, and image utilities. Stay tuned – we’re expanding with new tools every month.
           </p>
         </div>
       </section>
