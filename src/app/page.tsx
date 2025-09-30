@@ -167,9 +167,9 @@ export default function Home() {
               </div>
               <div className="text-center">
                 <Button asChild size="lg">
-                  <Link href="#" target="_blank" rel="noopener noreferrer">
-                    <Send className="mr-2 h-5 w-5" />
-                    Join our Telegram Channel
+                  <Link href="https://linktr.ee/DIGITAL_PIYUSH" target="_blank" rel="noopener noreferrer">
+                    <Mail className="mr-2 h-5 w-5" />
+                    Contact Us
                   </Link>
                 </Button>
               </div>
