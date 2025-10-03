@@ -203,7 +203,7 @@ export default function DjvuToPdfPage() {
             <p>Our DJVU to PDF converter provides a simple solution for converting DjVu files, a format known for its high compression of scanned documents, into the universally accessible PDF format. This tool is essential for anyone who encounters DjVu files and needs to view, share, or archive them in a more common format. Whether you're a researcher working with digital libraries or a student with old textbooks, our tool makes your documents more accessible.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2 id="how-it-works">How Does DJVU to PDF Conversion Work?</h2>
-            <p>The conversion process is designed for ease of use. When you upload a DJVU file, our system uses an advanced rendering engine to interpret the file's content, including text and images. It then reconstructs this content into a high-quality PDF document, preserving the original layout and quality. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
+            <p>The process is designed for ease of use. When you upload a DJVU file, our system uses an advanced rendering engine to interpret the file's content, including text and images. It then reconstructs this content into a high-quality PDF document, preserving the original layout and quality. We prioritize your privacy; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
               <li><strong>High-Quality Conversion:</strong> Retains the clarity and layout of your original DjVu document.</li>
