@@ -48,7 +48,6 @@ const pdfToTextFlow = ai.defineFlow(
     }
 
     try {
-      // Decode Base64 PDF
       const base64Data = input.pdfDataUri.split(';base64,').pop();
       if (!base64Data) {
         throw new Error('Invalid PDF data URI.');
@@ -83,14 +82,13 @@ const pdfToTextFlow = ai.defineFlow(
 
       const convertedFile = convertResult.Files[0];
       
-      // Download Text content from URL
       const textResponse = await fetch(convertedFile.Url);
       if (!textResponse.ok) {
         throw new Error(`Failed to download converted text file from ${convertedFile.Url}`);
       }
 
       const textContent = await textResponse.text();
-      const textBase64 = Buffer.from(textContent).toString('base64');
+      const textBase64 = Buffer.from(textContent, 'utf-8').toString('base64');
       const textDataUri = `data:text/plain;base64,${textBase64}`;
 
       return {
