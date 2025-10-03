@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -53,7 +54,7 @@ const htmlToPdfFlow = ai.defineFlow(
       }
 
       const htmlBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/\.[^/.]+$/, '') + '.pdf';
+      const outputFileName = input.fileName.replace(/\.[^/.]+$/, '.pdf');
 
       // Use built-in FormData (no external form-data lib needed)
       const formData = new FormData();
@@ -80,16 +81,16 @@ const htmlToPdfFlow = ai.defineFlow(
         throw new Error('Conversion result did not contain any files.');
       }
 
-      const pdfFileUrl = convertResult.Files[0].Url;
+      const convertedFile = convertResult.Files[0];
 
-      // Download PDF
-      const pdfResponse = await fetch(pdfFileUrl);
+      // Download PDF from URL
+      const pdfResponse = await fetch(convertedFile.Url);
       if (!pdfResponse.ok) {
-        throw new Error(`Failed to download converted PDF file from ${pdfFileUrl}`);
+        throw new Error(`Failed to download converted PDF file from ${convertedFile.Url}`);
       }
 
-      const pdfBuffer = await pdfResponse.arrayBuffer();
-      const pdfBase64 = Buffer.from(pdfBuffer).toString('base64');
+      const pdfArrayBuffer = await pdfResponse.arrayBuffer();
+      const pdfBase64 = Buffer.from(pdfArrayBuffer).toString('base64');
       const pdfDataUri = `data:application/pdf;base64,${pdfBase64}`;
 
       return {
