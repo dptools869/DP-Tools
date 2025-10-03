@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -10,7 +11,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import JSZip from 'jszip';
 
 // ----------- Schemas -----------
 const SplitPdfInputSchema = z.object({
@@ -23,9 +23,13 @@ const SplitPdfInputSchema = z.object({
 });
 export type SplitPdfInput = z.infer<typeof SplitPdfInputSchema>;
 
+const PdfFileSchema = z.object({
+    fileName: z.string(),
+    pdfDataUri: z.string(),
+});
+
 const SplitPdfOutputSchema = z.object({
-  zipDataUri: z.string().describe('The split PDF files as a zipped data URI.'),
-  fileName: z.string().describe('The name of the output ZIP file.'),
+  files: z.array(PdfFileSchema).describe('The array of split PDF files.'),
   fileCount: z.number().describe('The number of files generated.')
 });
 export type SplitPdfOutput = z.infer<typeof SplitPdfOutputSchema>;
@@ -54,8 +58,7 @@ const splitPdfFlow = ai.defineFlow(
       }
 
       const pdfBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.pdf)$/i, '-split.zip');
-
+      
       const formData = new FormData();
       formData.append('File', new Blob([pdfBuffer], { type: 'application/pdf' }), input.fileName);
       formData.append('StoreFile', 'true');
@@ -79,29 +82,28 @@ const splitPdfFlow = ai.defineFlow(
         throw new Error('Conversion result did not contain any files.');
       }
       
-      const zip = new JSZip();
-
-      for (const file of convertResult.Files) {
-        const fileUrl = file.Url;
-        const fileName = file.FileName;
-        
-        const fileResponse = await fetch(fileUrl);
-        if (!fileResponse.ok) {
-            console.warn(`Could not download file: ${fileName} from ${fileUrl}`);
-            continue;
-        }
-        const fileArrayBuffer = await fileResponse.arrayBuffer();
-        zip.file(fileName, fileArrayBuffer);
-      }
-
-      const zipBuffer = await zip.generateAsync({type:"nodebuffer"});
-      const zipBase64 = zipBuffer.toString('base64');
-      const zipDataUri = `data:application/zip;base64,${zipBase64}`;
+      const outputFiles = await Promise.all(
+        convertResult.Files.map(async (file: { Url: string, FileName: string }) => {
+          const fileResponse = await fetch(file.Url);
+          if (!fileResponse.ok) {
+            console.warn(`Could not download file: ${file.FileName} from ${file.Url}`);
+            return null;
+          }
+          const fileArrayBuffer = await fileResponse.arrayBuffer();
+          const fileBase64 = Buffer.from(fileArrayBuffer).toString('base64');
+          const fileDataUri = `data:application/pdf;base64,${fileBase64}`;
+          return {
+            fileName: file.FileName,
+            pdfDataUri: fileDataUri,
+          };
+        })
+      );
+      
+      const successfulFiles = outputFiles.filter(Boolean) as { fileName: string, pdfDataUri: string }[];
 
       return {
-        zipDataUri,
-        fileName: outputFileName,
-        fileCount: convertResult.Files.length
+        files: successfulFiles,
+        fileCount: successfulFiles.length,
       };
     } catch (error) {
       console.error('Error splitting PDF:', error);

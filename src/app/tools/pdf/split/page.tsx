@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Split, Loader2, Download } from 'lucide-react';
+import { UploadCloud, FileCheck, Split, Loader2, Download, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { splitPdf, SplitPdfOutput } from '@/ai/flows/split-pdf';
 import AdBanner from '@/components/ad-banner';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function SplitPdfPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -109,15 +110,13 @@ export default function SplitPdfPage() {
     }
   };
 
-  const downloadZip = () => {
-    if (splitResult) {
-      const link = document.createElement('a');
-      link.href = splitResult.zipDataUri;
-      link.download = splitResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const downloadFile = (pdfDataUri: string, fileName: string) => {
+    const link = document.createElement('a');
+    link.href = pdfDataUri;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const resetTool = () => {
@@ -175,26 +174,34 @@ export default function SplitPdfPage() {
               )}
 
               {splitResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
-                    <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Split Successful!</AlertTitle>
-                    <AlertDescription>
-                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2">
-                           <p className="font-semibold text-center sm:text-left">
-                                {splitResult.fileCount} file(s) zipped in <span className="font-bold">{splitResult.fileName}</span>.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                <Button onClick={downloadZip} size="sm" className="bg-primary hover:bg-primary/90">
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download ZIP
-                                </Button>
-                                <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>
-                                    Split Another
-                                </Button>
-                            </div>
+                 <div className="space-y-4">
+                    <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
+                        <FileCheck className="h-5 w-5 text-current" />
+                        <AlertTitle className="font-bold">Split Successful!</AlertTitle>
+                        <AlertDescription>
+                           Your PDF has been split into {splitResult.fileCount} separate files.
+                        </AlertDescription>
+                    </Alert>
+                     <ScrollArea className="h-72 w-full rounded-md border p-4">
+                        <div className="space-y-2">
+                            {splitResult.files.map((splitFile, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+                                    <div className="flex items-center gap-2 overflow-hidden">
+                                        <FileText className="h-5 w-5 flex-shrink-0 text-primary" />
+                                        <span className="text-sm font-medium truncate">{splitFile.fileName}</span>
+                                    </div>
+                                    <Button size="sm" onClick={() => downloadFile(splitFile.pdfDataUri, splitFile.fileName)}>
+                                        <Download className="mr-2 h-4 w-4" />
+                                        Download
+                                    </Button>
+                                </div>
+                            ))}
                         </div>
-                    </AlertDescription>
-                </Alert>
+                     </ScrollArea>
+                     <Button onClick={resetTool} variant="outline" className="w-full">
+                        Split Another PDF
+                    </Button>
+                 </div>
               )}
             </CardContent>
             <CardFooter>
@@ -207,12 +214,12 @@ export default function SplitPdfPage() {
             <p>Our PDF Splitter tool provides a simple and efficient way to break down large PDF documents into individual pages. Whether you need to extract a single page, separate chapters of a book, or divide a report into sections, this tool gives you the power to manage your documents with precision. This is essential for anyone who needs to reorganize, share, or archive specific parts of a PDF file without sending the entire document.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2>How Does PDF Splitting Work?</h2>
-            <p>The process is incredibly straightforward. Simply upload your PDF file, and our tool will automatically separate each page into its own individual PDF document. For your convenience, all the newly created files are then bundled together into a single ZIP archive, making it easy to download them all at once. Our tool handles the entire process securely and efficiently, ensuring your data is protected and the results are delivered quickly.</p>
+            <p>The process is incredibly straightforward. Simply upload your PDF file, and our tool will automatically separate each page into its own individual PDF document. For your convenience, all the newly created files are then displayed in a list, making it easy to download them one by one. Our tool handles the entire process securely and efficiently, ensuring your data is protected and the results are delivered quickly.</p>
             <h3>Key Benefits of Using Our PDF Splitter</h3>
             <ul>
                 <li><strong>Extract Every Page:</strong> Instantly convert each page of your PDF into a separate file.</li>
                 <li><strong>Easy to Use:</strong> A simple drag-and-drop interface makes the process quick and painless. No complex options to configure.</li>
-                <li><strong>Convenient Download:</strong> All your split files are delivered in a single ZIP file, saving you the hassle of downloading them one by one.</li>
+                <li><strong>Convenient Download:</strong> All your split files are provided in a clear list for individual downloads.</li>
                 <li><strong>Secure and Private:</strong> We prioritize your privacy. All uploaded and processed files are encrypted and automatically deleted from our servers after a short period.</li>
                 <li><strong>Completely Free:</strong> Split as many PDFs as you need without any cost, subscriptions, or limitations.</li>
             </ul>
