@@ -17,7 +17,7 @@ const PdfToPptxInputSchema = z.object({
   pdfDataUri: z
     .string()
     .describe(
-      "The PDF file content as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:application/pdf;base64,<encoded_data>'."
+      "The PDF file content as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:application/pdf;base64,<encoded_data>'"
     ),
   fileName: z.string().describe('The name of the original PDF file.'),
 });
