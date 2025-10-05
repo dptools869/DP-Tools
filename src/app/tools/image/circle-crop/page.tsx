@@ -64,22 +64,39 @@ export default function CircleCropPage() {
 
   const handleCrop = () => {
     if (cropperRef.current) {
-      setIsCropping(true);
-      const canvas = cropperRef.current.getCanvas();
-      if (canvas) {
-        setCroppedImage(canvas.toDataURL());
-        toast({
-          title: 'Crop Successful',
-          description: 'Your circular image is ready.',
-        });
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Cropping Failed',
-          description: 'Could not get the cropped image.',
-        });
-      }
-      setIsCropping(false);
+        setIsCropping(true);
+        const cropper = cropperRef.current;
+        const canvas = cropper.getCanvas();
+        if (canvas) {
+            const outputCanvas = document.createElement('canvas');
+            const outputContext = outputCanvas.getContext('2d');
+            const { width, height } = cropper.getCoordinates();
+
+            outputCanvas.width = width;
+            outputCanvas.height = height;
+
+            if (outputContext) {
+                outputContext.beginPath();
+                outputContext.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
+                outputContext.closePath();
+                outputContext.clip();
+                outputContext.drawImage(canvas, 0, 0);
+                
+                setCroppedImage(outputCanvas.toDataURL('image/png'));
+
+                toast({
+                    title: 'Crop Successful',
+                    description: 'Your circular image is ready.',
+                });
+            }
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Cropping Failed',
+                description: 'Could not get the cropped image.',
+            });
+        }
+        setIsCropping(false);
     }
   };
 
