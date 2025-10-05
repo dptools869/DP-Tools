@@ -160,7 +160,7 @@ export default function ColorPickerPage() {
         }
     }, [hue]);
 
-    const updateColorFromPosition = (e: React.PointerEvent<HTMLCanvasElement> | PointerEvent) => {
+    const updateColorFromPosition = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
         const canvas = saturationCanvasRef.current;
         if (!canvas) return;
 
@@ -178,7 +178,7 @@ export default function ColorPickerPage() {
             setSaturation(s);
             setLightness(l);
         }
-    };
+    }, []);
     
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = true;
@@ -196,37 +196,6 @@ export default function ColorPickerPage() {
         isDraggingRef.current = false;
         e.currentTarget.releasePointerCapture(e.pointerId);
     };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
-        let newSaturation = saturation;
-        let newLightness = lightness;
-        const step = 1;
-    
-        switch (e.key) {
-          case 'ArrowLeft':
-            newSaturation = Math.max(0, saturation - step);
-            e.preventDefault();
-            break;
-          case 'ArrowRight':
-            newSaturation = Math.min(100, saturation + step);
-            e.preventDefault();
-            break;
-          case 'ArrowUp':
-            newLightness = Math.min(100, lightness + step);
-            e.preventDefault();
-            break;
-          case 'ArrowDown':
-            newLightness = Math.max(0, lightness - step);
-            e.preventDefault();
-            break;
-          default:
-            return;
-        }
-    
-        setSaturation(newSaturation);
-        setLightness(newLightness);
-    };
-
 
     const pickerX = (saturation / 100) * (saturationCanvasRef.current?.width || 0);
     const pickerY = (1 - (lightness / 100)) * (saturationCanvasRef.current?.height || 0);
@@ -255,8 +224,6 @@ export default function ColorPickerPage() {
                         onPointerDown={handlePointerDown}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
-                        onKeyDown={handleKeyDown}
-                        tabIndex={0}
                         role="slider"
                         aria-label="Color saturation and lightness picker"
                      >
@@ -266,7 +233,8 @@ export default function ColorPickerPage() {
                             style={{
                                 left: `${pickerX - 8}px`,
                                 top: `${pickerY - 8}px`,
-                                backgroundColor: color
+                                backgroundColor: color,
+                                transform: 'translate(-50%, -50%)',
                             }}
                         />
                      </div>
