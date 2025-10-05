@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFoo
 import { Bolt, Plus, Trash2, RefreshCw } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Appliance = {
   id: number;
@@ -26,9 +27,43 @@ const defaultAppliances: Omit<Appliance, 'id'>[] = [
     { name: 'Lights', power: '15', quantity: '5', hours: '6' },
 ];
 
+const CURRENCIES = [
+    {"code": "INR", "symbol": "₹", "name": "Indian Rupee"},
+    {"code": "USD", "symbol": "$", "name": "US Dollar"},
+    {"code": "EUR", "symbol": "€", "name": "Euro"},
+    {"code": "GBP", "symbol": "£", "name": "British Pound"},
+    {"code": "PKR", "symbol": "₨", "name": "Pakistani Rupee"},
+    {"code": "CAD", "symbol": "C$", "name": "Canadian Dollar"},
+    {"code": "AUD", "symbol": "A$", "name": "Australian Dollar"},
+    {"code": "JPY", "symbol": "¥", "name": "Japanese Yen"},
+    {"code": "CNY", "symbol": "¥", "name": "Chinese Yuan"},
+    {"code": "SAR", "symbol": "﷼", "name": "Saudi Riyal"},
+    {"code": "AED", "symbol": "د.إ", "name": "UAE Dirham"},
+    {"code": "CHF", "symbol": "Fr", "name": "Swiss Franc"},
+    {"code": "SGD", "symbol": "S$", "name": "Singapore Dollar"},
+    {"code": "KRW", "symbol": "₩", "name": "South Korean Won"},
+    {"code": "ZAR", "symbol": "R", "name": "South African Rand"},
+    {"code": "NZD", "symbol": "NZ$", "name": "New Zealand Dollar"},
+    {"code": "TRY", "symbol": "₺", "name": "Turkish Lira"},
+    {"code": "RUB", "symbol": "₽", "name": "Russian Ruble"},
+    {"code": "HKD", "symbol": "HK$", "name": "Hong Kong Dollar"},
+    {"code": "SEK", "symbol": "kr", "name": "Swedish Krona"},
+    {"code": "NOK", "symbol": "kr", "name": "Norwegian Krone"},
+    {"code": "DKK", "symbol": "kr", "name": "Danish Krone"},
+    {"code": "THB", "symbol": "฿", "name": "Thai Baht"},
+    {"code": "MYR", "symbol": "RM", "name": "Malaysian Ringgit"},
+    {"code": "IDR", "symbol": "Rp", "name": "Indonesian Rupiah"},
+    {"code": "EGP", "symbol": "E£", "name": "Egyptian Pound"},
+    {"code": "NGN", "symbol": "₦", "name": "Nigerian Naira"},
+    {"code": "BDT", "symbol": "৳", "name": "Bangladeshi Taka"},
+    {"code": "PHP", "symbol": "₱", "name": "Philippine Peso"},
+    {"code": "ARS", "symbol": "$", "name": "Argentine Peso"},
+];
+
 export default function EnergyCalculatorPage() {
   const [appliances, setAppliances] = useState<Appliance[]>(defaultAppliances.map((a, i) => ({ ...a, id: i + 1 })));
-  const [rate, setRate] = useState('3.35'); // Default rate in Rupees
+  const [rate, setRate] = useState('3.35'); // Default rate
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
 
   const handleApplianceChange = (id: number, field: keyof Omit<Appliance, 'id'>, value: string) => {
     setAppliances(appliances.map(app => app.id === id ? { ...app, [field]: value } : app));
@@ -45,6 +80,12 @@ export default function EnergyCalculatorPage() {
   const resetAll = () => {
       setAppliances(defaultAppliances.map((a, i) => ({ ...a, id: i + 1 })));
       setRate('3.35');
+      setCurrency(CURRENCIES[0]);
+  }
+
+  const handleCurrencyChange = (code: string) => {
+      const selectedCurrency = CURRENCIES.find(c => c.code === code) || CURRENCIES[0];
+      setCurrency(selectedCurrency);
   }
 
   const { detailedConsumption, totals } = useMemo(() => {
@@ -101,7 +142,14 @@ export default function EnergyCalculatorPage() {
                 <div className='space-y-2'>
                     <Label htmlFor="rate-input">Electricity Rate (per unit/kWh)</Label>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-semibold">₹</span>
+                      <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                          <SelectTrigger className="w-[100px]">
+                              <SelectValue placeholder="Select Currency" />
+                          </SelectTrigger>
+                          <SelectContent>
+                              {CURRENCIES.map(c => <SelectItem key={c.code} value={c.code}>{c.code} ({c.symbol})</SelectItem>)}
+                          </SelectContent>
+                      </Select>
                       <Input id="rate-input" type="number" value={rate} onChange={e => setRate(e.target.value)} className="w-32" />
                     </div>
                 </div>
@@ -157,7 +205,7 @@ export default function EnergyCalculatorPage() {
                                 <TableHead>Appliance</TableHead>
                                 <TableHead className="text-right">Daily Units (kWh)</TableHead>
                                 <TableHead className="text-right">Monthly Units (kWh)</TableHead>
-                                <TableHead className="text-right">Monthly Cost (₹)</TableHead>
+                                <TableHead className="text-right">Monthly Cost ({currency.symbol})</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -175,7 +223,7 @@ export default function EnergyCalculatorPage() {
                                 <TableCell>Total</TableCell>
                                 <TableCell className="text-right">{totals.dailyKWh.toFixed(2)}</TableCell>
                                 <TableCell className="text-right">{totals.monthlyKWh.toFixed(2)}</TableCell>
-                                <TableCell className="text-right text-primary">₹{totals.monthlyCost.toFixed(2)}</TableCell>
+                                <TableCell className="text-right text-primary">{currency.symbol}{totals.monthlyCost.toFixed(2)}</TableCell>
                             </TableRow>
                         </TableFoot>
                     </Table>
