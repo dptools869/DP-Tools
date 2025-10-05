@@ -1,147 +1,191 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Copyright, Loader2, Download } from 'lucide-react';
+import { UploadCloud, FileCheck, Copyright, Loader2, Download, RefreshCw, Image as ImageIcon, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { watermarkPdf, WatermarkPdfOutput } from '@/ai/flows/watermark-pdf';
 import AdBanner from '@/components/ad-banner';
+import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
+import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+type WatermarkType = 'text' | 'image';
+type Position = 'topLeft' | 'topCenter' | 'topRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight';
 
 export default function WatermarkPdfPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [watermarkText, setWatermarkText] = useState('');
+  const [pdfBytes, setPdfBytes] = useState<ArrayBuffer | null>(null);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
+  
+  const [watermarkType, setWatermarkType] = useState<WatermarkType>('text');
+  const [text, setText] = useState('CONFIDENTIAL');
+  const [font, setFont] = useState(StandardFonts.Helvetica);
+  const [fontSize, setFontSize] = useState(50);
+  const [color, setColor] = useState('#000000');
+  const [opacity, setOpacity] = useState(0.3);
+  const [rotation, setRotation] = useState(0);
+
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageBytes, setImageBytes] = useState<ArrayBuffer | null>(null);
+  const [imageOpacity, setImageOpacity] = useState(0.5);
+  const [imageSize, setImageSize] = useState(150);
+
+  const [position, setPosition] = useState<Position>('bottomCenter');
+  const [fromPage, setFromPage] = useState('');
+  const [toPage, setToPage] = useState('');
+
   const [isProcessing, setIsProcessing] = useState(false);
-  const [processResult, setProcessResult] = useState<WatermarkPdfOutput | null>(null);
-  const [fileName, setFileName] = useState('');
+  const [finalPdfUrl, setFinalPdfUrl] = useState<string | null>(null);
+  
   const { toast } = useToast();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => {
+      setPdfBytes(reader.result as ArrayBuffer);
+      const blob = new Blob([reader.result as ArrayBuffer], { type: 'application/pdf' });
+      setPdfPreviewUrl(URL.createObjectURL(blob));
+    };
+    return () => {
+      if (pdfPreviewUrl) URL.revokeObjectURL(pdfPreviewUrl);
+      if (finalPdfUrl) URL.revokeObjectURL(finalPdfUrl);
+    }
+  }, [file]);
+
+  useEffect(() => {
+    if (!imageFile) return;
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(imageFile);
+    reader.onload = () => setImageBytes(reader.result as ArrayBuffer);
+  }, [imageFile]);
+
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'pdf' | 'image') => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type === 'application/pdf') {
+      if (type === 'pdf' && selectedFile.type === 'application/pdf') {
         setFile(selectedFile);
-        setFileName(selectedFile.name);
-        setProcessResult(null);
+      } else if (type === 'image' && selectedFile.type.startsWith('image/')) {
+        setImageFile(selectedFile);
       } else {
-        toast({
-          variant: 'destructive',
-          title: 'Invalid File Type',
-          description: 'Please upload a PDF file (.pdf).',
-        });
-        event.target.value = '';
+        toast({ variant: 'destructive', title: 'Invalid File Type' });
       }
+      event.target.value = '';
     }
   };
 
-  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-  };
-
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && droppedFile.type === 'application/pdf') {
-      setFile(droppedFile);
-      setProcessResult(null);
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Invalid File Type',
-        description: 'Please drop a PDF file (.pdf).',
-      });
-    }
-  };
-
-  const processFile = async () => {
-    if (!file) {
-      toast({
-        variant: 'destructive',
-        title: 'No File Selected',
-        description: 'Please select a PDF file to watermark.',
-      });
+  const processPdf = async () => {
+    if (!pdfBytes) {
+      toast({ variant: 'destructive', title: 'Please upload a PDF.' });
       return;
     }
-    if (!watermarkText.trim()) {
-      toast({
-        variant: 'destructive',
-        title: 'Watermark Text Required',
-        description: 'Please enter the text for the watermark.',
-      });
+    if (watermarkType === 'image' && !imageBytes) {
+      toast({ variant: 'destructive', title: 'Please upload a watermark image.' });
       return;
     }
-
     setIsProcessing(true);
-    setProcessResult(null);
 
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64File = reader.result as string;
-        try {
-          const result = await watermarkPdf({ 
-            pdfDataUri: base64File, 
-            fileName: file.name, 
-            watermarkText 
-          });
-          setProcessResult(result);
-          toast({
-            title: 'Watermark Applied Successfully',
-            description: 'Your watermarked PDF is ready for download.',
-          });
-        } catch (error) {
-           toast({
-            variant: 'destructive',
-            title: 'Processing Failed',
-            description: `An error occurred during watermarking. ${error instanceof Error ? error.message : ''}`,
-          });
-        } finally {
-            setIsProcessing(false);
-        }
-      };
-      reader.onerror = () => {
-        setIsProcessing(false);
-        toast({
-            variant: 'destructive',
-            title: 'File Read Error',
-            description: 'Could not read the selected file.',
-          });
-      }
-    } catch (error) {
-      setIsProcessing(false);
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: `An unexpected error occurred. ${error instanceof Error ? error.message : ''}`,
-      });
-    }
-  };
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const pages = pdfDoc.getPages();
+      
+      const startPage = fromPage ? parseInt(fromPage) - 1 : 0;
+      const endPage = toPage ? parseInt(toPage) - 1 : pages.length - 1;
 
-  const downloadPdf = () => {
-    if (processResult) {
-      const link = document.createElement('a');
-      link.href = processResult.pdfDataUri;
-      link.download = processResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      for (let i = startPage; i <= endPage && i < pages.length; i++) {
+        const page = pages[i];
+        const { width, height } = page.getSize();
+
+        if (watermarkType === 'text') {
+          const fontObj = await pdfDoc.embedFont(font);
+          const textWidth = fontObj.widthOfTextAtSize(text, fontSize);
+          const textHeight = fontObj.heightAtSize(fontSize);
+          
+          let x, y;
+          const margin = 20;
+
+          switch (position) {
+            case 'topLeft': x = margin; y = height - textHeight - margin; break;
+            case 'topCenter': x = (width - textWidth) / 2; y = height - textHeight - margin; break;
+            case 'topRight': x = width - textWidth - margin; y = height - textHeight - margin; break;
+            case 'bottomLeft': x = margin; y = margin; break;
+            case 'bottomCenter': x = (width - textWidth) / 2; y = margin; break;
+            case 'bottomRight': x = width - textWidth - margin; y = margin; break;
+          }
+
+          page.drawText(text, { x, y, font: fontObj, size: fontSize, color: rgb(...hexToRgb(color).values()), opacity, rotate: degrees(rotation) });
+        } else if (watermarkType === 'image' && imageBytes) {
+          const watermarkImage = await pdfDoc.embedPng(imageBytes);
+          const { width: imgWidth, height: imgHeight } = watermarkImage.scaleToFit(imageSize, imageSize);
+
+          let x, y;
+          const margin = 20;
+
+          switch (position) {
+            case 'topLeft': x = margin; y = height - imgHeight - margin; break;
+            case 'topCenter': x = (width - imgWidth) / 2; y = height - imgHeight - margin; break;
+            case 'topRight': x = width - imgWidth - margin; y = height - imgHeight - margin; break;
+            case 'bottomLeft': x = margin; y = margin; break;
+            case 'bottomCenter': x = (width - imgWidth) / 2; y = margin; break;
+            case 'bottomRight': x = width - imgWidth - margin; y = margin; break;
+          }
+
+          page.drawImage(watermarkImage, { x, y, width: imgWidth, height: imgHeight, opacity: imageOpacity });
+        }
+      }
+
+      const pdfBytesResult = await pdfDoc.save();
+      const blob = new Blob([pdfBytesResult], { type: 'application/pdf' });
+      if (finalPdfUrl) URL.revokeObjectURL(finalPdfUrl);
+      setFinalPdfUrl(URL.createObjectURL(blob));
+      toast({ title: 'Watermark Applied Successfully!' });
+
+    } catch (e) {
+      console.error(e);
+      toast({ variant: 'destructive', title: 'An error occurred.', description: 'Could not process the PDF.' });
+    } finally {
+      setIsProcessing(false);
     }
   };
+  
+  const hexToRgb = (hex: string) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return { r: r / 255, g: g / 255, b: b / 255 };
+  }
 
   const resetTool = () => {
     setFile(null);
-    setFileName('');
-    setWatermarkText('');
+    setPdfBytes(null);
+    if(pdfPreviewUrl) URL.revokeObjectURL(pdfPreviewUrl);
+    setPdfPreviewUrl(null);
+    setWatermarkType('text');
+    setText('CONFIDENTIAL');
+    setFont(StandardFonts.Helvetica);
+    setFontSize(50);
+    setColor('#000000');
+    setOpacity(0.3);
+    setRotation(0);
+    setImageFile(null);
+    setImageBytes(null);
+    setImageOpacity(0.5);
+    setImageSize(150);
+    setPosition('bottomCenter');
+    setFromPage('');
+    setToPage('');
     setIsProcessing(false);
-    setProcessResult(null);
-    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-    if(fileInput) fileInput.value = '';
-  }
+    if(finalPdfUrl) URL.revokeObjectURL(finalPdfUrl);
+    setFinalPdfUrl(null);
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -154,95 +198,87 @@ export default function WatermarkPdfPage() {
               </div>
               <CardTitle className="text-3xl font-headline">Watermark PDF</CardTitle>
               <CardDescription className="text-lg">
-                Add a custom text watermark to protect your PDF documents.
+                Add a text or image watermark to your PDF with advanced customization.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-8 mt-6">
-              {!processResult && (
-                <div className="space-y-6">
-                  <Label
-                    htmlFor="file-upload"
-                    className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                        <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PDF file here'}
-                        </span>
-                        <span className="text-muted-foreground">or click to browse</span>
+            <CardContent className="mt-6">
+              {!file ? (
+                <Label htmlFor="pdf-upload" className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 cursor-pointer">
+                  <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <span className="mt-2 block text-sm font-semibold text-foreground">Drag & drop a PDF file or click to upload</span>
+                  <Input id="pdf-upload" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'pdf')} accept=".pdf" />
+                </Label>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <Tabs value={watermarkType} onValueChange={(v) => setWatermarkType(v as WatermarkType)}>
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="text"><FileText className="w-4 h-4 mr-2"/>Text Watermark</TabsTrigger>
+                        <TabsTrigger value="image"><ImageIcon className="w-4 h-4 mr-2"/>Image Watermark</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="text" className="pt-4 space-y-4">
+                        <div className="space-y-2"><Label>Text</Label><Input value={text} onChange={(e) => setText(e.target.value)} /></div>
+                        <div className="space-y-2"><Label>Font Family</Label>
+                          <Select value={font} onValueChange={(v) => setFont(v as StandardFonts)}>
+                            <SelectTrigger><SelectValue/></SelectTrigger>
+                            <SelectContent>
+                              {Object.values(StandardFonts).map(f => <SelectItem key={f} value={f}>{f.replace('Helvetica', 'Helvetica ')}</SelectItem>)}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2"><Label>Font Size</Label><Input type="number" value={fontSize} onChange={(e) => setFontSize(parseInt(e.target.value, 10))} /></div>
+                          <div className="space-y-2"><Label>Color</Label><Input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="p-1 h-10"/></div>
+                        </div>
+                        <div className="space-y-2"><Label>Opacity ({Math.round(opacity * 100)}%)</Label><Slider value={[opacity]} onValueChange={([v]) => setOpacity(v)} min={0} max={1} step={0.01} /></div>
+                        <div className="space-y-2"><Label>Rotation ({rotation}°)</Label><Slider value={[rotation]} onValueChange={([v]) => setRotation(v)} min={0} max={360} step={1} /></div>
+                      </TabsContent>
+                      <TabsContent value="image" className="pt-4 space-y-4">
+                         {!imageFile ? (
+                           <Label htmlFor="image-upload" className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 text-center hover:border-primary/50 cursor-pointer">
+                              <UploadCloud className="mx-auto h-8 w-8 text-muted-foreground" />
+                              <span className="mt-2 block text-sm font-semibold text-foreground">Upload Watermark Image</span>
+                              <Input id="image-upload" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'image')} accept="image/png,image/jpeg" />
+                           </Label>
+                          ) : (
+                              <div className="text-center text-sm p-2 bg-muted rounded-md">{imageFile.name}</div>
+                          )}
+                        <div className="space-y-2"><Label>Size</Label><Slider value={[imageSize]} onValueChange={([v]) => setImageSize(v)} min={50} max={1000} step={10} /></div>
+                        <div className="space-y-2"><Label>Opacity ({Math.round(imageOpacity * 100)}%)</Label><Slider value={[imageOpacity]} onValueChange={([v]) => setImageOpacity(v)} min={0} max={1} step={0.01} /></div>
+                      </TabsContent>
+                    </Tabs>
+                    <div className="space-y-2"><Label>Watermark Position</Label>
+                      <div className="grid grid-cols-3 gap-2">
+                          {(['topLeft', 'topCenter', 'topRight', 'bottomLeft', 'bottomCenter', 'bottomRight'] as Position[]).map(p => (
+                              <Button key={p} variant={position === p ? 'default' : 'outline'} onClick={() => setPosition(p)} className="capitalize text-xs h-10">{p.replace(/([A-Z])/g, ' $1').trim()}</Button>
+                          ))}
+                      </div>
                     </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isProcessing} />
-                  </Label>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="watermark-text">Watermark Text</Label>
-                    <Input 
-                      id="watermark-text"
-                      type="text"
-                      placeholder="e.g., CONFIDENTIAL, DRAFT, %PAGE%/%PAGES%"
-                      value={watermarkText}
-                      onChange={(e) => setWatermarkText(e.target.value)}
-                      disabled={isProcessing}
-                    />
-                    <p className="text-xs text-muted-foreground">Use variables like %PAGE%, %PAGES%, %DATE%, %TIME%.</p>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2"><Label>From Page</Label><Input type="number" placeholder="Start" value={fromPage} onChange={e => setFromPage(e.target.value)} /></div>
+                        <div className="space-y-2"><Label>To Page</Label><Input type="number" placeholder="End" value={toPage} onChange={e => setToPage(e.target.value)} /></div>
+                    </div>
+                     <div className="flex flex-col sm:flex-row gap-2 pt-4">
+                       <Button onClick={processPdf} disabled={isProcessing} className="w-full">
+                         {isProcessing ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Applying Watermark...</> : 'Generate PDF'}
+                       </Button>
+                       <Button onClick={resetTool} variant="outline" className="w-full">
+                         <RefreshCw className="mr-2 h-4 w-4" /> Reset
+                       </Button>
+                     </div>
                   </div>
-
-                   <Button onClick={processFile} className="w-full text-lg py-6" size="lg" disabled={!file || !watermarkText.trim() || isProcessing}>
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                        Applying Watermark...
-                      </>
-                    ) : (
-                      'Add Watermark'
-                    )}
-                  </Button>
+                  
+                  <div className="space-y-4">
+                    <Label>Preview</Label>
+                    <div className="h-[600px] border rounded-lg bg-muted/30">
+                       {pdfPreviewUrl && <iframe src={finalPdfUrl || pdfPreviewUrl} className="w-full h-full" title="PDF Preview"/>}
+                    </div>
+                    {finalPdfUrl && <Button onClick={() => downloadPdf()} className="w-full"><Download className="mr-2"/>Download Watermarked PDF</Button>}
+                  </div>
                 </div>
               )}
-
-              {processResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
-                    <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Watermark Applied!</AlertTitle>
-                    <AlertDescription className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
-                       <p className="text-center sm:text-left">Your file <span className="font-semibold">{processResult.fileName}</span> is ready.</p>
-                        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                             <Button onClick={downloadPdf} size="sm" className="bg-primary hover:bg-primary/90">
-                                <Download className="mr-2 h-4 w-4" />
-                                Download PDF
-                            </Button>
-                             <Button onClick={resetTool} size="sm" variant="outline" className="bg-background/80">
-                                Watermark Another
-                            </Button>
-                        </div>
-                    </AlertDescription>
-                </Alert>
-              )}
             </CardContent>
-            <CardFooter>
-                <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
-            </CardFooter>
           </Card>
-
-          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Protect Your Documents with a Custom Watermark</h2>
-            <p>Adding a watermark to your PDF is a simple yet effective way to protect your intellectual property, assert ownership, or indicate the status of a document. Our Watermark PDF tool allows you to easily add custom text watermarks to your files. Whether you need to mark a document as a "DRAFT," label it "CONFIDENTIAL," or add your company name or copyright notice, this tool provides a quick and secure solution.</p>
-            <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How Does PDF Watermarking Work?</h2>
-            <p>The process is straightforward. First, you upload the PDF document you wish to watermark. Next, you enter the desired text for your watermark in the input field. You can use dynamic variables like <code>%PAGE%</code> for the current page number, <code>%PAGES%</code> for the total number of pages, or <code>%DATE%</code> for the current date. When you click the "Add Watermark" button, our tool overlays the text onto each page of your PDF. The service offers various customization options such as font, size, color, and position to ensure the watermark meets your needs without obscuring the original content. The result is a new, watermarked PDF that is ready for you to download.</p>
-            <h3>Key Benefits of Using Our Watermark PDF Tool</h3>
-            <ul>
-              <li><strong>Protect Your Content:</strong> Discourage unauthorized use and distribution of your documents by clearly marking them with your ownership details.</li>
-              <li><strong>Indicate Document Status:</strong> Use watermarks like "DRAFT," "SAMPLE," or "CONFIDENTIAL" to prevent misuse of non-final or sensitive documents.</li>
-              <li><strong>Dynamic Text:</strong> Automatically insert page numbers, dates, and other information into your watermark.</li>
-              <li><strong>Easy and Fast:</strong> The simple interface allows you to upload a file, enter your text, and get your watermarked PDF in seconds.</li>
-              <li><strong>Secure Processing:</strong> Your files are always handled over a secure, encrypted connection and are deleted from our servers after processing to ensure your privacy.</li>
-              <li><strong>Free to Use:</strong> Add watermarks to as many PDF files as you need, completely free of charge.</li>
-            </ul>
-            <p>Using a "PDF watermark tool" is a crucial step in professional document management. It adds a layer of security and context to your files, ensuring they are handled correctly by recipients. Our free "online watermark tool" is the perfect solution for anyone needing to quickly and reliably add text watermarks to their PDFs.</p>
-          </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
 
