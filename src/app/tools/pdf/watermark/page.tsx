@@ -111,6 +111,7 @@ export default function WatermarkPdfPage() {
           
           let x, y;
           const margin = 20;
+          const rgbColor = hexToRgb(color);
 
           switch (position) {
             case 'topLeft': x = margin; y = height - textHeight - margin; break;
@@ -121,7 +122,7 @@ export default function WatermarkPdfPage() {
             case 'bottomRight': x = width - textWidth - margin; y = margin; break;
           }
 
-          page.drawText(text, { x, y, font: fontObj, size: fontSize, color: rgb(...hexToRgb(color).values()), opacity, rotate: degrees(rotation) });
+          page.drawText(text, { x, y, font: fontObj, size: fontSize, color: rgb(rgbColor.r, rgbColor.g, rgbColor.b), opacity, rotate: degrees(rotation) });
         } else if (watermarkType === 'image' && imageBytes) {
           const watermarkImage = await pdfDoc.embedPng(imageBytes);
           const { width: imgWidth, height: imgHeight } = watermarkImage.scaleToFit(imageSize, imageSize);
