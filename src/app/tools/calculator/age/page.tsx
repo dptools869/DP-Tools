@@ -27,7 +27,6 @@ export default function AgeCalculatorPage() {
   const [day, setDay] = useState<string>('');
   const [month, setMonth] = useState<string>('');
   const [year, setYear] = useState<string>('');
-  const [dob, setDob] = useState<Date | null>(null);
 
   const [result, setResult] = useState<{
     years: number;
@@ -62,7 +61,6 @@ export default function AgeCalculatorPage() {
     }
 
     setError(null);
-    setDob(dateOfBirth);
 
     const today = new Date();
     
@@ -75,15 +73,15 @@ export default function AgeCalculatorPage() {
 
     // Totals
     const totalDays = differenceInDays(today, dateOfBirth);
-    const totalWeeks = differenceInWeeks(today, dateOfBirth);
+    const totalWeeks = Math.floor(totalDays / 7);
     const totalMonths = differenceInMonths(today, dateOfBirth);
     
     // Next Birthday
     let nextBirthdayDate = new Date(today.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
     if (today > nextBirthdayDate) {
-        nextBirthdayDate = new Date(today.getFullYear() + 1, dateOfBirth.getMonth(), dateOfBirth.getDate());
+        nextBirthdayDate.setFullYear(today.getFullYear() + 1);
     }
-    const nextBirthday = differenceInDays(nextBirthdayDate, today);
+    const nextBirthdayInDays = differenceInDays(nextBirthdayDate, today);
 
     setResult({
       years,
@@ -92,7 +90,7 @@ export default function AgeCalculatorPage() {
       totalMonths,
       totalWeeks,
       totalDays,
-      nextBirthday
+      nextBirthday: nextBirthdayInDays,
     });
   }, [day, month, year]);
 
@@ -143,7 +141,7 @@ export default function AgeCalculatorPage() {
                 </div>
                 {error && <p className="text-sm text-destructive">{error}</p>}
                 <Button onClick={handleCalculate} className="w-full sm:w-auto">Calculate Age</Button>
-                {result && dob && (
+                {result && (
                   <div className="pt-6 text-center border-t mt-6 space-y-8">
                       <div>
                         <Label className="text-lg">Your Age Is</Label>
