@@ -164,6 +164,17 @@ export default function WatermarkPdfPage() {
     return { r: r / 255, g: g / 255, b: b / 255 };
   }
 
+  const downloadPdf = () => {
+    if (finalPdfUrl) {
+      const link = document.createElement('a');
+      link.href = finalPdfUrl;
+      link.download = file?.name.replace('.pdf', '-watermarked.pdf') || 'watermarked.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const resetTool = () => {
     setFile(null);
     setPdfBytes(null);
@@ -274,7 +285,7 @@ export default function WatermarkPdfPage() {
                     <div className="h-[600px] border rounded-lg bg-muted/30">
                        {pdfPreviewUrl && <iframe src={finalPdfUrl || pdfPreviewUrl} className="w-full h-full" title="PDF Preview"/>}
                     </div>
-                    {finalPdfUrl && <Button onClick={() => downloadPdf()} className="w-full"><Download className="mr-2"/>Download Watermarked PDF</Button>}
+                    {finalPdfUrl && <Button onClick={downloadPdf} className="w-full"><Download className="mr-2"/>Download Watermarked PDF</Button>}
                   </div>
                 </div>
               )}
@@ -287,7 +298,16 @@ export default function WatermarkPdfPage() {
         
         <aside className="space-y-8 lg:sticky top-24 self-start">
           <AdBanner type="sidebar" />
-          <AdBanner type="sidebar" />
+          <article className="prose prose-sm dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-xl prose-h2:text-primary prose-a:text-primary">
+            <h2>How to Watermark a PDF</h2>
+            <p>Our tool helps you add a text or image watermark to your PDF to protect your copyright or indicate the document's status (e.g., "DRAFT," "CONFIDENTIAL").</p>
+            <h3>Tips for Good Watermarking</h3>
+            <ul>
+                <li><strong>Subtlety is key:</strong> Use a low opacity so the watermark doesn't obstruct the main content.</li>
+                <li><strong>Placement:</strong> Diagonal, centered watermarks are common, but placing it in a corner can also be effective.</li>
+                <li><strong>Consistency:</strong> Apply the same watermark to all relevant documents to maintain brand consistency.</li>
+            </ul>
+        </article>
         </aside>
       </div>
     </div>
