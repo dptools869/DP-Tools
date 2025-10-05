@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, FileMinus, Loader2, Download, RefreshCw } from 'lucide-react';
+import { UploadCloud, FileCheck, FileMinus, Loader2, Download, RefreshCw, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PDFDocument } from 'pdf-lib';
 import AdBanner from '@/components/ad-banner';
@@ -303,3 +303,5 @@ export default function DeletePdfPagesPage() {
     </div>
   );
 }
+
+    
