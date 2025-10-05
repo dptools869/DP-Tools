@@ -167,7 +167,8 @@ export default function ColorPickerPage() {
         const rect = canvas.getBoundingClientRect();
         let x = e.clientX - rect.left;
         let y = e.clientY - rect.top;
-
+        
+        // Clamp coordinates to canvas boundaries
         x = Math.max(0, Math.min(canvas.width, x));
         y = Math.max(0, Math.min(canvas.height, y));
         
@@ -175,10 +176,11 @@ export default function ColorPickerPage() {
         if(ctx) {
             const imageData = ctx.getImageData(x, y, 1, 1).data;
             const { h, s, l } = rgbToHsl(imageData[0], imageData[1], imageData[2]);
+            setHue(h); // Hue is constant in this box, but this aligns all HSL values
             setSaturation(s);
             setLightness(l);
         }
-    }, []);
+    }, [setHue, setSaturation, setLightness]);
     
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = true;
@@ -196,9 +198,9 @@ export default function ColorPickerPage() {
         isDraggingRef.current = false;
         e.currentTarget.releasePointerCapture(e.pointerId);
     };
-
-    const pickerX = (saturation / 100) * (saturationCanvasRef.current?.width || 0);
-    const pickerY = (1 - (lightness / 100)) * (saturationCanvasRef.current?.height || 0);
+    
+    const pickerX = saturationCanvasRef.current ? (saturation / 100) * saturationCanvasRef.current.width : 0;
+    const pickerY = saturationCanvasRef.current ? (1 - lightness / 100) * saturationCanvasRef.current.height : 0;
   
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -227,14 +229,13 @@ export default function ColorPickerPage() {
                         role="slider"
                         aria-label="Color saturation and lightness picker"
                      >
-                        <canvas ref={saturationCanvasRef} width={288} height={200} className="w-full h-full rounded-md border" />
+                        <canvas ref={saturationCanvasRef} width={300} height={200} className="w-full h-full rounded-md border" />
                          <div
-                            className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg pointer-events-none"
+                            className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg pointer-events-none -translate-x-1/2 -translate-y-1/2"
                             style={{
-                                left: `${pickerX - 8}px`,
-                                top: `${pickerY - 8}px`,
+                                left: `${pickerX}px`,
+                                top: `${pickerY}px`,
                                 backgroundColor: color,
-                                transform: 'translate(-50%, -50%)',
                             }}
                         />
                      </div>
