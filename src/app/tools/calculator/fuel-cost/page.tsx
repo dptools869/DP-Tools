@@ -9,6 +9,40 @@ import { Label } from '@/components/ui/label';
 import { Fuel } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const CURRENCIES = [
+    {"code": "USD", "symbol": "$", "name": "US Dollar"},
+    {"code": "EUR", "symbol": "€", "name": "Euro"},
+    {"code": "GBP", "symbol": "£", "name": "British Pound"},
+    {"code": "PKR", "symbol": "₨", "name": "Pakistani Rupee"},
+    {"code": "INR", "symbol": "₹", "name": "Indian Rupee"},
+    {"code": "CAD", "symbol": "C$", "name": "Canadian Dollar"},
+    {"code": "AUD", "symbol": "A$", "name": "Australian Dollar"},
+    {"code": "JPY", "symbol": "¥", "name": "Japanese Yen"},
+    {"code": "CNY", "symbol": "¥", "name": "Chinese Yuan"},
+    {"code": "SAR", "symbol": "﷼", "name": "Saudi Riyal"},
+    {"code": "AED", "symbol": "د.إ", "name": "UAE Dirham"},
+    {"code": "CHF", "symbol": "Fr", "name": "Swiss Franc"},
+    {"code": "SGD", "symbol": "S$", "name": "Singapore Dollar"},
+    {"code": "KRW", "symbol": "₩", "name": "South Korean Won"},
+    {"code": "ZAR", "symbol": "R", "name": "South African Rand"},
+    {"code": "NZD", "symbol": "NZ$", "name": "New Zealand Dollar"},
+    {"code": "TRY", "symbol": "₺", "name": "Turkish Lira"},
+    {"code": "RUB", "symbol": "₽", "name": "Russian Ruble"},
+    {"code": "HKD", "symbol": "HK$", "name": "Hong Kong Dollar"},
+    {"code": "SEK", "symbol": "kr", "name": "Swedish Krona"},
+    {"code": "NOK", "symbol": "kr", "name": "Norwegian Krone"},
+    {"code": "DKK", "symbol": "kr", "name": "Danish Krone"},
+    {"code": "THB", "symbol": "฿", "name": "Thai Baht"},
+    {"code": "MYR", "symbol": "RM", "name": "Malaysian Ringgit"},
+    {"code": "IDR", "symbol": "Rp", "name": "Indonesian Rupiah"},
+    {"code": "EGP", "symbol": "E£", "name": "Egyptian Pound"},
+    {"code": "NGN", "symbol": "₦", "name": "Nigerian Naira"},
+    {"code": "BDT", "symbol": "৳", "name": "Bangladeshi Taka"},
+    {"code": "PHP", "symbol": "₱", "name": "Philippine Peso"},
+    {"code": "ARS", "symbol": "$", "name": "Argentine Peso"},
+];
 
 export default function FuelCostCalculatorPage() {
   const [unit, setUnit] = useState('metric');
@@ -23,11 +57,18 @@ export default function FuelCostCalculatorPage() {
   const [efficiencyMpg, setEfficiencyMpg] = useState('');
   const [pricePerGallon, setPricePerGallon] = useState('');
 
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
   const [result, setResult] = useState<{ totalCost: string; currency: string; } | null>(null);
+  
+  const handleCurrencyChange = (code: string) => {
+    const selected = CURRENCIES.find(c => c.code === code);
+    if (selected) {
+      setCurrency(selected);
+    }
+  }
 
   const calculateCost = () => {
     let cost = 0;
-    let currency = '$'; // Assuming dollar, can be made dynamic
 
     if (unit === 'metric') {
       const dist = parseFloat(distanceKm);
@@ -48,7 +89,7 @@ export default function FuelCostCalculatorPage() {
     }
 
     if (cost > 0) {
-      setResult({ totalCost: cost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), currency });
+      setResult({ totalCost: cost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), currency: currency.symbol });
     } else {
       setResult(null);
     }
@@ -72,7 +113,26 @@ export default function FuelCostCalculatorPage() {
 
           <Card>
             <CardHeader>
-              <Tabs defaultValue="metric" onValueChange={(val) => setUnit(val)} className="w-full">
+               <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle>Enter Trip Details</CardTitle>
+                        <CardDescription>Select your units and enter the details below.</CardDescription>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="currency">Currency</Label>
+                        <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                            <SelectTrigger id="currency" className="w-[180px]">
+                                <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {CURRENCIES.map(c => (
+                                    <SelectItem key={c.code} value={c.code}>{c.name} ({c.symbol})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+              <Tabs defaultValue="metric" onValueChange={(val) => setUnit(val)} className="w-full pt-4">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="metric">Metric (km, L/100km)</TabsTrigger>
                   <TabsTrigger value="imperial">Imperial (miles, MPG)</TabsTrigger>
@@ -89,7 +149,7 @@ export default function FuelCostCalculatorPage() {
                         <Input id="consumption-l100km" type="number" placeholder="e.g., 8.5" value={consumptionL100km} onChange={e => setConsumptionL100km(e.target.value)} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="price-liter">Price per Liter ($)</Label>
+                        <Label htmlFor="price-liter">Price per Liter ({currency.symbol})</Label>
                         <Input id="price-liter" type="number" placeholder="e.g., 1.50" value={pricePerLiter} onChange={e => setPricePerLiter(e.target.value)} />
                       </div>
                     </div>
@@ -105,7 +165,7 @@ export default function FuelCostCalculatorPage() {
                         <Input id="efficiency-mpg" type="number" placeholder="e.g., 25" value={efficiencyMpg} onChange={e => setEfficiencyMpg(e.target.value)} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="price-gallon">Price per Gallon ($)</Label>
+                        <Label htmlFor="price-gallon">Price per Gallon ({currency.symbol})</Label>
                         <Input id="price-gallon" type="number" placeholder="e.g., 3.75" value={pricePerGallon} onChange={e => setPricePerGallon(e.target.value)} />
                       </div>
                     </div>
