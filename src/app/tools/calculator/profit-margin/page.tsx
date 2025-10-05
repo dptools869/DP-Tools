@@ -6,13 +6,37 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Percent } from 'lucide-react';
+import { Percent, Banknote } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const CURRENCIES = [
+    { code: 'USD', symbol: '$', name: 'US Dollar' },
+    { code: 'EUR', symbol: '€', name: 'Euro' },
+    { code: 'GBP', symbol: '£', name: 'British Pound' },
+    { code: 'PKR', symbol: '₨', name: 'Pakistani Rupee' },
+    { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+    { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+    { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+    { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+    { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+    { code: 'SAR', symbol: '﷼', name: 'Saudi Riyal' },
+    { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham' },
+    { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
+    { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
+    { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+    { code: 'ZAR', symbol: 'R', name: 'South African Rand' },
+    { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
+    { code: 'MYR', symbol: 'RM', name: 'Malaysian Ringgit' },
+    { code: 'THB', symbol: '฿', name: 'Thai Baht' },
+    { code: 'NGN', symbol: '₦', name: 'Nigerian Naira' },
+];
 
 export default function ProfitMarginCalculatorPage() {
   const [cost, setCost] = useState('');
   const [revenue, setRevenue] = useState('');
   const [result, setResult] = useState<{ profit: string, margin: string } | null>(null);
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
 
   const handleCalculate = () => {
     const c = parseFloat(cost);
@@ -29,6 +53,11 @@ export default function ProfitMarginCalculatorPage() {
     } else {
         setResult(null);
     }
+  };
+  
+  const handleCurrencyChange = (code: string) => {
+    const selected = CURRENCIES.find(c => c.code === code) || CURRENCIES[0];
+    setCurrency(selected);
   };
 
   return (
@@ -49,17 +78,34 @@ export default function ProfitMarginCalculatorPage() {
 
           <Card>
               <CardHeader>
-                <CardTitle>Enter Cost and Revenue</CardTitle>
-                <CardDescription>Find out your net profit and profit margin percentage.</CardDescription>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle>Enter Cost and Revenue</CardTitle>
+                        <CardDescription>Find out your net profit and profit margin percentage.</CardDescription>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="currency" className="flex items-center gap-1"><Banknote className="w-4 h-4"/> Currency</Label>
+                        <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                            <SelectTrigger id="currency" className="w-[180px]">
+                                <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {CURRENCIES.map(c => (
+                                    <SelectItem key={c.code} value={c.code}>{c.name} ({c.symbol})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className='space-y-2'>
-                    <Label htmlFor="cost">Cost of Goods Sold ($)</Label>
+                    <Label htmlFor="cost">Cost of Goods Sold ({currency.symbol})</Label>
                     <Input id="cost" type="number" placeholder="e.g., 50.00" value={cost} onChange={e => setCost(e.target.value)} />
                   </div>
                   <div className='space-y-2'>
-                    <Label htmlFor="revenue">Revenue ($)</Label>
+                    <Label htmlFor="revenue">Revenue ({currency.symbol})</Label>
                     <Input id="revenue" type="number" placeholder="e.g., 120.00" value={revenue} onChange={e => setRevenue(e.target.value)} />
                   </div>
                 </div>
@@ -68,7 +114,7 @@ export default function ProfitMarginCalculatorPage() {
                   <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center sm:text-left">
                     <div>
                         <Label>Net Profit</Label>
-                        <div className="text-2xl font-bold text-primary">${result.profit}</div>
+                        <div className="text-2xl font-bold text-primary">{currency.symbol}{result.profit}</div>
                     </div>
                     <div>
                         <Label>Profit Margin</Label>
