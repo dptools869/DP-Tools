@@ -1,22 +1,30 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, Image, Loader2, Download, FileArchive } from 'lucide-react';
+import { UploadCloud, FileCheck, Image, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { pdfToJpg, PdfToJpgOutput } from '@/ai/flows/pdf-to-jpg';
 import AdBanner from '@/components/ad-banner';
+import * as pdfjsLib from 'pdfjs-dist';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+// Set worker source
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
+
+interface PageImage {
+  url: string;
+  pageNumber: number;
+}
 
 export default function PdfToJpgPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<PdfToJpgOutput | null>(null);
-  const [fileName, setFileName] = useState('');
+  const [pageImages, setPageImages] = useState<PageImage[]>([]);
   const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +32,7 @@ export default function PdfToJpgPage() {
     if (selectedFile) {
       if (selectedFile.type === 'application/pdf') {
         setFile(selectedFile);
-        setFileName(selectedFile.name);
-        setConversionResult(null);
+        setPageImages([]);
       } else {
         toast({
           variant: 'destructive',
@@ -46,7 +53,7 @@ export default function PdfToJpgPage() {
     const droppedFile = event.dataTransfer.files?.[0];
     if (droppedFile && droppedFile.type === 'application/pdf') {
       setFile(droppedFile);
-      setConversionResult(null);
+      setPageImages([]);
     } else {
       toast({
         variant: 'destructive',
@@ -67,67 +74,69 @@ export default function PdfToJpgPage() {
     }
 
     setIsConverting(true);
-    setConversionResult(null);
+    setPageImages([]);
 
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64File = reader.result as string;
-        try {
-          const result = await pdfToJpg({ pdfDataUri: base64File, fileName: file.name });
-          setConversionResult(result);
-          toast({
-            title: 'Conversion Successful',
-            description: `Your PDF has been converted into ${result.imageCount} JPG image(s).`,
-          });
-        } catch (error) {
-           toast({
-            variant: 'destructive',
-            title: 'Conversion Failed',
-            description: `An error occurred during conversion. ${error instanceof Error ? error.message : ''}`,
-          });
-        } finally {
-            setIsConverting(false);
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const numPages = pdf.numPages;
+      const newImages: PageImage[] = [];
+
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        if(context) {
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            newImages.push({ url: canvas.toDataURL('image/jpeg', 0.9), pageNumber: i });
         }
-      };
-      reader.onerror = (error) => {
-        setIsConverting(false);
-        toast({
-            variant: 'destructive',
-            title: 'File Read Error',
-            description: 'Could not read the selected file.',
-          });
       }
+
+      setPageImages(newImages);
+      toast({
+        title: 'Conversion Successful',
+        description: `Your PDF has been converted into ${numPages} JPG image(s).`,
+      });
     } catch (error) {
-      setIsConverting(false);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: `An unexpected error occurred. ${error instanceof Error ? error.message : ''}`,
+        title: 'Conversion Failed',
+        description: `An error occurred during conversion. ${error instanceof Error ? error.message : ''}`,
       });
+    } finally {
+      setIsConverting(false);
     }
   };
 
-  const downloadZip = () => {
-    if (conversionResult) {
-      const link = document.createElement('a');
-      link.href = conversionResult.zipDataUri;
-      link.download = conversionResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const downloadImage = (url: string, pageNumber: number) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${file?.name.replace('.pdf', '')}-page-${pageNumber}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+  
+  const downloadAllImages = () => {
+      pageImages.forEach((image, index) => {
+          setTimeout(() => {
+              downloadImage(image.url, image.pageNumber);
+          }, index * 300); // Stagger downloads to prevent browser blocking
+      });
+  };
+
 
   const resetTool = () => {
     setFile(null);
-    setFileName('');
     setIsConverting(false);
-    setConversionResult(null);
+    setPageImages([]);
     const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-    if(fileInput) fileInput.value = '';
-  }
+    if (fileInput) fileInput.value = '';
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -140,85 +149,93 @@ export default function PdfToJpgPage() {
               </div>
               <CardTitle className="text-3xl font-headline">PDF to JPG Converter</CardTitle>
               <CardDescription className="text-lg">
-                Convert each page of your PDF file into high-quality JPG images.
+                Convert each page of your PDF file into individual, high-quality JPG images.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
-              {!conversionResult && (
-                <div className="space-y-6">
-                  <Label
-                    htmlFor="file-upload"
-                    className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                        <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PDF file here'}
-                        </span>
-                        <span className="text-muted-foreground">or click to browse</span>
-                    </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
-                  </Label>
-                   <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
-                    {isConverting ? (
-                      <>
-                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                        Converting...
-                      </>
-                    ) : (
-                      'Convert to JPG'
-                    )}
-                  </Button>
-                </div>
-              )}
+              <div className="space-y-6">
+                <Label
+                  htmlFor="file-upload"
+                  className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
+                  <div className="flex flex-col items-center space-y-4">
+                    <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                    <span className="text-lg font-medium text-foreground">
+                      {file?.name || 'Drag & drop your PDF file here'}
+                    </span>
+                    <span className="text-muted-foreground">or click to browse</span>
+                  </div>
+                  <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
+                </Label>
+                <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
+                  {isConverting ? (
+                    <>
+                      <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                      Converting...
+                    </>
+                  ) : (
+                    'Convert to JPG'
+                  )}
+                </Button>
+              </div>
 
-              {conversionResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
+              {pageImages.length > 0 && (
+                <div className="space-y-4">
+                  <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
                     <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Conversion Successful!</AlertTitle>
-                    <AlertDescription>
-                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2">
-                           <p className="font-semibold text-center sm:text-left">
-                                {conversionResult.imageCount} image(s) zipped in <span className="font-bold">{conversionResult.fileName}</span>.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                <Button onClick={downloadZip} size="sm" className="bg-primary hover:bg-primary/90">
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download ZIP
-                                </Button>
-                                <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>
-                                    Convert Another
-                                </Button>
-                            </div>
-                        </div>
+                    <AlertTitle className="font-bold">Conversion Complete!</AlertTitle>
+                    <AlertDescription className='flex flex-col sm:flex-row justify-between items-center mt-2 gap-2'>
+                        Your images are ready. Download them individually below or all at once.
+                         <div className="flex gap-2">
+                             <Button onClick={downloadAllImages} size="sm" variant="secondary" className="bg-background/80">Download All</Button>
+                             <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>Start Over</Button>
+                         </div>
                     </AlertDescription>
-                </Alert>
+                  </Alert>
+
+                  <ScrollArea className="h-[600px] border rounded-lg p-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {pageImages.map((image) => (
+                          <Card key={image.pageNumber} className="overflow-hidden">
+                            <CardContent className="p-0">
+                              <img src={image.url} alt={`Page ${image.pageNumber}`} className="w-full h-auto aspect-[8.5/11] object-contain bg-white"/>
+                            </CardContent>
+                            <CardFooter className="p-2 flex-col items-start text-xs">
+                              <p className="font-semibold">Page {image.pageNumber}</p>
+                              <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => downloadImage(image.url, image.pageNumber)}>
+                                Download JPG
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        ))}
+                      </div>
+                  </ScrollArea>
+                </div>
               )}
             </CardContent>
             <CardFooter>
-                <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
+              <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely in your browser and are never uploaded to our servers.</p>
             </CardFooter>
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>From Document to Image: The Ultimate PDF to JPG Guide</h2>
-            <p>Unlock the visual content of your PDF files by converting them into high-quality JPG images. Our PDF to JPG converter is an essential tool for graphic designers, social media managers, and anyone who needs to extract images or turn document pages into a more shareable, image-based format. Whether you're creating a presentation, sharing a flyer on social media, or archiving document pages as images, this tool provides a simple, fast, and effective solution. We handle both single and multi-page PDFs, conveniently packaging all your converted JPGs into a single ZIP file for easy download.</p>
+            <p>Unlock the visual content of your PDF files by converting them into high-quality JPG images. Our PDF to JPG converter is an essential tool for graphic designers, social media managers, and anyone who needs to extract images or turn document pages into a more shareable, image-based format. Whether you're creating a presentation, sharing a flyer on social media, or archiving document pages as images, this tool provides a simple, fast, and effective solution.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2>How Does PDF to JPG Conversion Work?</h2>
-            <p>Our tool simplifies the complex process of converting a vector/text-based document format (PDF) into a raster image format (JPG). When you upload a PDF, our service communicates with a powerful conversion engine that renders each page of your document individually. This rendering process creates a high-resolution snapshot of each page, capturing all text, graphics, and layout elements exactly as they appear in the original file. These snapshots are then encoded as JPG images.</p>
+            <p>Our tool simplifies the complex process of converting a vector/text-based document format (PDF) into a raster image format (JPG). When you upload a PDF, our service uses the powerful `pdf.js` library to render each page of your document individually right in your browser. This rendering process creates a high-resolution snapshot of each page, capturing all text, graphics, and layout elements exactly as they appear in the original file. These snapshots are then encoded as JPG images, ready for individual download.</p>
             <ul>
-              <li><strong>Page-by-Page Rendering:</strong> Each page in your PDF is treated as a separate canvas, ensuring no content is lost.</li>
-              <li><strong>Quality Optimization:</strong> The conversion maintains a high DPI (dots per inch) to ensure the resulting JPGs are crisp and clear, suitable for both web and print.</li>
-              <li><strong>ZIP Archiving:</strong> To make downloading multiple pages easy, all generated JPG images are automatically compiled into a single ZIP archive.</li>
+              <li><strong>Client-Side Rendering:</strong> Each page in your PDF is rendered locally, ensuring your data never leaves your computer.</li>
+              <li><strong>Quality Optimization:</strong> The conversion maintains a high DPI (dots per inch) to ensure the resulting JPGs are crisp and clear.</li>
+              <li><strong>Individual Downloads:</strong> Download only the pages you need, directly as JPG files.</li>
             </ul>
             <h2>Key Benefits of Converting PDF to JPG</h2>
             <ul>
                 <li><strong>Easy Sharing:</strong> JPG images are universally supported on all platforms, from social media to messaging apps, making them easy to share and view.</li>
                 <li><strong>Content Extraction:</strong> Easily pull out specific pages as images for use in presentations, reports, or web design.</li>
-                <li><strong>Reduced Complexity:</strong> Unlike PDFs, which require a specific reader, JPGs can be opened by any image viewer.</li>
-                <li><strong>Secure and Private:</strong> Your privacy is paramount. All uploaded and converted files are protected with encryption and are permanently deleted from our servers after a short period.</li>
+                <li><strong>Secure and Private:</strong> Your privacy is paramount. Because the conversion happens in your browser, your files are never uploaded to a server.</li>
                 <li><strong>Free and Unlimited:</strong> Convert as many PDFs as you need without any cost, subscriptions, or limitations.</li>
             </ul>
             <p>By using a reliable "PDF to JPG converter," you streamline your workflow and make your document content more versatile. This tool is your go-to solution for transforming PDFs into a universally compatible and easy-to-use image format.</p>
