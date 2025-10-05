@@ -11,7 +11,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import JSZip from 'jszip';
 
 // ----------- Schemas -----------
 const PdfToSvgInputSchema = z.object({
@@ -25,8 +24,10 @@ const PdfToSvgInputSchema = z.object({
 export type PdfToSvgInput = z.infer<typeof PdfToSvgInputSchema>;
 
 const PdfToSvgOutputSchema = z.object({
-  zipDataUri: z.string().describe('The converted SVG files as a zipped data URI.'),
-  fileName: z.string().describe('The name of the output ZIP file.'),
+  svgs: z.array(z.object({
+    fileName: z.string().describe('The name of the output SVG file.'),
+    svgDataUri: z.string().describe('The converted SVG file as a data URI.'),
+  })).describe('An array of converted SVG files.'),
   imageCount: z.number().describe('The number of images generated.')
 });
 export type PdfToSvgOutput = z.infer<typeof PdfToSvgOutputSchema>;
@@ -55,8 +56,7 @@ const pdfToSvgFlow = ai.defineFlow(
       }
 
       const pdfBuffer = Buffer.from(base64Data, 'base64');
-      const outputFileName = input.fileName.replace(/(\.pdf)$/i, '.zip');
-
+      
       const formData = new FormData();
       formData.append('File', new Blob([pdfBuffer], { type: 'application/pdf' }), input.fileName);
       formData.append('StoreFile', 'true');
@@ -80,29 +80,30 @@ const pdfToSvgFlow = ai.defineFlow(
         throw new Error('Conversion result did not contain any files.');
       }
       
-      const zip = new JSZip();
-
-      for (const file of convertResult.Files) {
+      const svgs = await Promise.all(convertResult.Files.map(async (file: any) => {
         const imageUrl = file.Url;
         const imageName = file.FileName;
         
         const imageResponse = await fetch(imageUrl);
         if (!imageResponse.ok) {
             console.warn(`Could not download image: ${imageName} from ${imageUrl}`);
-            continue;
+            return null;
         }
         const imageArrayBuffer = await imageResponse.arrayBuffer();
-        zip.file(imageName, imageArrayBuffer);
-      }
+        const imageBase64 = Buffer.from(imageArrayBuffer).toString('base64');
+        const svgDataUri = `data:image/svg+xml;base64,${imageBase64}`;
 
-      const zipBuffer = await zip.generateAsync({type:"nodebuffer"});
-      const zipBase64 = zipBuffer.toString('base64');
-      const zipDataUri = `data:application/zip;base64,${zipBase64}`;
+        return {
+          fileName: imageName,
+          svgDataUri: svgDataUri,
+        };
+      }));
+
+      const filteredSvgs = svgs.filter(svg => svg !== null) as { fileName: string; svgDataUri: string; }[];
 
       return {
-        zipDataUri,
-        fileName: outputFileName,
-        imageCount: convertResult.Files.length
+        svgs: filteredSvgs,
+        imageCount: filteredSvgs.length,
       };
     } catch (error) {
       console.error('Error converting PDF to SVG:', error);

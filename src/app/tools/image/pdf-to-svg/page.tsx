@@ -11,6 +11,12 @@ import { UploadCloud, FileCheck, Image as ImageIcon, Loader2, Download } from 'l
 import { useToast } from '@/hooks/use-toast';
 import { pdfToSvg, PdfToSvgOutput } from '@/ai/flows/pdf-to-svg';
 import AdBanner from '@/components/ad-banner';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+interface SvgImage {
+    fileName: string;
+    svgDataUri: string;
+}
 
 export default function PdfToSvgPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -109,15 +115,21 @@ export default function PdfToSvgPage() {
     }
   };
 
-  const downloadZip = () => {
-    if (conversionResult) {
-      const link = document.createElement('a');
-      link.href = conversionResult.zipDataUri;
-      link.download = conversionResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const downloadImage = (image: SvgImage) => {
+    const link = document.createElement('a');
+    link.href = image.svgDataUri;
+    link.download = image.fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+  const downloadAllImages = () => {
+      conversionResult?.svgs.forEach((image, index) => {
+          setTimeout(() => {
+              downloadImage(image);
+          }, index * 300); // Stagger downloads to prevent browser blocking
+      });
   };
 
   const resetTool = () => {
@@ -144,8 +156,7 @@ export default function PdfToSvgPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
-              {!conversionResult && (
-                <div className="space-y-6">
+               <div className="space-y-6">
                   <Label
                     htmlFor="file-upload"
                     className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
@@ -172,29 +183,39 @@ export default function PdfToSvgPage() {
                     )}
                   </Button>
                 </div>
-              )}
-
-              {conversionResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
+              
+              {conversionResult && conversionResult.svgs.length > 0 && (
+                 <div className="space-y-4">
+                  <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
                     <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Conversion Successful!</AlertTitle>
-                    <AlertDescription>
-                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2">
-                           <p className="font-semibold text-center sm:text-left">
-                                {conversionResult.imageCount} image(s) zipped in <span className="font-bold">{conversionResult.fileName}</span>.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                <Button onClick={downloadZip} size="sm" className="bg-primary hover:bg-primary/90">
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download ZIP
-                                </Button>
-                                <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>
-                                    Convert Another
-                                </Button>
-                            </div>
-                        </div>
+                    <AlertTitle className="font-bold">Conversion Complete!</AlertTitle>
+                    <AlertDescription className='flex flex-col sm:flex-row justify-between items-center mt-2 gap-2'>
+                        Your images are ready. Download them individually below or all at once.
+                         <div className="flex gap-2">
+                             <Button onClick={downloadAllImages} size="sm" variant="secondary" className="bg-background/80">Download All</Button>
+                             <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>Start Over</Button>
+                         </div>
                     </AlertDescription>
-                </Alert>
+                  </Alert>
+
+                  <ScrollArea className="h-[600px] border rounded-lg p-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {conversionResult.svgs.map((image, index) => (
+                          <Card key={index} className="overflow-hidden">
+                            <CardContent className="p-2 flex items-center justify-center bg-white">
+                              <img src={image.svgDataUri} alt={`Page ${index + 1}`} className="w-full h-auto aspect-[8.5/11] object-contain"/>
+                            </CardContent>
+                            <CardFooter className="p-2 flex-col items-start text-xs">
+                              <p className="font-semibold truncate">{image.fileName}</p>
+                              <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => downloadImage(image)}>
+                                Download SVG
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        ))}
+                      </div>
+                  </ScrollArea>
+                </div>
               )}
             </CardContent>
             <CardFooter>
