@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const generatePassword = (options: any) => {
     const charSets = {
@@ -22,7 +23,7 @@ const generatePassword = (options: any) => {
         numbers: '0123456789',
         symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
         easyToSay: 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789',
-        easyToRead: 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%^&*()',
+        easyToRead: 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%^&*()',
     };
 
     let characterPool = '';
@@ -94,6 +95,13 @@ export default function PasswordGeneratorPage() {
     
     const isCustomSet = options.characterSet === 'all';
 
+    const sections = [
+        { name: "Facebook", title: "Facebook Password Generator" },
+        { name: "Instagram", title: "Instagram Password Generator" },
+        { name: "YouTube", title: "YouTube Password Generator" },
+        { name: "Random", title: "Random Password Generator" }
+    ];
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
@@ -110,75 +118,86 @@ export default function PasswordGeneratorPage() {
             </CardHeader>
           </Card>
 
-          <Card>
-              <CardHeader>
-                  <CardTitle>Your Secure Password</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="relative">
-                  <Input value={password} readOnly className="text-2xl font-mono h-16 pr-24" />
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
-                    <Button variant="outline" size="icon" onClick={handleGenerate}><RefreshCw className="w-5 h-5"/></Button>
-                    <Button size="icon" onClick={handleCopy}><Copy className="w-5 h-5"/></Button>
-                  </div>
-                </div>
-                 <div className="flex items-center gap-2">
-                    <Progress value={strength} />
-                    <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">{Math.round(strength)}% Strong</span>
-                 </div>
+          <Tabs defaultValue="Facebook" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
+              {sections.map(section => (
+                <TabsTrigger key={section.name} value={section.name} className="py-2">{section.name}</TabsTrigger>
+              ))}
+            </TabsList>
+            {sections.map(section => (
+              <TabsContent key={section.name} value={section.name}>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>{section.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="relative">
+                        <Input value={password} readOnly className="text-2xl font-mono h-16 pr-24" />
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+                          <Button variant="outline" size="icon" onClick={handleGenerate}><RefreshCw className="w-5 h-5"/></Button>
+                          <Button size="icon" onClick={handleCopy}><Copy className="w-5 h-5"/></Button>
+                        </div>
+                      </div>
+                       <div className="flex items-center gap-2">
+                          <Progress value={strength} />
+                          <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">{Math.round(strength)}% Strong</span>
+                       </div>
 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                     <div className="space-y-4">
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <Label htmlFor="length">Password Length</Label>
-                                <span className="text-lg font-bold">{options.length}</span>
-                            </div>
-                            <Slider id="length" value={[options.length]} onValueChange={([val]) => setOptions(o => ({...o, length: val}))} min={8} max={64} step={1} />
-                        </div>
-                        <div className="space-y-3">
-                            <Label>Character Set</Label>
-                            <RadioGroup value={options.characterSet} onValueChange={(val) => setOptions(o => ({...o, characterSet: val}))} className="flex gap-4">
-                                <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
-                                    <RadioGroupItem value="all" id="set-all" />
-                                    Custom
-                                </Label>
-                                <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
-                                    <RadioGroupItem value="easyToSay" id="set-easy" />
-                                    Easy to Say
-                                </Label>
-                                <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
-                                    <RadioGroupItem value="easyToRead" id="set-readable" />
-                                    Easy to Read
-                                </Label>
-                            </RadioGroup>
-                            <p className="text-xs text-muted-foreground">"Easy to Say" avoids ambiguous characters like 'l' and '1'. "Easy to Read" avoids symbols that are hard to distinguish.</p>
-                        </div>
-                     </div>
-                     <div className="space-y-4">
-                        <Label>Character Types (for Custom set)</Label>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="flex items-center space-x-2">
-                                <Checkbox id="uppercase" checked={options.includeUppercase} onCheckedChange={(checked) => setOptions(o => ({...o, includeUppercase: !!checked}))} disabled={!isCustomSet} />
-                                <Label htmlFor="uppercase" className={cn(!isCustomSet && 'text-muted-foreground')}>Uppercase (A-Z)</Label>
-                            </div>
-                             <div className="flex items-center space-x-2">
-                                <Checkbox id="lowercase" checked={options.includeLowercase} onCheckedChange={(checked) => setOptions(o => ({...o, includeLowercase: !!checked}))} disabled={!isCustomSet} />
-                                <Label htmlFor="lowercase" className={cn(!isCustomSet && 'text-muted-foreground')}>Lowercase (a-z)</Label>
-                            </div>
-                             <div className="flex items-center space-x-2">
-                                <Checkbox id="numbers" checked={options.includeNumbers} onCheckedChange={(checked) => setOptions(o => ({...o, includeNumbers: !!checked}))} disabled={!isCustomSet}/>
-                                <Label htmlFor="numbers" className={cn(!isCustomSet && 'text-muted-foreground')}>Numbers (0-9)</Label>
-                            </div>
-                             <div className="flex items-center space-x-2">
-                                <Checkbox id="symbols" checked={options.includeSymbols} onCheckedChange={(checked) => setOptions(o => ({...o, includeSymbols: !!checked}))} disabled={!isCustomSet}/>
-                                <Label htmlFor="symbols" className={cn(!isCustomSet && 'text-muted-foreground')}>Symbols (!@#$...)</Label>
-                            </div>
-                        </div>
-                     </div>
-                 </div>
-              </CardContent>
-            </Card>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                           <div className="space-y-4">
+                              <div className="space-y-3">
+                                  <div className="flex justify-between items-center">
+                                      <Label htmlFor="length">Password Length</Label>
+                                      <span className="text-lg font-bold">{options.length}</span>
+                                  </div>
+                                  <Slider id="length" value={[options.length]} onValueChange={([val]) => setOptions(o => ({...o, length: val}))} min={8} max={64} step={1} />
+                              </div>
+                              <div className="space-y-3">
+                                  <Label>Character Set</Label>
+                                  <RadioGroup value={options.characterSet} onValueChange={(val) => setOptions(o => ({...o, characterSet: val}))} className="flex gap-4">
+                                      <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
+                                          <RadioGroupItem value="all" id="set-all" />
+                                          Custom
+                                      </Label>
+                                      <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
+                                          <RadioGroupItem value="easyToSay" id="set-easy" />
+                                          Easy to Say
+                                      </Label>
+                                      <Label className="flex items-center gap-2 p-3 border rounded-md cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary flex-1 justify-center">
+                                          <RadioGroupItem value="easyToRead" id="set-readable" />
+                                          Easy to Read
+                                      </Label>
+                                  </RadioGroup>
+                                  <p className="text-xs text-muted-foreground">"Easy to Say" avoids ambiguous characters like 'l' and '1'. "Easy to Read" avoids symbols that are hard to distinguish.</p>
+                              </div>
+                           </div>
+                           <div className="space-y-4">
+                              <Label>Character Types (for Custom set)</Label>
+                              <div className="grid grid-cols-2 gap-4">
+                                  <div className="flex items-center space-x-2">
+                                      <Checkbox id="uppercase" checked={options.includeUppercase} onCheckedChange={(checked) => setOptions(o => ({...o, includeUppercase: !!checked}))} disabled={!isCustomSet} />
+                                      <Label htmlFor="uppercase" className={cn(!isCustomSet && 'text-muted-foreground')}>Uppercase (A-Z)</Label>
+                                  </div>
+                                   <div className="flex items-center space-x-2">
+                                      <Checkbox id="lowercase" checked={options.includeLowercase} onCheckedChange={(checked) => setOptions(o => ({...o, includeLowercase: !!checked}))} disabled={!isCustomSet} />
+                                      <Label htmlFor="lowercase" className={cn(!isCustomSet && 'text-muted-foreground')}>Lowercase (a-z)</Label>
+                                  </div>
+                                   <div className="flex items-center space-x-2">
+                                      <Checkbox id="numbers" checked={options.includeNumbers} onCheckedChange={(checked) => setOptions(o => ({...o, includeNumbers: !!checked}))} disabled={!isCustomSet}/>
+                                      <Label htmlFor="numbers" className={cn(!isCustomSet && 'text-muted-foreground')}>Numbers (0-9)</Label>
+                                  </div>
+                                   <div className="flex items-center space-x-2">
+                                      <Checkbox id="symbols" checked={options.includeSymbols} onCheckedChange={(checked) => setOptions(o => ({...o, includeSymbols: !!checked}))} disabled={!isCustomSet}/>
+                                      <Label htmlFor="symbols" className={cn(!isCustomSet && 'text-muted-foreground')}>Symbols (!@#$...)</Label>
+                                  </div>
+                              </div>
+                           </div>
+                       </div>
+                    </CardContent>
+                  </Card>
+              </TabsContent>
+            ))}
+          </Tabs>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>Why a Strong Password Matters</h2>
