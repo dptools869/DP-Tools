@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -9,7 +10,16 @@ import { cn } from "@/lib/utils"
 
 const Sheet = SheetPrimitive.Root
 
-const SheetTrigger = SheetPrimitive.Trigger
+const SheetTrigger = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>
+>(({ children, ...props }, ref) => (
+  <SheetPrimitive.Trigger ref={ref} {...props}>
+    {children}
+  </SheetPrimitive.Trigger>
+));
+SheetTrigger.displayName = SheetPrimitive.Trigger.displayName
+
 
 const SheetClose = SheetPrimitive.Close
 
