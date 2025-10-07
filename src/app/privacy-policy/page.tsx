@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShieldCheck, Mail } from "lucide-react";
+import { ShieldCheck, Mail, Globe } from "lucide-react";
 import Link from 'next/link';
 
 export default function PrivacyPolicyPage() {
