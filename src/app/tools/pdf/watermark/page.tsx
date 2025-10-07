@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type WatermarkType = 'text' | 'image';
-type Position = 'topLeft' | 'topCenter' | 'topRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight';
+type Position = 'topLeft' | 'topCenter' | 'topRight' | 'center' | 'bottomLeft' | 'bottomCenter' | 'bottomRight';
 
 export default function WatermarkPdfPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -36,7 +36,7 @@ export default function WatermarkPdfPage() {
   const [imageOpacity, setImageOpacity] = useState(0.5);
   const [imageSize, setImageSize] = useState(150);
 
-  const [position, setPosition] = useState<Position>('bottomCenter');
+  const [position, setPosition] = useState<Position>('center');
   const [fromPage, setFromPage] = useState('');
   const [toPage, setToPage] = useState('');
 
@@ -117,6 +117,7 @@ export default function WatermarkPdfPage() {
             case 'topLeft': x = margin; y = height - textHeight - margin; break;
             case 'topCenter': x = (width - textWidth) / 2; y = height - textHeight - margin; break;
             case 'topRight': x = width - textWidth - margin; y = height - textHeight - margin; break;
+            case 'center': x = (width - textWidth) / 2; y = (height - textHeight) / 2; break;
             case 'bottomLeft': x = margin; y = margin; break;
             case 'bottomCenter': x = (width - textWidth) / 2; y = margin; break;
             case 'bottomRight': x = width - textWidth - margin; y = margin; break;
@@ -134,6 +135,7 @@ export default function WatermarkPdfPage() {
             case 'topLeft': x = margin; y = height - imgHeight - margin; break;
             case 'topCenter': x = (width - imgWidth) / 2; y = height - imgHeight - margin; break;
             case 'topRight': x = width - imgWidth - margin; y = height - imgHeight - margin; break;
+            case 'center': x = (width - imgWidth) / 2; y = (height - imgHeight) / 2; break;
             case 'bottomLeft': x = margin; y = margin; break;
             case 'bottomCenter': x = (width - imgWidth) / 2; y = margin; break;
             case 'bottomRight': x = width - imgWidth - margin; y = margin; break;
@@ -191,7 +193,7 @@ export default function WatermarkPdfPage() {
     setImageBytes(null);
     setImageOpacity(0.5);
     setImageSize(150);
-    setPosition('bottomCenter');
+    setPosition('center');
     setFromPage('');
     setToPage('');
     setIsProcessing(false);
@@ -261,7 +263,7 @@ export default function WatermarkPdfPage() {
                     </Tabs>
                     <div className="space-y-2"><Label>Watermark Position</Label>
                       <div className="grid grid-cols-3 gap-2">
-                          {(['topLeft', 'topCenter', 'topRight', 'bottomLeft', 'bottomCenter', 'bottomRight'] as Position[]).map(p => (
+                          {(['topLeft', 'topCenter', 'topRight', 'center', 'bottomLeft', 'bottomCenter', 'bottomRight'] as Position[]).map(p => (
                               <Button key={p} variant={position === p ? 'default' : 'outline'} onClick={() => setPosition(p)} className="capitalize text-xs h-10">{p.replace(/([A-Z])/g, ' $1').trim()}</Button>
                           ))}
                       </div>
