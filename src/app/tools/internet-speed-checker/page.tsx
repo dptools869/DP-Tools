@@ -24,7 +24,7 @@ export default function InternetSpeedCheckerPage() {
 
                     <Card>
                         <CardContent className="p-4">
-                            <div style={{textAlign: 'right'}}>
+                            <div>
                                 <div style={{minHeight: '360px'}}>
                                     <div style={{width: '100%', height: 0, paddingBottom: '50%', position: 'relative'}}>
                                         <iframe 
@@ -34,7 +34,9 @@ export default function InternetSpeedCheckerPage() {
                                         ></iframe>
                                     </div>
                                 </div>
-                                Provided by <a href="https://openspeedtest.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenSpeedtest.com</a>
+                                <div style={{textAlign: 'right', display: 'none'}}>
+                                    Provided by <a href="https://openspeedtest.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenSpeedtest.com</a>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
