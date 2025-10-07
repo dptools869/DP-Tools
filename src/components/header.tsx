@@ -58,10 +58,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:flex items-center gap-2">
-            <Button variant="login">Login</Button>
-          </div>
-
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
@@ -85,9 +81,6 @@ export default function Header() {
                     </NavLink>
                   ))}
                 </nav>
-                <div className="p-4 border-t space-y-4">
-                  <Button variant="login" className="w-full">Login</Button>
-                </div>
               </div>
             </SheetContent>
           </Sheet>
