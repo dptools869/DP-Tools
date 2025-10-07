@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi, Gem, Zap, Lock } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -109,6 +109,12 @@ const youtubeVideos = [
   'https://www.youtube.com/watch?v=F1OK94tJ9_E',
 ];
 
+const features = [
+  { text: 'No Sign-Up Required', icon: <Lock className="w-5 h-5 text-primary" /> },
+  { text: 'Always Free to Use', icon: <Gem className="w-5 h-5 text-primary" /> },
+  { text: 'Fast & Secure', icon: <Zap className="w-5 h-5 text-primary" /> },
+];
+
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === "hero-background");
 
@@ -123,6 +129,16 @@ export default function Home() {
           <p className="max-w-2xl text-xl md:text-2xl text-foreground/80 animate-fade-in-up">
             Get quick access to calculators, PDF tools, and image utilities. Stay tuned – we’re expanding with new tools every month.
           </p>
+           <div className="mt-6 flex flex-col sm:flex-row items-center gap-6 animate-fade-in-up">
+            {features.map((feature, index) => (
+              <div key={index} className="flex items-center gap-3 group">
+                <div className="p-2 bg-primary/10 rounded-full group-hover:scale-110 transition-transform">
+                  {feature.icon}
+                </div>
+                <span className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">{feature.text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
