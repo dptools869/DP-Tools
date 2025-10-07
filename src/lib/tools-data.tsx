@@ -417,16 +417,10 @@ export const toolsData: Record<string, ToolCategory> = {
         href: '/tools/text/email-extractor',
       },
       {
-        title: 'Facebook Password Generator',
-        description: 'Generate strong, secure passwords for your social media accounts.',
+        title: 'Password Generator',
+        description: 'Create strong, secure passwords to protect your accounts.',
         icon: <KeyRound className="w-8 h-8 text-primary" />,
-        href: '/tools/text/facebook-password-generator',
-      },
-      {
-        title: 'Instagram Password Generator',
-        description: 'Create strong passwords to protect your Instagram account.',
-        icon: <KeyRound className="w-8 h-8 text-primary" />,
-        href: '/tools/text/instagram-password-generator',
+        href: '/tools/text/password-generator',
       },
     ]
   },

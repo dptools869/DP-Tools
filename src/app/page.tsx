@@ -48,18 +48,12 @@ const categories = [
     href: '/tools/internet-speed-checker',
   },
    {
-    title: 'Facebook Password Generator',
+    title: 'Password Generator',
     description: 'Generate strong, secure passwords for your social media accounts.',
     icon: <KeyRound className="w-12 h-12 text-primary" />,
-    href: '/tools/text/facebook-password-generator',
+    href: '/tools/text/password-generator',
   },
   {
-    title: 'Instagram Password Generator',
-    description: 'Create strong and unique passwords to protect your Instagram account.',
-    icon: <KeyRound className="w-12 h-12 text-primary" />,
-    href: '/tools/text/instagram-password-generator',
-  },
-   {
     title: 'Color Picker',
     description: 'Explore colors, get codes, and create palettes for your projects.',
     icon: <Palette className="w-12 h-12 text-primary" />,

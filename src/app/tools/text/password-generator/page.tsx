@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { KeyRound, Copy, RefreshCw, Check, Shield } from 'lucide-react';
+import { KeyRound, Copy, RefreshCw, Shield } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { useToast } from '@/hooks/use-toast';
 import { Slider } from '@/components/ui/slider';
@@ -50,6 +50,7 @@ const generatePassword = (options: any) => {
 
 const getPasswordStrength = (password: string) => {
     let score = 0;
+    if (!password || password.length === 0) return 0;
     if (password.length > 8) score++;
     if (password.length > 12) score++;
     if (/[A-Z]/.test(password)) score++;
@@ -60,7 +61,7 @@ const getPasswordStrength = (password: string) => {
 }
 
 
-export default function InstagramPasswordGeneratorPage() {
+export default function PasswordGeneratorPage() {
     const [password, setPassword] = useState('');
     const [options, setOptions] = useState({
         length: 16,
@@ -78,10 +79,9 @@ export default function InstagramPasswordGeneratorPage() {
         setPassword(generatePassword(options));
     };
     
-    // Generate a password on initial load
     useEffect(() => {
         handleGenerate();
-    }, []);
+    }, [options]);
 
     const handleCopy = () => {
         if (password) {
@@ -103,9 +103,9 @@ export default function InstagramPasswordGeneratorPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <KeyRound className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">Instagram Password Generator</CardTitle>
+              <CardTitle className="text-3xl font-headline">Password Generator</CardTitle>
               <CardDescription className="text-lg">
-                Create strong, secure, and random passwords to protect your Instagram account.
+                Create strong, secure, and random passwords to protect your online accounts.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -181,8 +181,8 @@ export default function InstagramPasswordGeneratorPage() {
             </Card>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Why a Strong Password for Instagram Matters</h2>
-            <p>Your Instagram account is a hub for your photos, private messages, and personal connections. A weak or reused password makes it an easy target for hackers, putting your identity and private data at risk. Our Instagram Password Generator creates strong, random, and complex passwords that are incredibly difficult for anyone to guess or crack, providing a powerful defense for your digital life.</p>
+            <h2>Why a Strong Password Matters</h2>
+            <p>Your online accounts are a gateway to your personal life, photos, private messages, and connections. A weak password makes it an easy target for hackers, putting your identity and data at risk. Our Password Generator creates strong, random, and complex passwords that are incredibly difficult to guess or crack, providing a powerful defense for your digital life.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h3>What Makes a Password Strong?</h3>
              <ul>
