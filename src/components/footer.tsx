@@ -8,6 +8,7 @@ const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Disclaimer', href: '/disclaimer' },
   { label: 'PDF Tools', href: '/pdf-tools' },
 ];
 
