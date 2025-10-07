@@ -11,6 +11,7 @@ const quickLinks = [
   { label: 'Contact', href: '/contact' },
   { label: 'Disclaimer', href: '/disclaimer' },
   { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms and Conditions', href: '/terms-and-conditions' },
   { label: 'PDF Tools', href: '/pdf-tools' },
 ];
 
