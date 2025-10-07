@@ -1,5 +1,6 @@
+
 import Link from 'next/link';
-import { Facebook, Instagram, Send, Twitter, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Send, Twitter, Youtube, Globe } from 'lucide-react';
 import Logo from './logo';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -9,6 +10,7 @@ const quickLinks = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Disclaimer', href: '/disclaimer' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
   { label: 'PDF Tools', href: '/pdf-tools' },
 ];
 
