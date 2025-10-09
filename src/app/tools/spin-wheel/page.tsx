@@ -49,8 +49,10 @@ export default function SpinWheelPage() {
   ]);
   const [newEntryText, setNewEntryText] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
+  const [currentRotation, setCurrentRotation] = useState(0);
   const [winner, setWinner] = useState<Entry | null>(null);
+  const wheelRef = useRef<HTMLDivElement>(null);
+  
   const { toast } = useToast();
 
   const handleAddEntry = () => {
@@ -69,6 +71,7 @@ export default function SpinWheelPage() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // Add entry on 'Enter' key press
       if(e.key === 'Enter') {
           e.preventDefault();
           handleAddEntry();
@@ -80,6 +83,7 @@ export default function SpinWheelPage() {
   }
 
   const spinWheel = () => {
+    if (isSpinning) return;
     if (entries.length < MIN_ENTRIES) {
       toast({
         variant: 'destructive',
@@ -91,25 +95,47 @@ export default function SpinWheelPage() {
 
     setIsSpinning(true);
     setWinner(null);
-    const newRotation = rotation + 3600 + Math.random() * 360; 
-    setRotation(newRotation);
+    
+    // At least 10 full spins + random extra rotation
+    const extraRotation = Math.floor(3600 + Math.random() * 360);
+    const targetRotation = currentRotation + extraRotation;
+    const duration = 5000; // 5 seconds
+    const start = performance.now();
 
-    setTimeout(() => {
-      setIsSpinning(false);
+    const animate = (time: number) => {
+      const progress = Math.min((time - start) / duration, 1);
+      // Cubic ease-out function: starts fast, slows down at the end
+      const easeOut = 1 - Math.pow(1 - progress, 4);
+      const rotation = currentRotation + extraRotation * easeOut;
       
-      const sectorAngle = 360 / entries.length;
-      // The pointer is at the top (270 degrees in SVG coordinate system where 0 is on the right)
-      const pointerAngle = 270;
-      // Calculate the final resting angle, normalized between 0-360
-      const finalAngle = newRotation % 360;
-      // Calculate the angle of the pointer relative to the wheel's starting position
-      const winningAngle = (360 - finalAngle + pointerAngle) % 360;
-      // Determine the index of the winning segment
-      const winningIndex = Math.floor(winningAngle / sectorAngle);
-      
-      setWinner(entries[winningIndex]);
-    }, 5000); 
+      if (wheelRef.current) {
+        wheelRef.current.style.transform = `rotate(${rotation}deg)`;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        const finalRotation = targetRotation % 360;
+        setCurrentRotation(finalRotation);
+        setIsSpinning(false);
+        detectWinner(targetRotation);
+      }
+    };
+
+    requestAnimationFrame(animate);
   };
+
+  // Winner detection logic
+  const detectWinner = (finalRotation: number) => {
+    const sectorAngle = 360 / entries.length;
+    // The pointer is at the top, which is 270 degrees in SVG coordinate system.
+    // We calculate the wheel's final angle and determine which sector falls under the pointer.
+    const normalizedAngle = finalRotation % 360;
+    const winningAngle = (360 - normalizedAngle + 270) % 360;
+    const winningIndex = Math.floor(winningAngle / sectorAngle);
+    setWinner(entries[winningIndex]);
+  };
+
 
   const sectorAngle = 360 / Math.max(1, entries.length);
 
@@ -137,13 +163,10 @@ export default function SpinWheelPage() {
             <div 
               className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border-8 border-primary/50 shadow-2xl"
             >
-              <div 
-                className="w-full h-full transition-transform duration-[5000ms] ease-out"
-                style={{ transform: `rotate(${rotation}deg)` }}
-              >
+              <div ref={wheelRef} className="w-full h-full">
                   <svg viewBox="0 0 200 200" className="w-full h-full">
                     {entries.map((entry, index) => {
-                      const startAngle = sectorAngle * index;
+                      const startAngle = sectorAngle * index - 90;
                       const endAngle = startAngle + sectorAngle;
                       const midAngle = startAngle + sectorAngle / 2;
                       const textRadius = 65;
@@ -154,11 +177,13 @@ export default function SpinWheelPage() {
 
                       return (
                         <g key={entry.id}>
+                          {/* Wedge path */}
                           <path
                             d={describeArc(100, 100, 100, startAngle, endAngle)}
                             fill={colors[index % colors.length]}
                             className={cn(isWinner && "animate-pulse")}
                           />
+                           {/* Text aligned in the middle of the wedge */}
                            <text
                             x={textX}
                             y={textY}
