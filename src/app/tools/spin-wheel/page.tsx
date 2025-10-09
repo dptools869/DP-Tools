@@ -11,6 +11,7 @@ import { Disc, Trash2, Upload, Star, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import AdBanner from '@/components/ad-banner';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722"];
 
@@ -137,7 +138,7 @@ export default function SpinWheelPage() {
               className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border-8 border-primary/50 shadow-2xl"
             >
               <div 
-                className="w-full h-full transition-transform duration-5000 ease-out"
+                className="w-full h-full transition-transform duration-[5000ms] ease-out"
                 style={{ transform: `rotate(${rotation}deg)` }}
               >
                   <svg viewBox="0 0 200 200" className="w-full h-full">
