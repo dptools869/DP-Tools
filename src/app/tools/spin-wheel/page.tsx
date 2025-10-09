@@ -69,10 +69,10 @@ export default function SpinWheelPage() {
     setEntries([...entries, { id: Date.now(), text }]);
     setNewEntryText('');
   };
-
+  
+  // Enter key handler to add entry
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      // Add entry on 'Enter' key press
-      if(e.key === 'Enter') {
+      if (e.key === 'Enter') {
           e.preventDefault();
           handleAddEntry();
       }
@@ -81,6 +81,25 @@ export default function SpinWheelPage() {
   const removeEntry = (id: number) => {
     setEntries(entries.filter(e => e.id !== id));
   }
+
+  const sectorAngle = 360 / Math.max(1, entries.length);
+
+  // Accurate winner detection based on final rotation angle
+  const detectWinner = (finalRotation: number) => {
+    // The pointer is at the top (imagine it as the 12 o'clock position).
+    // In a standard coordinate system, this is 270 degrees or -90 degrees.
+    // The wheel rotates clockwise. We need to find which sector lands at the top.
+    const normalizedAngle = finalRotation % 360;
+    
+    // We adjust the angle to make the top of the wheel (270deg) our reference point (0).
+    // The formula (360 - normalizedAngle + 270) % 360 maps the rotation to the pointer's position.
+    const winningAngle = (360 - normalizedAngle + 270) % 360;
+    
+    // We find the index of the winning sector by dividing the winning angle by the angle of each sector.
+    const winningIndex = Math.floor(winningAngle / sectorAngle);
+    
+    setWinner(entries[winningIndex]);
+  };
 
   const spinWheel = () => {
     if (isSpinning) return;
@@ -96,16 +115,16 @@ export default function SpinWheelPage() {
     setIsSpinning(true);
     setWinner(null);
     
-    // At least 10 full spins + random extra rotation
+    // Generate a random rotation: at least 10 full spins + a random amount for unpredictability.
     const extraRotation = Math.floor(3600 + Math.random() * 360);
-    const targetRotation = currentRotation + extraRotation;
-    const duration = 5000; // 5 seconds
+    const totalRotation = currentRotation + extraRotation;
+    const duration = 5000; // 5 seconds spin duration
     const start = performance.now();
 
     const animate = (time: number) => {
       const progress = Math.min((time - start) / duration, 1);
-      // Cubic ease-out function: starts fast, slows down at the end
-      const easeOut = 1 - Math.pow(1 - progress, 4);
+      // Cubic ease-out function: starts fast, slows down towards the end for a natural feel.
+      const easeOut = 1 - Math.pow(1 - progress, 3); 
       const rotation = currentRotation + extraRotation * easeOut;
       
       if (wheelRef.current) {
@@ -115,29 +134,16 @@ export default function SpinWheelPage() {
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        const finalRotation = targetRotation % 360;
-        setCurrentRotation(finalRotation);
+        // Animation finished
+        setCurrentRotation(totalRotation % 360);
         setIsSpinning(false);
-        detectWinner(targetRotation);
+        detectWinner(totalRotation);
       }
     };
 
     requestAnimationFrame(animate);
   };
 
-  // Winner detection logic
-  const detectWinner = (finalRotation: number) => {
-    const sectorAngle = 360 / entries.length;
-    // The pointer is at the top, which is 270 degrees in SVG coordinate system.
-    // We calculate the wheel's final angle and determine which sector falls under the pointer.
-    const normalizedAngle = finalRotation % 360;
-    const winningAngle = (360 - normalizedAngle + 270) % 360;
-    const winningIndex = Math.floor(winningAngle / sectorAngle);
-    setWinner(entries[winningIndex]);
-  };
-
-
-  const sectorAngle = 360 / Math.max(1, entries.length);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -166,10 +172,13 @@ export default function SpinWheelPage() {
               <div ref={wheelRef} className="w-full h-full">
                   <svg viewBox="0 0 200 200" className="w-full h-full">
                     {entries.map((entry, index) => {
+                      // Sector drawing logic
                       const startAngle = sectorAngle * index - 90;
                       const endAngle = startAngle + sectorAngle;
+                      
+                      // Text placement logic
                       const midAngle = startAngle + sectorAngle / 2;
-                      const textRadius = 65;
+                      const textRadius = 65; // Position text 65% out from the center
                       const textX = 100 + textRadius * Math.cos(midAngle * Math.PI / 180);
                       const textY = 100 + textRadius * Math.sin(midAngle * Math.PI / 180);
                       
@@ -177,13 +186,13 @@ export default function SpinWheelPage() {
 
                       return (
                         <g key={entry.id}>
-                          {/* Wedge path */}
+                          {/* Wedge path using SVG arc commands */}
                           <path
                             d={describeArc(100, 100, 100, startAngle, endAngle)}
                             fill={colors[index % colors.length]}
                             className={cn(isWinner && "animate-pulse")}
                           />
-                           {/* Text aligned in the middle of the wedge */}
+                           {/* Centered and rotated text */}
                            <text
                             x={textX}
                             y={textY}
@@ -268,7 +277,7 @@ export default function SpinWheelPage() {
 /**
  * README for Spin Wheel
  * 
- * - To change the number of sectors, modify the entries in the input text area. You can add or remove names (one per line). The wheel supports a minimum of 2 and a maximum of 10 entries.
+ * - To change the number of sectors, add or remove entries in the input text area. The wheel supports a minimum of 2 and a maximum of 10 entries.
  * - To test the Enter-to-Add feature: Type a name in the input box and press the 'Enter' key. The name should appear on the wheel.
- * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin and a winner will be announced below. The winning wedge will also be highlighted.
+ * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin smoothly and a winner will be announced below. The winning wedge will also be highlighted.
  */
