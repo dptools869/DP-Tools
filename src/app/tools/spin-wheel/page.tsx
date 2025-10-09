@@ -88,15 +88,21 @@ export default function SpinWheelPage() {
 
   const sectorAngle = 360 / Math.max(1, entries.length);
 
-  const detectWinner = (finalRotation: number) => {
-    const normalizedAngle = finalRotation % 360;
-    const winningAngle = (360 - normalizedAngle + 270) % 360;
-    const winnerIndex = Math.floor(winningAngle / sectorAngle);
+  const detectWinner = useCallback((finalRotation: number) => {
+    // The pointer is at the top, which is 270 degrees in SVG's coordinate system (where 0 is to the right).
+    const pointerAngle = 270;
+    // Normalize the final rotation to be within 0-360 degrees.
+    const normalizedRotation = finalRotation % 360;
+    // Calculate the effective angle of the pointer relative to the wheel's starting position.
+    // Adding 360 ensures the result is always positive.
+    const effectiveAngle = (pointerAngle - normalizedRotation + 360) % 360;
+    // Determine the winning index by dividing the effective angle by the angle of each sector.
+    const winnerIndex = Math.floor(effectiveAngle / sectorAngle);
     const selectedWinner = entries[winnerIndex];
     if (selectedWinner) {
       setWinner(selectedWinner);
     }
-  };
+  }, [entries, sectorAngle]);
 
   const spinWheel = () => {
     if (isSpinning) return;
@@ -112,13 +118,15 @@ export default function SpinWheelPage() {
     setIsSpinning(true);
     setWinner(null);
     
-    const extraRotation = Math.floor(3600 + Math.random() * 360);
-    const duration = 5000;
+    // Generates a large random rotation to ensure multiple spins
+    const extraRotation = Math.floor(3600 + Math.random() * 3600);
+    const duration = 5000; // 5 seconds spin
     const start = performance.now();
 
     const animate = (time: number) => {
       const progress = Math.min((time - start) / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
+      // Cubic ease-out for a smooth deceleration
+      const easeOut = 1 - Math.pow(1 - progress, 3); 
       const rotation = currentRotation + extraRotation * easeOut;
       
       if (wheelRef.current) {
@@ -129,7 +137,7 @@ export default function SpinWheelPage() {
         requestAnimationFrame(animate);
       } else {
         const finalRotation = currentRotation + extraRotation;
-        setCurrentRotation(finalRotation % 360);
+        setCurrentRotation(finalRotation); // Keep track of the final position for subsequent spins
         setIsSpinning(false);
         detectWinner(finalRotation);
       }
@@ -157,7 +165,7 @@ export default function SpinWheelPage() {
         <div className="md:col-span-2 flex flex-col items-center justify-center relative">
             {/* Static Pointer */}
             <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 z-20" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))'}}>
-              <div className="w-0 h-0 border-l-8 border-r-8 border-t-[16px] border-t-primary border-l-transparent border-r-transparent"></div>
+              <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[20px] border-t-primary border-l-transparent border-r-transparent"></div>
             </div>
             
             <div 
@@ -185,7 +193,7 @@ export default function SpinWheelPage() {
                            <text
                             x={Math.round(textX)}
                             y={Math.round(textY)}
-                            transform={`rotate(${midAngle + 90}, ${Math.round(textX)}, ${Math.round(textY)})`}
+                            transform={`rotate(${Math.round(midAngle + 90)}, ${Math.round(textX)}, ${Math.round(textY)})`}
                             textAnchor="middle"
                             alignmentBaseline="middle"
                             fill="white"
