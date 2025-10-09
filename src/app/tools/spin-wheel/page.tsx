@@ -34,7 +34,11 @@ const describeArc = (x: number, y: number, radius: number, startAngle: number, e
         y: y + radius * Math.sin(endAngle * Math.PI / 180)
     };
     const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-    return `M ${x},${y} L ${start.x},${start.y} A ${radius},${radius} 0 ${largeArcFlag} 1 ${end.x},${end.y} Z`;
+    
+    // Round the values to prevent hydration errors from floating point discrepancies
+    const round = (val: number) => Math.round(val * 1000) / 1000;
+
+    return `M ${round(x)},${round(y)} L ${round(start.x)},${round(start.y)} A ${round(radius)},${round(radius)} 0 ${largeArcFlag} 1 ${round(end.x)},${round(end.y)} Z`;
 };
 
 
@@ -84,21 +88,14 @@ export default function SpinWheelPage() {
 
   const sectorAngle = 360 / Math.max(1, entries.length);
 
-  // Accurate winner detection based on final rotation angle
   const detectWinner = (finalRotation: number) => {
-    // The pointer is at the top (imagine it as the 12 o'clock position).
-    // In a standard coordinate system, this is 270 degrees or -90 degrees.
-    // The wheel rotates clockwise. We need to find which sector lands at the top.
     const normalizedAngle = finalRotation % 360;
-    
-    // We adjust the angle to make the top of the wheel (270deg) our reference point (0).
-    // The formula (360 - normalizedAngle + 270) % 360 maps the rotation to the pointer's position.
     const winningAngle = (360 - normalizedAngle + 270) % 360;
-    
-    // We find the index of the winning sector by dividing the winning angle by the angle of each sector.
-    const winningIndex = Math.floor(winningAngle / sectorAngle);
-    
-    setWinner(entries[winningIndex]);
+    const winnerIndex = Math.floor(winningAngle / sectorAngle);
+    const selectedWinner = entries[winnerIndex];
+    if (selectedWinner) {
+      setWinner(selectedWinner);
+    }
   };
 
   const spinWheel = () => {
@@ -115,16 +112,13 @@ export default function SpinWheelPage() {
     setIsSpinning(true);
     setWinner(null);
     
-    // Generate a random rotation: at least 10 full spins + a random amount for unpredictability.
     const extraRotation = Math.floor(3600 + Math.random() * 360);
-    const totalRotation = currentRotation + extraRotation;
-    const duration = 5000; // 5 seconds spin duration
+    const duration = 5000;
     const start = performance.now();
 
     const animate = (time: number) => {
       const progress = Math.min((time - start) / duration, 1);
-      // Cubic ease-out function: starts fast, slows down towards the end for a natural feel.
-      const easeOut = 1 - Math.pow(1 - progress, 3); 
+      const easeOut = 1 - Math.pow(1 - progress, 3);
       const rotation = currentRotation + extraRotation * easeOut;
       
       if (wheelRef.current) {
@@ -134,10 +128,10 @@ export default function SpinWheelPage() {
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        // Animation finished
-        setCurrentRotation(totalRotation % 360);
+        const finalRotation = currentRotation + extraRotation;
+        setCurrentRotation(finalRotation % 360);
         setIsSpinning(false);
-        detectWinner(totalRotation);
+        detectWinner(finalRotation);
       }
     };
 
@@ -172,13 +166,10 @@ export default function SpinWheelPage() {
               <div ref={wheelRef} className="w-full h-full">
                   <svg viewBox="0 0 200 200" className="w-full h-full">
                     {entries.map((entry, index) => {
-                      // Sector drawing logic
                       const startAngle = sectorAngle * index - 90;
                       const endAngle = startAngle + sectorAngle;
-                      
-                      // Text placement logic
                       const midAngle = startAngle + sectorAngle / 2;
-                      const textRadius = 65; // Position text 65% out from the center
+                      const textRadius = 65;
                       const textX = 100 + textRadius * Math.cos(midAngle * Math.PI / 180);
                       const textY = 100 + textRadius * Math.sin(midAngle * Math.PI / 180);
                       
@@ -186,17 +177,15 @@ export default function SpinWheelPage() {
 
                       return (
                         <g key={entry.id}>
-                          {/* Wedge path using SVG arc commands */}
                           <path
                             d={describeArc(100, 100, 100, startAngle, endAngle)}
                             fill={colors[index % colors.length]}
                             className={cn(isWinner && "animate-pulse")}
                           />
-                           {/* Centered and rotated text */}
                            <text
-                            x={textX}
-                            y={textY}
-                            transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
+                            x={Math.round(textX)}
+                            y={Math.round(textY)}
+                            transform={`rotate(${midAngle + 90}, ${Math.round(textX)}, ${Math.round(textY)})`}
                             textAnchor="middle"
                             alignmentBaseline="middle"
                             fill="white"
