@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi, Gem, Zap, Lock } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi, Gem, Zap, Lock, Disc } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -40,6 +40,12 @@ const categories = [
     description: 'A collection of calculators for finance, health, and mathematics.',
     icon: <Calculator className="w-12 h-12 text-primary" />,
     href: '/calculator-tools',
+  },
+   {
+    title: 'Spin Wheel',
+    description: 'Enter names or images, spin, and see who wins!',
+    icon: <Disc className="w-12 h-12 text-primary" />,
+    href: '/tools/spin-wheel',
   },
   {
     title: 'Internet Speed Checker',
