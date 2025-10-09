@@ -14,6 +14,7 @@ import '@/ai/flows/merge-pdf.ts';
 import '@/ai/flows/split-pdf.ts';
 import '@/ai/flows/delete-pdf-pages.ts';
 import '@/ai/flows/protect-pdf.ts';
+import '@/ai/flows/unlock-pdf.ts';
 import '@/ai/flows/watermark-pdf.ts';
 import '@/ai/flows/rotate-pdf.ts';
 import '@/ai/flows/pdf-ocr.ts';
