@@ -115,21 +115,21 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[60vh] w-full flex items-center justify-center text-center text-white overflow-hidden bg-gradient-to-br from-green-900 via-card to-black">
+      <section className="relative h-[70vh] sm:h-[60vh] w-full flex items-center justify-center text-center text-white overflow-hidden bg-gradient-to-br from-green-900 via-card to-black">
         <div className="relative z-10 flex flex-col items-center gap-4 p-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight font-headline animate-fade-in-down">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight font-headline animate-fade-in-down">
             DP Tools – Smart, Simple & Free Online Tools
           </h1>
-          <p className="max-w-2xl text-xl md:text-2xl text-foreground/80 animate-fade-in-up">
+          <p className="max-w-2xl text-lg sm:text-xl md:text-2xl text-foreground/80 animate-fade-in-up">
             Get quick access to calculators, PDF tools, and image utilities. Stay tuned – we’re expanding with new tools every month.
           </p>
-           <div className="mt-6 flex flex-col sm:flex-row items-center gap-6 animate-fade-in-up">
+           <div className="mt-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 animate-fade-in-up">
             {features.map((feature, index) => (
               <div key={index} className="flex items-center gap-3 group">
                 <div className="p-2 bg-primary/10 rounded-full group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
-                <span className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">{feature.text}</span>
+                <span className="font-semibold text-md sm:text-lg text-foreground group-hover:text-primary transition-colors">{feature.text}</span>
               </div>
             ))}
           </div>
