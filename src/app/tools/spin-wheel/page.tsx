@@ -1,13 +1,13 @@
 
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Disc, Trash2, Upload, Star } from 'lucide-react';
+import { Disc, Trash2, Upload, Star, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import AdBanner from '@/components/ad-banner';
@@ -17,8 +17,25 @@ const colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3"
 interface Entry {
   id: number;
   text: string;
-  image?: string;
 }
+
+const MAX_ENTRIES = 10;
+const MIN_ENTRIES = 2;
+
+// SVG Path for a wedge
+const describeArc = (x: number, y: number, radius: number, startAngle: number, endAngle: number) => {
+    const start = {
+        x: x + radius * Math.cos(startAngle * Math.PI / 180),
+        y: y + radius * Math.sin(startAngle * Math.PI / 180)
+    };
+    const end = {
+        x: x + radius * Math.cos(endAngle * Math.PI / 180),
+        y: y + radius * Math.sin(endAngle * Math.PI / 180)
+    };
+    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+    return `M ${x},${y} L ${start.x},${start.y} A ${radius},${radius} 0 ${largeArcFlag} 1 ${end.x},${end.y} Z`;
+};
+
 
 export default function SpinWheelPage() {
   const [entries, setEntries] = useState<Entry[]>([
@@ -29,50 +46,71 @@ export default function SpinWheelPage() {
     { id: 5, text: 'Alex' },
     { id: 6, text: 'Sarah' },
   ]);
+  const [newEntryText, setNewEntryText] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [winner, setWinner] = useState<Entry | null>(null);
-  const wheelRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const lines = e.target.value.split('\n').filter(line => line.trim() !== '');
-    const newEntries = lines.map((line, index) => ({
-      id: index + 1,
-      text: line.trim(),
-    }));
-    setEntries(newEntries);
+  const handleAddEntry = () => {
+    const text = newEntryText.trim();
+    if (!text) return;
+    if (entries.length >= MAX_ENTRIES) {
+        toast({variant: 'destructive', title: 'Maximum entries reached'});
+        return;
+    }
+    if(entries.some(e => e.text.toLowerCase() === text.toLowerCase())) {
+        toast({variant: 'destructive', title: 'Duplicate entry'});
+        return;
+    }
+    setEntries([...entries, { id: Date.now(), text }]);
+    setNewEntryText('');
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if(e.key === 'Enter') {
+          e.preventDefault();
+          handleAddEntry();
+      }
+  }
   
+  const removeEntry = (id: number) => {
+    setEntries(entries.filter(e => e.id !== id));
+  }
+
   const spinWheel = () => {
-    if (entries.length < 2) {
+    if (entries.length < MIN_ENTRIES) {
       toast({
         variant: 'destructive',
         title: 'Not enough entries',
-        description: 'Please add at least two entries to spin the wheel.',
+        description: `Please add at least ${MIN_ENTRIES} entries to spin the wheel.`,
       });
       return;
     }
 
     setIsSpinning(true);
     setWinner(null);
-    const newRotation = rotation + 3600 + Math.random() * 360; // Spin multiple times + random amount
+    const newRotation = rotation + 3600 + Math.random() * 360; 
     setRotation(newRotation);
 
     setTimeout(() => {
       setIsSpinning(false);
-      const wheel = wheelRef.current;
-      if (wheel) {
-        const currentRotation = newRotation % 360;
-        const segmentAngle = 360 / entries.length;
-        const pointerAngle = 270; // The pointer is at the top (270 degrees)
-        const winningSegmentIndex = Math.floor(((360 - currentRotation + pointerAngle) % 360) / segmentAngle);
-        setWinner(entries[winningSegmentIndex]);
-      }
-    }, 5000); // Corresponds to the transition duration in CSS
+      
+      const sectorAngle = 360 / entries.length;
+      // The pointer is at the top (270 degrees in SVG coordinate system where 0 is on the right)
+      const pointerAngle = 270;
+      // Calculate the final resting angle, normalized between 0-360
+      const finalAngle = newRotation % 360;
+      // Calculate the angle of the pointer relative to the wheel's starting position
+      const winningAngle = (360 - finalAngle + pointerAngle) % 360;
+      // Determine the index of the winning segment
+      const winningIndex = Math.floor(winningAngle / sectorAngle);
+      
+      setWinner(entries[winningIndex]);
+    }, 5000); 
   };
 
-  const segmentAngle = 360 / Math.max(1, entries.length);
+  const sectorAngle = 360 / Math.max(1, entries.length);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -90,38 +128,56 @@ export default function SpinWheelPage() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 flex flex-col items-center justify-center relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-16 border-t-primary border-l-transparent border-r-transparent z-10"></div>
-            <div 
-              ref={wheelRef}
-              className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border-8 border-primary/50 shadow-2xl transition-transform duration-5000 ease-out"
-              style={{ transform: `rotate(${rotation}deg)` }}
-            >
-              {entries.map((entry, index) => {
-                const angle = segmentAngle * index;
-                const backgroundColor = colors[index % colors.length];
-                return (
-                  <div 
-                    key={entry.id}
-                    className="absolute w-1/2 h-1/2 origin-bottom-right"
-                    style={{
-                      transform: `rotate(${angle}deg)`,
-                      clipPath: `polygon(0 0, 100% 0, 100% 100%, 0 0)`
-                    }}
-                  >
-                    <div 
-                      className="absolute w-full h-full flex items-center justify-center"
-                      style={{
-                        backgroundColor,
-                        transform: `rotate(${segmentAngle / 2}deg) translate(-25%, -25%)`,
-                        clipPath: 'none'
-                      }}
-                    >
-                      <span className="text-white font-bold text-xs sm:text-base break-words text-center px-2">{entry.text}</span>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Static Pointer */}
+            <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 z-20" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))'}}>
+              <div className="w-0 h-0 border-l-8 border-r-8 border-t-[16px] border-t-primary border-l-transparent border-r-transparent"></div>
             </div>
+            
+            <div 
+              className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border-8 border-primary/50 shadow-2xl"
+            >
+              <div 
+                className="w-full h-full transition-transform duration-5000 ease-out"
+                style={{ transform: `rotate(${rotation}deg)` }}
+              >
+                  <svg viewBox="0 0 200 200" className="w-full h-full">
+                    {entries.map((entry, index) => {
+                      const startAngle = sectorAngle * index;
+                      const endAngle = startAngle + sectorAngle;
+                      const midAngle = startAngle + sectorAngle / 2;
+                      const textRadius = 65;
+                      const textX = 100 + textRadius * Math.cos(midAngle * Math.PI / 180);
+                      const textY = 100 + textRadius * Math.sin(midAngle * Math.PI / 180);
+                      
+                      const isWinner = winner?.id === entry.id && !isSpinning;
+
+                      return (
+                        <g key={entry.id}>
+                          <path
+                            d={describeArc(100, 100, 100, startAngle, endAngle)}
+                            fill={colors[index % colors.length]}
+                            className={cn(isWinner && "animate-pulse")}
+                          />
+                           <text
+                            x={textX}
+                            y={textY}
+                            transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
+                            textAnchor="middle"
+                            alignmentBaseline="middle"
+                            fill="white"
+                            fontSize="8"
+                            fontWeight="bold"
+                            className="pointer-events-none"
+                           >
+                            {entry.text.length > 12 ? entry.text.substring(0, 10) + '...' : entry.text}
+                           </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+              </div>
+            </div>
+
             <Button onClick={spinWheel} disabled={isSpinning} size="lg" className="mt-8 text-2xl h-16 px-12 rounded-full font-bold">
               {isSpinning ? 'Spinning...' : 'SPIN'}
             </Button>
@@ -136,22 +192,41 @@ export default function SpinWheelPage() {
         <div className="md:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Entries</CardTitle>
-              <CardDescription>Enter one name per line. You need at least two.</CardDescription>
+              <CardTitle>Entries ({entries.length}/{MAX_ENTRIES})</CardTitle>
+              <CardDescription>Enter a name and press Enter or click Add.</CardDescription>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={entries.map(e => e.text).join('\n')}
-                onChange={handleTextChange}
-                rows={10}
-                placeholder="Enter names here, one per line..."
-              />
+              <div className="flex gap-2 mb-4">
+                <Input
+                  value={newEntryText}
+                  onChange={e => setNewEntryText(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Add a new entry..."
+                  disabled={isSpinning}
+                />
+                <Button onClick={handleAddEntry} disabled={isSpinning}><Plus/></Button>
+              </div>
+              <ScrollArea className="h-64 border rounded-md p-2">
+                {entries.length > 0 ? (
+                  <ul className="space-y-2">
+                    {entries.map((entry) => (
+                      <li key={entry.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+                        <span className="truncate">{entry.text}</span>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeEntry(entry.id)} disabled={isSpinning}>
+                          <Trash2 className="w-4 h-4 text-destructive"/>
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                    Add entries to begin.
+                  </div>
+                )}
+              </ScrollArea>
             </CardContent>
-             <CardFooter className="flex-col items-start gap-4">
-                <div className="text-sm text-muted-foreground">
-                    Note: Image uploads are not yet supported in this version.
-                </div>
-                <Button variant="outline" onClick={() => setEntries([])} disabled={entries.length === 0}>
+            <CardFooter>
+                 <Button variant="outline" onClick={() => setEntries([])} disabled={entries.length === 0 || isSpinning}>
                     <Trash2 className="mr-2 h-4 w-4"/> Clear All Entries
                 </Button>
             </CardFooter>
@@ -163,3 +238,11 @@ export default function SpinWheelPage() {
     </div>
   );
 }
+
+/**
+ * README for Spin Wheel
+ * 
+ * - To change the number of sectors, modify the entries in the input text area. You can add or remove names (one per line). The wheel supports a minimum of 2 and a maximum of 10 entries.
+ * - To test the Enter-to-Add feature: Type a name in the input box and press the 'Enter' key. The name should appear on the wheel.
+ * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin and a winner will be announced below. The winning wedge will also be highlighted.
+ */
