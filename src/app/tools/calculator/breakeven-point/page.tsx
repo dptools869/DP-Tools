@@ -6,14 +6,45 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calculator } from 'lucide-react';
+import { Calculator, Banknote } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const CURRENCIES = [
+    { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+    { code: 'USD', symbol: '$', name: 'US Dollar' },
+    { code: 'EUR', symbol: '€', name: 'Euro' },
+    { code: 'GBP', symbol: '£', name: 'British Pound' },
+    { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+    { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+    { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+    { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
+    { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+    { code: 'SEK', symbol: 'kr', name: 'Swedish Krona' },
+    { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' },
+    { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+    { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
+    { code: 'NOK', symbol: 'kr', name: 'Norwegian Krone' },
+    { code: 'MXN', symbol: '$', name: 'Mexican Peso' },
+    { code: 'HKD', symbol: 'HK$', name: 'Hong Kong Dollar' },
+    { code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+    { code: 'ZAR', symbol: 'R', name: 'South African Rand' },
+    { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
+    { code: 'BRL', symbol: 'R$', name: 'Brazilian Real' },
+];
+
 
 export default function BreakevenPointCalculatorPage() {
   const [fixedCosts, setFixedCosts] = useState('');
   const [variableCost, setVariableCost] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
   const [result, setResult] = useState<{ units: string, revenue: string } | null>(null);
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
+
+  const handleCurrencyChange = (code: string) => {
+    const selected = CURRENCIES.find(c => c.code === code) || CURRENCIES[0];
+    setCurrency(selected);
+  };
 
   const handleCalculate = () => {
     const fc = parseFloat(fixedCosts);
@@ -51,21 +82,38 @@ export default function BreakevenPointCalculatorPage() {
 
           <Card>
               <CardHeader>
-                <CardTitle>Enter Your Business Costs and Price</CardTitle>
-                <CardDescription>Find the point where your revenue equals your costs.</CardDescription>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle>Enter Your Business Costs and Price</CardTitle>
+                        <CardDescription>Find the point where your revenue equals your costs.</CardDescription>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="currency" className="flex items-center gap-1"><Banknote className="w-4 h-4"/> Currency</Label>
+                        <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                            <SelectTrigger id="currency" className="w-[180px]">
+                                <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {CURRENCIES.map(c => (
+                                    <SelectItem key={c.code} value={c.code}>{c.name} ({c.symbol})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className='space-y-2'>
-                    <Label htmlFor="fixed-costs">Total Fixed Costs ($)</Label>
+                    <Label htmlFor="fixed-costs">Total Fixed Costs ({currency.symbol})</Label>
                     <Input id="fixed-costs" type="number" placeholder="e.g., 10000" value={fixedCosts} onChange={e => setFixedCosts(e.target.value)} />
                   </div>
                   <div className='space-y-2'>
-                    <Label htmlFor="variable-cost">Variable Cost Per Unit ($)</Label>
+                    <Label htmlFor="variable-cost">Variable Cost Per Unit ({currency.symbol})</Label>
                     <Input id="variable-cost" type="number" placeholder="e.g., 12.50" value={variableCost} onChange={e => setVariableCost(e.target.value)} />
                   </div>
                    <div className='space-y-2'>
-                    <Label htmlFor="selling-price">Selling Price Per Unit ($)</Label>
+                    <Label htmlFor="selling-price">Selling Price Per Unit ({currency.symbol})</Label>
                     <Input id="selling-price" type="number" placeholder="e.g., 25.00" value={sellingPrice} onChange={e => setSellingPrice(e.target.value)} />
                   </div>
                 </div>
@@ -78,7 +126,7 @@ export default function BreakevenPointCalculatorPage() {
                     </div>
                     <div>
                         <Label>Breakeven Point (Revenue)</Label>
-                        <div className="text-2xl font-bold text-green-500">${result.revenue}</div>
+                        <div className="text-2xl font-bold text-green-500">{currency.symbol}{result.revenue}</div>
                     </div>
                   </div>
                 )}
