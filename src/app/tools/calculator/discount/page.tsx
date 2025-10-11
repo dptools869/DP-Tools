@@ -6,13 +6,43 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Percent } from 'lucide-react';
+import { Percent, Banknote } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const CURRENCIES = [
+    { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+    { code: 'USD', symbol: '$', name: 'US Dollar' },
+    { code: 'EUR', symbol: '€', name: 'Euro' },
+    { code: 'GBP', symbol: '£', name: 'British Pound' },
+    { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+    { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+    { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+    { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
+    { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+    { code: 'SEK', symbol: 'kr', name: 'Swedish Krona' },
+    { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' },
+    { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+    { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
+    { code: 'NOK', symbol: 'kr', name: 'Norwegian Krone' },
+    { code: 'MXN', symbol: '$', name: 'Mexican Peso' },
+    { code: 'HKD', symbol: 'HK$', name: 'Hong Kong Dollar' },
+    { code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+    { code: 'ZAR', symbol: 'R', name: 'South African Rand' },
+    { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
+    { code: 'BRL', symbol: 'R$', name: 'Brazilian Real' },
+];
 
 export default function DiscountCalculatorPage() {
   const [originalPrice, setOriginalPrice] = useState('');
   const [discount, setDiscount] = useState('');
   const [result, setResult] = useState<{ finalPrice: string, savedAmount: string } | null>(null);
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
+
+  const handleCurrencyChange = (code: string) => {
+    const selected = CURRENCIES.find(c => c.code === code) || CURRENCIES[0];
+    setCurrency(selected);
+  };
 
   const handleCalculate = () => {
     const price = parseFloat(originalPrice);
@@ -49,13 +79,30 @@ export default function DiscountCalculatorPage() {
 
           <Card>
               <CardHeader>
-                <CardTitle>Enter Price and Discount</CardTitle>
-                <CardDescription>Find out how much you save and the final price.</CardDescription>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle>Enter Price and Discount</CardTitle>
+                        <CardDescription>Find out how much you save and the final price.</CardDescription>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="currency" className="flex items-center gap-1"><Banknote className="w-4 h-4"/> Currency</Label>
+                        <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                            <SelectTrigger id="currency" className="w-[180px]">
+                                <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {CURRENCIES.map(c => (
+                                    <SelectItem key={c.code} value={c.code}>{c.name} ({c.symbol})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className='space-y-2'>
-                    <Label htmlFor="original-price">Original Price ($)</Label>
+                    <Label htmlFor="original-price">Original Price ({currency.symbol})</Label>
                     <Input id="original-price" type="number" placeholder="e.g., 80.00" value={originalPrice} onChange={e => setOriginalPrice(e.target.value)} />
                   </div>
                   <div className='space-y-2'>
@@ -68,11 +115,11 @@ export default function DiscountCalculatorPage() {
                   <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center sm:text-left">
                     <div>
                         <Label>Amount Saved</Label>
-                        <div className="text-2xl font-bold text-primary">${result.savedAmount}</div>
+                        <div className="text-2xl font-bold text-primary">{currency.symbol}{result.savedAmount}</div>
                     </div>
                     <div>
                         <Label>Final Price (after discount)</Label>
-                        <div className="text-2xl font-bold text-green-500">${result.finalPrice}</div>
+                        <div className="text-2xl font-bold text-green-500">{currency.symbol}{result.finalPrice}</div>
                     </div>
                   </div>
                 )}
