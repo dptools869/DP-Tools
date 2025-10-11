@@ -232,7 +232,7 @@ export default function DeletePdfPagesPage() {
                   {pageThumbnails.length > 0 && (
                     <div className="space-y-4">
                       <Label>Select pages to delete (Total: {totalPages})</Label>
-                      <ScrollArea className="h-[600px] border p-4 rounded-md">
+                      <ScrollArea className="max-h-[600px] h-auto border p-4 rounded-md">
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                           {pageThumbnails.map(({ url, pageNumber }) => (
                             <div
