@@ -57,7 +57,7 @@ export default function FuelCostCalculatorPage() {
   const [efficiencyMpg, setEfficiencyMpg] = useState('');
   const [pricePerGallon, setPricePerGallon] = useState('');
 
-  const [currency, setCurrency] = useState(CURRENCIES[0]);
+  const [currency, setCurrency] = useState(CURRENCIES[4]);
   const [result, setResult] = useState<{ totalCost: string; currency: string; } | null>(null);
   
   const handleCurrencyChange = (code: string) => {
