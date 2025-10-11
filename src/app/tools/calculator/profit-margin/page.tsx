@@ -36,7 +36,7 @@ export default function ProfitMarginCalculatorPage() {
   const [cost, setCost] = useState('');
   const [revenue, setRevenue] = useState('');
   const [result, setResult] = useState<{ profit: string, margin: string } | null>(null);
-  const [currency, setCurrency] = useState(CURRENCIES[0]);
+  const [currency, setCurrency] = useState(CURRENCIES[4]);
 
   const handleCalculate = () => {
     const c = parseFloat(cost);
