@@ -10,8 +10,12 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, FileCheck, FileMinus, Loader2, Download, RefreshCw, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PDFDocument } from 'pdf-lib';
+import * as pdfjsLib from 'pdfjs-dist';
 import AdBanner from '@/components/ad-banner';
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
 
 interface PageThumbnail {
   url: string;
@@ -59,16 +63,25 @@ export default function DeletePdfPagesPage() {
     setPageThumbnails([]);
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      setTotalPages(pdfDoc.getPageCount());
+      const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      setTotalPages(pdfDoc.numPages);
 
       const thumbnails: PageThumbnail[] = [];
-      for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-        // To keep it fast, we'll just use placeholders. Rendering thumbs can be slow.
-        thumbnails.push({ url: '', pageNumber: i + 1 });
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const viewport = page.getViewport({ scale: 0.5 }); // Use a smaller scale for thumbnails
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        if(context){
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            thumbnails.push({ url: canvas.toDataURL(), pageNumber: i });
+        }
       }
       setPageThumbnails(thumbnails);
     } catch (e) {
+      console.error(e);
       toast({ variant: 'destructive', title: 'Error loading PDF', description: 'The file might be corrupted or protected.' });
       resetTool();
     } finally {
@@ -219,28 +232,30 @@ export default function DeletePdfPagesPage() {
                   {pageThumbnails.length > 0 && (
                     <div className="space-y-4">
                       <Label>Select pages to delete (Total: {totalPages})</Label>
-                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 max-h-[600px] overflow-y-auto border p-4 rounded-md">
-                        {pageThumbnails.map(({ pageNumber }) => (
-                          <div
-                            key={pageNumber}
-                            onClick={() => togglePageSelection(pageNumber)}
-                            className={cn(
-                              "relative aspect-[7/9] border-2 rounded-md flex flex-col items-center justify-center cursor-pointer transition-all bg-muted/50 hover:border-primary",
-                              selectedPages.has(pageNumber) ? 'border-destructive' : 'border-transparent'
-                            )}
-                          >
-                            <FileCheck className="w-1/2 h-1/2 text-muted-foreground/50" />
-                            <span className="absolute bottom-1 text-xs font-medium bg-background/50 px-1 rounded">
-                              {pageNumber}
-                            </span>
-                            {selectedPages.has(pageNumber) && (
-                              <div className="absolute inset-0 bg-destructive/50 flex items-center justify-center">
-                                <X className="w-1/2 h-1/2 text-destructive-foreground"/>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                      <ScrollArea className="h-[600px] border p-4 rounded-md">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+                          {pageThumbnails.map(({ url, pageNumber }) => (
+                            <div
+                              key={pageNumber}
+                              onClick={() => togglePageSelection(pageNumber)}
+                              className={cn(
+                                "relative aspect-[7/9] border-2 rounded-md flex flex-col items-center justify-center cursor-pointer transition-all bg-white hover:border-primary",
+                                selectedPages.has(pageNumber) ? 'border-destructive ring-2 ring-destructive ring-offset-2' : 'border-transparent'
+                              )}
+                            >
+                              <img src={url} alt={`Page ${pageNumber}`} className="w-full h-full object-contain"/>
+                              <span className="absolute bottom-1 right-1 text-xs font-bold bg-black/50 text-white px-1.5 py-0.5 rounded-full">
+                                {pageNumber}
+                              </span>
+                              {selectedPages.has(pageNumber) && (
+                                <div className="absolute inset-0 bg-destructive/70 flex items-center justify-center">
+                                  <X className="w-1/2 h-1/2 text-destructive-foreground"/>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
                     </div>
                   )}
 
@@ -276,7 +291,7 @@ export default function DeletePdfPagesPage() {
             <p>Our enhanced Delete PDF Pages tool offers a simple and intuitive way to remove unwanted pages from your PDF files. Whether you need to eliminate blank pages, get rid of irrelevant sections, or create a more concise document, our visual interface makes the process effortless. It's perfect for cleaning up reports, customizing documents for sharing, or removing sensitive information before distribution.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2 id="how-it-works">How to Delete Pages from a PDF</h2>
-            <p>The process is incredibly straightforward. First, upload your PDF document. Our tool will then generate a thumbnail preview for every page. From there, you have two options:</p>
+            <p>The process is incredibly straightforward. Simply upload your PDF document. Our tool will then generate a thumbnail preview for every page. From there, you have two options:</p>
             <ol>
                 <li><strong>Visual Selection:</strong> Simply click on the thumbnail of any page you wish to delete. A red overlay will confirm your selection. Click again to deselect.</li>
                 <li><strong>Manual Input:</strong> Use the input box to type page numbers or ranges you want to remove. For example, you can enter <code>1, 5, 8-12</code> to delete pages 1, 5, and 8 through 12.</li>
@@ -303,5 +318,3 @@ export default function DeletePdfPagesPage() {
     </div>
   );
 }
-
-    
