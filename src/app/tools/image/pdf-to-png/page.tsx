@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState } from 'react';
@@ -10,14 +9,22 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, FileCheck, Image, Loader2, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { pdfToPng, PdfToPngOutput } from '@/ai/flows/pdf-to-png';
 import AdBanner from '@/components/ad-banner';
+import * as pdfjsLib from 'pdfjs-dist';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+// Set worker source
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
+
+interface PageImage {
+  url: string;
+  pageNumber: number;
+}
 
 export default function PdfToPngPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<PdfToPngOutput | null>(null);
-  const [fileName, setFileName] = useState('');
+  const [pageImages, setPageImages] = useState<PageImage[]>([]);
   const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +32,7 @@ export default function PdfToPngPage() {
     if (selectedFile) {
       if (selectedFile.type === 'application/pdf') {
         setFile(selectedFile);
-        setFileName(selectedFile.name);
-        setConversionResult(null);
+        setPageImages([]);
       } else {
         toast({
           variant: 'destructive',
@@ -47,7 +53,7 @@ export default function PdfToPngPage() {
     const droppedFile = event.dataTransfer.files?.[0];
     if (droppedFile && droppedFile.type === 'application/pdf') {
       setFile(droppedFile);
-      setConversionResult(null);
+      setPageImages([]);
     } else {
       toast({
         variant: 'destructive',
@@ -68,67 +74,68 @@ export default function PdfToPngPage() {
     }
 
     setIsConverting(true);
-    setConversionResult(null);
+    setPageImages([]);
 
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64File = reader.result as string;
-        try {
-          const result = await pdfToPng({ pdfDataUri: base64File, fileName: file.name });
-          setConversionResult(result);
-          toast({
-            title: 'Conversion Successful',
-            description: `Your PDF has been converted into ${result.imageCount} PNG image(s).`,
-          });
-        } catch (error) {
-           toast({
-            variant: 'destructive',
-            title: 'Conversion Failed',
-            description: `An error occurred during conversion. ${error instanceof Error ? error.message : ''}`,
-          });
-        } finally {
-            setIsConverting(false);
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const numPages = pdf.numPages;
+      const newImages: PageImage[] = [];
+
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        if(context) {
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            newImages.push({ url: canvas.toDataURL('image/png'), pageNumber: i });
         }
-      };
-      reader.onerror = (error) => {
-        setIsConverting(false);
-        toast({
-            variant: 'destructive',
-            title: 'File Read Error',
-            description: 'Could not read the selected file.',
-          });
       }
+
+      setPageImages(newImages);
+      toast({
+        title: 'Conversion Successful',
+        description: `Your PDF has been converted into ${numPages} PNG image(s).`,
+      });
     } catch (error) {
-      setIsConverting(false);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: `An unexpected error occurred. ${error instanceof Error ? error.message : ''}`,
+        title: 'Conversion Failed',
+        description: `An error occurred during conversion. ${error instanceof Error ? error.message : ''}`,
       });
+    } finally {
+      setIsConverting(false);
     }
   };
 
-  const downloadZip = () => {
-    if (conversionResult) {
-      const link = document.createElement('a');
-      link.href = conversionResult.zipDataUri;
-      link.download = conversionResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  const downloadImage = (url: string, pageNumber: number) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${file?.name.replace('.pdf', '')}-page-${pageNumber}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+  const downloadAllImages = () => {
+      pageImages.forEach((image, index) => {
+          setTimeout(() => {
+              downloadImage(image.url, image.pageNumber);
+          }, index * 300); // Stagger downloads to prevent browser blocking
+      });
   };
 
   const resetTool = () => {
     setFile(null);
-    setFileName('');
     setIsConverting(false);
-    setConversionResult(null);
+    setPageImages([]);
     const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-    if(fileInput) fileInput.value = '';
-  }
+    if (fileInput) fileInput.value = '';
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -145,67 +152,76 @@ export default function PdfToPngPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
-              {!conversionResult && (
-                <div className="space-y-6">
-                  <Label
-                    htmlFor="file-upload"
-                    className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                        <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PDF file here'}
-                        </span>
-                        <span className="text-muted-foreground">or click to browse</span>
-                    </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
-                  </Label>
-                   <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
-                    {isConverting ? (
-                      <>
-                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                        Converting...
-                      </>
-                    ) : (
-                      'Convert to PNG'
-                    )}
-                  </Button>
-                </div>
-              )}
+              <div className="space-y-6">
+                <Label
+                  htmlFor="file-upload"
+                  className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
+                  <div className="flex flex-col items-center space-y-4">
+                    <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                    <span className="text-lg font-medium text-foreground">
+                      {file?.name || 'Drag & drop your PDF file here'}
+                    </span>
+                    <span className="text-muted-foreground">or click to browse</span>
+                  </div>
+                  <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
+                </Label>
+                 <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
+                  {isConverting ? (
+                    <>
+                      <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                      Converting...
+                    </>
+                  ) : (
+                    'Convert to PNG'
+                  )}
+                </Button>
+              </div>
 
-              {conversionResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
+              {pageImages.length > 0 && (
+                <div className="space-y-4">
+                  <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
                     <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Conversion Successful!</AlertTitle>
-                    <AlertDescription>
-                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2">
-                           <p className="font-semibold text-center sm:text-left">
-                                {conversionResult.imageCount} image(s) zipped in <span className="font-bold">{conversionResult.fileName}</span>.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                <Button onClick={downloadZip} size="sm" className="bg-primary hover:bg-primary/90">
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download ZIP
-                                </Button>
-                                <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>
-                                    Convert Another
-                                </Button>
-                            </div>
-                        </div>
+                    <AlertTitle className="font-bold">Conversion Complete!</AlertTitle>
+                    <AlertDescription className='flex flex-col sm:flex-row justify-between items-center mt-2 gap-2'>
+                        Your images are ready. Download them individually below or all at once.
+                         <div className="flex gap-2">
+                             <Button onClick={downloadAllImages} size="sm" variant="secondary" className="bg-background/80">Download All</Button>
+                             <Button onClick={resetTool} size="sm" variant="outline" className='bg-background/80'>Start Over</Button>
+                         </div>
                     </AlertDescription>
-                </Alert>
+                  </Alert>
+
+                  <ScrollArea className="h-[600px] border rounded-lg p-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {pageImages.map((image) => (
+                          <Card key={image.pageNumber} className="overflow-hidden">
+                            <CardContent className="p-0">
+                              <img src={image.url} alt={`Page ${image.pageNumber}`} className="w-full h-auto aspect-[8.5/11] object-contain bg-white"/>
+                            </CardContent>
+                            <CardFooter className="p-2 flex-col items-start text-xs">
+                              <p className="font-semibold">Page {image.pageNumber}</p>
+                              <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => downloadImage(image.url, image.pageNumber)}>
+                                Download PNG
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        ))}
+                      </div>
+                  </ScrollArea>
+                </div>
               )}
             </CardContent>
             <CardFooter>
-                <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
+                <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely in your browser and are never uploaded to our servers.</p>
             </CardFooter>
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>High-Quality PDF to PNG Conversion</h2>
-            <p>Our PDF to PNG converter allows you to transform your PDF documents into high-resolution PNG images, perfect for when you need to preserve transparency or require the highest image quality. This tool is ideal for graphic designers, web developers, and anyone who needs to extract pages or images from a PDF while maintaining visual fidelity. Each page of your PDF is converted into a separate PNG file, and all files are conveniently packaged in a single ZIP archive for you to download.</p>
+            <p>Our PDF to PNG converter allows you to transform your PDF documents into high-resolution PNG images, perfect for when you need to preserve transparency or require the highest image quality. This tool is ideal for graphic designers, web developers, and anyone who needs to extract pages or images from a PDF while maintaining visual fidelity. Each page of your PDF is converted into a separate PNG file.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2>Why Convert PDF to PNG?</h2>
             <p>While JPG is great for photographs, PNG is a lossless format that is superior for images containing text, line art, or graphics where clarity is paramount. Most importantly, PNG supports transparency, allowing you to place the converted image on different backgrounds without a white box around it. This is essential for logos, icons, and other graphics used in web design and presentations.</p>
@@ -213,7 +229,7 @@ export default function PdfToPngPage() {
               <li><strong>Lossless Quality:</strong> PNGs do not lose quality when compressed, ensuring your text and graphics remain sharp.</li>
               <li><strong>Transparency Support:</strong> Preserve transparent backgrounds from your PDF, which is crucial for design work.</li>
               <li><strong>Universal Compatibility:</strong> PNG is a web-standard format that is viewable on any device and in any modern browser.</li>
-              <li><strong>Secure and Free:</strong> Our tool is free, fast, and secure. Your files are encrypted and automatically deleted from our servers after conversion.</li>
+              <li><strong>Secure and Client-Side:</strong> Our tool processes your PDF directly in your browser, meaning your files are never uploaded to a server, ensuring maximum privacy and speed.</li>
             </ul>
             <p>Whether you're extracting a logo, sharing a single page as a high-quality image, or preparing graphics for a website, our "PDF to PNG converter" provides a reliable and easy-to-use solution. Start converting your PDFs to versatile, high-quality PNG images today.</p>
           </article>
