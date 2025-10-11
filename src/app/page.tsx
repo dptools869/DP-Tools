@@ -112,7 +112,13 @@ const categories = [
     description: 'Extract email addresses from any text.',
     icon: <Mail className="w-12 h-12 text-primary" />,
     href: '/tools/text/email-extractor',
-  }
+  },
+  {
+    title: 'Text Case Converter',
+    description: 'Convert text between different letter cases.',
+    icon: <CaseSensitive className="w-12 h-12 text-primary" />,
+    href: '/tools/text/case-converter',
+  },
 ];
 
 const youtubeVideos = [
