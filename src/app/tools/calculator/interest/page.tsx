@@ -6,9 +6,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Landmark } from 'lucide-react';
+import { Landmark, Banknote } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const CURRENCIES = [
+    { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+    { code: 'USD', symbol: '$', name: 'US Dollar' },
+    { code: 'EUR', symbol: '€', name: 'Euro' },
+    { code: 'GBP', symbol: '£', name: 'British Pound' },
+    { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+    { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+    { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+    { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
+    { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+    { code: 'SEK', symbol: 'kr', name: 'Swedish Krona' },
+    { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' },
+    { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+    { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
+    { code: 'NOK', symbol: 'kr', name: 'Norwegian Krone' },
+    { code: 'MXN', symbol: '$', name: 'Mexican Peso' },
+    { code: 'HKD', symbol: 'HK$', name: 'Hong Kong Dollar' },
+    { code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+    { code: 'ZAR', symbol: 'R', name: 'South African Rand' },
+    { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
+    { code: 'BRL', symbol: 'R$', name: 'Brazilian Real' },
+];
+
 
 export default function InterestCalculatorPage() {
   // --- Simple Interest State ---
@@ -18,6 +42,13 @@ export default function InterestCalculatorPage() {
   // --- Compound Interest State ---
   const [compoundInterest, setCompoundInterest] = useState({ principal: '', rate: '', time: '', frequency: '1' });
   const [compoundInterestResult, setCompoundInterestResult] = useState<{ interest: string, total: string } | null>(null);
+  
+  const [currency, setCurrency] = useState(CURRENCIES.find(c => c.code === 'INR') || CURRENCIES[0]);
+
+  const handleCurrencyChange = (code: string) => {
+    const selected = CURRENCIES.find(c => c.code === code) || CURRENCIES[0];
+    setCurrency(selected);
+  };
 
   const handleSimpleInterest = () => {
     const p = parseFloat(simpleInterest.principal);
@@ -54,7 +85,7 @@ export default function InterestCalculatorPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Landmark className="w-10 h-10 text-primary" />
@@ -64,6 +95,23 @@ export default function InterestCalculatorPage() {
                 Calculate simple and compound interest for your investments or loans.
               </CardDescription>
             </CardHeader>
+             <CardFooter>
+                 <div className="space-y-2 w-full flex justify-center">
+                        <div className="space-y-2">
+                           <Label htmlFor="currency" className="flex items-center gap-1"><Banknote className="w-4 h-4"/> Currency</Label>
+                           <Select value={currency.code} onValueChange={handleCurrencyChange}>
+                               <SelectTrigger id="currency" className="w-[180px]">
+                                   <SelectValue placeholder="Select Currency" />
+                               </SelectTrigger>
+                               <SelectContent>
+                                   {CURRENCIES.map(c => (
+                                       <SelectItem key={c.code} value={c.code}>{c.name} ({c.symbol})</SelectItem>
+                                   ))}
+                               </SelectContent>
+                           </Select>
+                        </div>
+                    </div>
+             </CardFooter>
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
@@ -76,7 +124,7 @@ export default function InterestCalculatorPage() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className='space-y-2'>
-                    <Label htmlFor="si-principal">Principal Amount ($)</Label>
+                    <Label htmlFor="si-principal">Principal Amount ({currency.symbol})</Label>
                     <Input id="si-principal" type="number" placeholder="e.g., 1000" value={simpleInterest.principal} onChange={e => setSimpleInterest({ ...simpleInterest, principal: e.target.value })} />
                   </div>
                   <div className='space-y-2'>
@@ -93,11 +141,11 @@ export default function InterestCalculatorPage() {
                   <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <Label>Total Interest</Label>
-                        <div className="text-2xl font-bold text-primary">${simpleInterestResult.interest}</div>
+                        <div className="text-2xl font-bold text-primary">{currency.symbol}{simpleInterestResult.interest}</div>
                     </div>
                     <div>
                         <Label>Total Principal + Interest</Label>
-                        <div className="text-2xl font-bold text-green-500">${simpleInterestResult.total}</div>
+                        <div className="text-2xl font-bold text-green-500">{currency.symbol}{simpleInterestResult.total}</div>
                     </div>
                   </div>
                 )}
@@ -113,7 +161,7 @@ export default function InterestCalculatorPage() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                    <div className='space-y-2'>
-                    <Label htmlFor="ci-principal">Principal Amount ($)</Label>
+                    <Label htmlFor="ci-principal">Principal Amount ({currency.symbol})</Label>
                     <Input id="ci-principal" type="number" placeholder="e.g., 1000" value={compoundInterest.principal} onChange={e => setCompoundInterest({ ...compoundInterest, principal: e.target.value })} />
                   </div>
                   <div className='space-y-2'>
@@ -145,11 +193,11 @@ export default function InterestCalculatorPage() {
                   <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                      <div>
                         <Label>Total Interest</Label>
-                        <div className="text-2xl font-bold text-primary">${compoundInterestResult.interest}</div>
+                        <div className="text-2xl font-bold text-primary">{currency.symbol}{compoundInterestResult.interest}</div>
                     </div>
                     <div>
                         <Label>Total Principal + Interest</Label>
-                        <div className="text-2xl font-bold text-green-500">${compoundInterestResult.total}</div>
+                        <div className="text-2xl font-bold text-green-500">{currency.symbol}{compoundInterestResult.total}</div>
                     </div>
                   </div>
                 )}
@@ -182,4 +230,3 @@ export default function InterestCalculatorPage() {
     </div>
   );
 }
-
