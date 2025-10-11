@@ -66,6 +66,12 @@ const categories = [
     href: '/tools/calculator/password-strength',
   },
   {
+    title: 'Thumbnail Preview',
+    description: 'See how your YouTube thumbnail will look on different devices.',
+    icon: <View className="w-12 h-12 text-primary" />,
+    href: '/thumbnail-preview',
+  },
+  {
     title: 'Color Picker',
     description: 'Explore colors, get codes, and create palettes for your projects.',
     icon: <Palette className="w-12 h-12 text-primary" />,
