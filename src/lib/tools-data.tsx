@@ -547,12 +547,6 @@ export const toolsData: Record<string, ToolCategory> = {
         icon: <Landmark className="w-8 h-8 text-primary" />,
         href: '/tools/calculator/freelance-rate',
       },
-       {
-        title: 'Password Strength Checker',
-        description: 'Check the strength of your password.',
-        icon: <KeyRound className="w-8 h-8 text-primary" />,
-        href: '/tools/calculator/password-strength',
-      },
       {
         title: 'Word Counter',
         description: 'Count words and characters in your text.',

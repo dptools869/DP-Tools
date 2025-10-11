@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi, Gem, Zap, Lock, Disc } from 'lucide-react';
+import { ArrowRight, Calculator, FileText, ImageIcon, Send, View, Palette, Crop, Ratio, Link as LinkIcon, CaseSensitive, Bolt, UserPlus, Mail, Ruler, KeyRound, Wifi, Gem, Zap, Lock, Disc, Shield } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -58,6 +58,12 @@ const categories = [
     description: 'Generate strong, secure passwords for your social media accounts.',
     icon: <KeyRound className="w-12 h-12 text-primary" />,
     href: '/tools/text/password-generator',
+  },
+  {
+    title: 'Password Strength Checker',
+    description: 'Check the strength of your password.',
+    icon: <Shield className="w-12 h-12 text-primary" />,
+    href: '/tools/calculator/password-strength',
   },
   {
     title: 'Color Picker',
