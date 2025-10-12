@@ -20,7 +20,7 @@ interface Entry {
   text: string;
 }
 
-const MAX_ENTRIES = 10;
+const MAX_ENTRIES = 50;
 const MIN_ENTRIES = 2;
 
 // SVG Path for a wedge
@@ -90,12 +90,13 @@ export default function SpinWheelPage() {
 
   const detectWinner = useCallback((finalRotation: number) => {
     // The pointer is at the top, which is 270 degrees in SVG's coordinate system (where 0 is to the right).
+    // The wheel starts drawing its first sector at -90 degrees (also top).
     const pointerAngle = 270;
     // Normalize the final rotation to be within 0-360 degrees.
     const normalizedRotation = finalRotation % 360;
     // Calculate the effective angle of the pointer relative to the wheel's starting position.
     // Adding 360 ensures the result is always positive.
-    const effectiveAngle = (pointerAngle - normalizedRotation + 360) % 360;
+    const effectiveAngle = (360 - normalizedRotation + pointerAngle) % 360;
     // Determine the winning index by dividing the effective angle by the angle of each sector.
     const winnerIndex = Math.floor(effectiveAngle / sectorAngle);
     const selectedWinner = entries[winnerIndex];
@@ -274,7 +275,7 @@ export default function SpinWheelPage() {
 /**
  * README for Spin Wheel
  * 
- * - To change the number of sectors, add or remove entries in the input text area. The wheel supports a minimum of 2 and a maximum of 10 entries.
+ * - To change the number of sectors, add or remove entries in the input text area. The wheel supports a minimum of 2 and a maximum of 50 entries.
  * - To test the Enter-to-Add feature: Type a name in the input box and press the 'Enter' key. The name should appear on the wheel.
  * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin smoothly and a winner will be announced below. The winning wedge will also be highlighted.
  */
