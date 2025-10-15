@@ -259,13 +259,13 @@ export default function ThumbnailPreviewPage() {
               <h2 className="text-2xl font-bold font-headline mb-6 text-center">Thumbnail Previews</h2>
               <div className="grid grid-cols-1 gap-8">
                  <PreviewCard title="Original Image" icon={<ImageIcon className="w-4 h-4"/>}><OriginalImagePreview image={image} /></PreviewCard>
-                 <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
                  <PreviewCard title="Web - Channel Page (Large)" icon={<Monitor className="w-4 h-4"/>}><WebHomeLargePreview image={image} title={title} seed="a1b2c3d4e5f6" /></PreviewCard>
                  <PreviewCard title="Web - History/List View" icon={<History className="w-4 h-4"/>}><HistoryListPreview image={image} title={title} seed="f6e5d4c3b2a1" /></PreviewCard>
                  <PreviewCard title="Web - Home Feed (Small)" icon={<Monitor className="w-4 h-4"/>}><WebHomeSmallPreview image={image} title={title} seed="1a2b3c4d5e6f" /></PreviewCard>
                  <PreviewCard title="Mobile - Home Feed" icon={<Smartphone className="w-4 h-4"/>}><MobileHomePreview image={image} title={title} seed="6f5e4d3c2b1a" /></PreviewCard>
                  <PreviewCard title="Web - Channel Page (Small Grid)" icon={<Monitor className="w-4 h-4"/>}><ChannelPageGridPreview image={image} title={title} seed="c3b2a1d4e5f6" /></PreviewCard>
                  <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="e5f6a1b2c3d4" /></PreviewCard>
+                 <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
               </div>
             </div>
           )}
@@ -281,4 +281,3 @@ export default function ThumbnailPreviewPage() {
     </div>
   );
 }
-
