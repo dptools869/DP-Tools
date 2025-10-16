@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -158,16 +158,21 @@ export default function ThumbnailPreviewPage() {
   const [title, setTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     validateAndSetImage(file);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files?.[0];
     validateAndSetImage(file);
+  };
+  
+  const handleUploadAreaClick = () => {
+    fileInputRef.current?.click();
   };
 
   const validateAndSetImage = (file: File | undefined | null) => {
@@ -217,11 +222,13 @@ export default function ThumbnailPreviewPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="max-w-2xl mx-auto space-y-6">
-                <Label
-                    htmlFor="thumbnail-upload"
+                <div
                     className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
+                    onClick={handleUploadAreaClick}
+                    role="button"
+                    aria-label="Upload thumbnail"
                 >
                     {image ? (
                         <div className="flex flex-col items-center gap-2">
@@ -239,8 +246,8 @@ export default function ThumbnailPreviewPage() {
                         </div>
                     )}
                    
-                    <Input id="thumbnail-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
-                </Label>
+                    <Input id="thumbnail-upload" ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+                </div>
                 {error && (
                     <div className="flex items-center gap-2 text-destructive font-medium p-3 rounded-md bg-destructive/10 border border-destructive/20">
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
