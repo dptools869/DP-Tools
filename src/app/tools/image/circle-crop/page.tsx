@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, Crop, Loader2, Download, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AdBanner from '@/components/ad-banner';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function CircleCropPage() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -19,7 +20,8 @@ export default function CircleCropPage() {
   const [isCropping, setIsCropping] = useState(false);
   const [fileName, setFileName] = useState('');
   const cropperRef = useRef<any>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null); // Ref for the file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const isMobile = useIsMobile();
   const { toast } = useToast();
 
   const handleFile = (file: File | undefined | null) => {
@@ -40,19 +42,17 @@ export default function CircleCropPage() {
       }
   }
 
-  // This handler triggers the hidden file input. It works reliably on both desktop and mobile.
-  const handleUploadAreaClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  // This handles file selection from the dialog opened by the click handler.
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       handleFile(e.target.files[0]);
     }
   };
+  
+  const handleDesktopUploadClick = () => {
+      // On desktop, clicking the area triggers the file input.
+      fileInputRef.current?.click();
+  };
 
-  // Desktop only: Handle file drop
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     handleFile(event.dataTransfer.files?.[0]);
@@ -113,28 +113,39 @@ export default function CircleCropPage() {
               </div>
               <CardTitle className="text-3xl font-headline">Circle Crop Tool</CardTitle>
               <CardDescription className="text-lg">
-                Create perfect circular profile pictures and logos with resizable crop area.
+                Create perfect circular profile pictures and logos with a resizable crop area.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!imageSrc && (
-                // This div is now the clickable/tappable area. It triggers the hidden input.
-                <div
-                  role="button"
-                  aria-label="Upload an image"
-                  className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDrop}
-                  onClick={handleUploadAreaClick}
-                >
-                  <div className="flex flex-col items-center space-y-4">
-                    <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                    <span className="text-lg font-medium text-foreground">
-                      Drag & drop an image or tap to upload
-                    </span>
+                <div>
+                  {/* --- Desktop Uploader: Drag-and-drop area --- */}
+                  <div
+                    role="button"
+                    aria-label="Upload an image"
+                    className="hidden md:block relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={handleDrop}
+                    onClick={handleDesktopUploadClick}
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                      <span className="text-lg font-medium text-foreground">
+                        Drag & drop an image or tap to upload
+                      </span>
+                    </div>
                   </div>
-                  {/* The actual file input is hidden but programmatically triggered. */}
-                  <Input ref={fileInputRef} id="file-upload" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
+
+                  {/* --- Mobile Uploader: Visible Button --- */}
+                  <div className="md:hidden text-center">
+                     <Label htmlFor="file-upload-mobile" className="inline-flex items-center justify-center h-12 px-8 text-lg font-semibold text-white bg-primary rounded-md cursor-pointer hover:bg-primary/90">
+                          <UploadCloud className="mr-2 h-5 w-5" />
+                          Choose Image
+                      </Label>
+                  </div>
+
+                  {/* --- Hidden file input for both --- */}
+                  <Input ref={fileInputRef} id="file-upload-mobile" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
                 </div>
               )}
 
