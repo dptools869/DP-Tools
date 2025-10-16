@@ -48,8 +48,7 @@ export default function CircleCropPage() {
     }
   };
   
-  const handleDesktopUploadClick = () => {
-      // On desktop, clicking the area triggers the file input.
+  const handleUploadAreaClick = () => {
       fileInputRef.current?.click();
   };
 
@@ -72,10 +71,13 @@ export default function CircleCropPage() {
             outputCanvas.height = height;
 
             if (outputContext) {
+                // This creates the circular clipping path
                 outputContext.beginPath();
                 outputContext.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
                 outputContext.closePath();
                 outputContext.clip();
+                
+                // This draws the cropped image from the cropper's canvas into the clipped area
                 outputContext.drawImage(canvas, 0, 0);
                 
                 setCroppedImage(outputCanvas.toDataURL('image/png'));
@@ -104,6 +106,19 @@ export default function CircleCropPage() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+       <style>{`
+        .mobile-only-button {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .desktop-only-uploader {
+            display: none;
+          }
+          .mobile-only-button {
+            display: inline-flex;
+          }
+        }
+      `}</style>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
@@ -119,14 +134,14 @@ export default function CircleCropPage() {
             <CardContent className="space-y-8 mt-6">
               {!imageSrc && (
                 <div>
-                  {/* --- Desktop Uploader: Drag-and-drop area --- */}
+                  {/* --- Desktop Uploader: Drag-and-drop area that also works on click --- */}
                   <div
                     role="button"
                     aria-label="Upload an image"
-                    className="hidden md:block relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                    className="desktop-only-uploader relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
-                    onClick={handleDesktopUploadClick}
+                    onClick={handleUploadAreaClick}
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <UploadCloud className="h-12 w-12 text-muted-foreground" />
@@ -136,22 +151,22 @@ export default function CircleCropPage() {
                     </div>
                   </div>
 
-                  {/* --- Mobile Uploader: Visible Button --- */}
-                  <div className="md:hidden text-center">
-                     <Label htmlFor="file-upload-mobile" className="inline-flex items-center justify-center h-12 px-8 text-lg font-semibold text-white bg-primary rounded-md cursor-pointer hover:bg-primary/90">
-                          <UploadCloud className="mr-2 h-5 w-5" />
-                          Choose Image
-                      </Label>
-                  </div>
-
-                  {/* --- Hidden file input for both --- */}
+                  {/* --- Mobile Uploader: A simple, visible button --- */}
+                  <Button asChild className="mobile-only-button w-full" size="lg">
+                    <label htmlFor="file-upload-mobile">
+                      <UploadCloud className="mr-2 h-5 w-5" />
+                      Choose Image
+                    </label>
+                  </Button>
+                  
+                  {/* --- Hidden file input for both desktop and mobile --- */}
                   <Input ref={fileInputRef} id="file-upload-mobile" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
                 </div>
               )}
 
               {imageSrc && !croppedImage && (
                 <div className="space-y-4">
-                  <div className="h-[300px] sm:h-[500px] w-full bg-muted/30 rounded-lg">
+                  <div className="h-[300px] sm:h-[500px] w-full bg-muted/30 rounded-lg" style={{ touchAction: 'none' }}>
                     <Cropper
                       ref={cropperRef}
                       src={imageSrc}
