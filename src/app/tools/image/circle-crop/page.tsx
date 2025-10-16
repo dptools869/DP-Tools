@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +12,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UploadCloud, Crop, Loader2, Download, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AdBanner from '@/components/ad-banner';
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function CircleCropPage() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -21,7 +20,6 @@ export default function CircleCropPage() {
   const [fileName, setFileName] = useState('');
   const cropperRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isMobile = useIsMobile();
   const { toast } = useToast();
 
   const handleFile = (file: File | undefined | null) => {
@@ -106,19 +104,6 @@ export default function CircleCropPage() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-       <style>{`
-        .mobile-only-button {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .desktop-only-uploader {
-            display: none;
-          }
-          .mobile-only-button {
-            display: inline-flex;
-          }
-        }
-      `}</style>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
@@ -133,34 +118,23 @@ export default function CircleCropPage() {
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!imageSrc && (
-                <div>
-                  {/* --- Desktop Uploader: Drag-and-drop area that also works on click --- */}
-                  <div
-                    role="button"
-                    aria-label="Upload an image"
-                    className="desktop-only-uploader relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    onClick={handleUploadAreaClick}
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                      <span className="text-lg font-medium text-foreground">
-                        Drag & drop an image or tap to upload
-                      </span>
-                    </div>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Upload an image"
+                  className="relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={handleDrop}
+                  onClick={handleUploadAreaClick}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleUploadAreaClick(); }}
+                >
+                  <div className="flex flex-col items-center space-y-4">
+                    <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                    <span className="text-lg font-medium text-foreground">
+                      Drag & drop an image or tap to upload
+                    </span>
                   </div>
-
-                  {/* --- Mobile Uploader: A simple, visible button --- */}
-                  <Button asChild className="mobile-only-button w-full" size="lg">
-                    <label htmlFor="file-upload-mobile">
-                      <UploadCloud className="mr-2 h-5 w-5" />
-                      Choose Image
-                    </label>
-                  </Button>
-                  
-                  {/* --- Hidden file input for both desktop and mobile --- */}
-                  <Input ref={fileInputRef} id="file-upload-mobile" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
+                  <Input ref={fileInputRef} id="file-upload" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
                 </div>
               )}
 
