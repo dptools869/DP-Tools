@@ -6,8 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { UploadCloud, View, Image as ImageIcon, Search, ThumbsUp, MessageCircle, Share2, MoreHorizontal, CheckCircle, AlertCircle, Tv, Smartphone, History, ListVideo, Monitor, Home } from 'lucide-react';
+import { UploadCloud, View, Image as ImageIcon, MoreHorizontal, CheckCircle, AlertCircle, Tv, Smartphone, History, Monitor } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AdBanner from '@/components/ad-banner';
 import Image from 'next/image';
@@ -17,9 +16,17 @@ import { cn } from '@/lib/utils';
 // Helper to generate random-ish but consistent metadata
 const useSampleMetadata = (seed: string) => {
   return useMemo(() => {
-    const views = (parseInt(seed.slice(0, 5), 16) % 500 + 10) / 10;
-    const time = (parseInt(seed.slice(5, 10), 16) % 12) + 1;
-    return `${views.toFixed(1)}k views \u2022 ${time} hours ago`;
+    // Using a simple hashing function to generate numbers from a seed
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+        const char = seed.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash |= 0; // Convert to 32bit integer
+    }
+
+    const views = (Math.abs(hash) % 5000 + 100) / 10;
+    const time = (Math.abs(hash) % 20) + 1;
+    return `${views.toFixed(1)}K views \u2022 ${time} hours ago`;
   }, [seed]);
 };
 
@@ -114,6 +121,7 @@ const HistoryListPreview = ({ image, title, seed }: { image: string, title: stri
     );
 };
 
+
 const MobileHomePreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
     const metadata = useSampleMetadata(seed);
     return (
@@ -134,7 +142,7 @@ const MobileHomePreview = ({ image, title, seed }: { image: string, title: strin
 const AppleTVPreview = ({ image, title }: { image: string, title: string }) => {
     return (
         <div className="relative aspect-video w-full max-w-xl rounded-lg overflow-hidden bg-muted">
-            <Image src={image} alt="Thumbnail" layout="fill" objectFit="cover" />
+            <Image src={image} alt="Thumbnail" fill objectFit="cover" />
             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/80 to-transparent">
                 <h4 className="font-bold text-lg sm:text-2xl text-white shadow-lg line-clamp-2">{title || "Your Awesome Video Title"}</h4>
                 <p className="text-sm sm:text-base text-white/80 shadow-md mt-1">Your Channel</p>
@@ -170,10 +178,6 @@ export default function ThumbnailPreviewPage() {
     const file = event.dataTransfer.files?.[0];
     validateAndSetImage(file);
   };
-  
-  const handleUploadAreaClick = () => {
-    fileInputRef.current?.click();
-  };
 
   const validateAndSetImage = (file: File | undefined | null) => {
     if (file && file.type.startsWith('image/')) {
@@ -207,8 +211,25 @@ export default function ThumbnailPreviewPage() {
     }
   }
 
+  const handleUploadAreaClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <style>{`
+        .mobile-only-button {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .desktop-only-uploader {
+            display: none;
+          }
+          .mobile-only-button {
+            display: inline-flex;
+          }
+        }
+      `}</style>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
           <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
@@ -222,13 +243,14 @@ export default function ThumbnailPreviewPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="max-w-2xl mx-auto space-y-6">
+                {/* --- Desktop Uploader --- */}
                 <div
-                    className="relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                    className="desktop-only-uploader relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
                     onClick={handleUploadAreaClick}
                     role="button"
-                    aria-label="Upload thumbnail"
+                    aria-label="Upload thumbnail for desktop"
                 >
                     {image ? (
                         <div className="flex flex-col items-center gap-2">
@@ -245,9 +267,19 @@ export default function ThumbnailPreviewPage() {
                             <span className="text-muted-foreground">or tap to browse</span>
                         </div>
                     )}
-                   
-                    <Input ref={fileInputRef} id="thumbnail-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
                 </div>
+
+                {/* --- Mobile Uploader --- */}
+                <Button asChild className="mobile-only-button w-full" size="lg">
+                    <label htmlFor="thumbnail-upload-mobile">
+                        <UploadCloud className="mr-2 h-5 w-5" />
+                        Choose Thumbnail
+                    </label>
+                </Button>
+                
+                {/* --- Hidden file input for both --- */}
+                <Input ref={fileInputRef} id="thumbnail-upload-mobile" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+
 
                 {error && (
                     <div className="flex items-center gap-2 text-destructive font-medium p-3 rounded-md bg-destructive/10 border border-destructive/20">
