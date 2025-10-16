@@ -19,6 +19,7 @@ export default function CircleCropPage() {
   const [isCropping, setIsCropping] = useState(false);
   const [fileName, setFileName] = useState('');
   const cropperRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null); // Ref for the file input
   const { toast } = useToast();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,25 +42,35 @@ export default function CircleCropPage() {
       }
     }
   };
-
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    const file = event.dataTransfer.files?.[0];
+  
+  // This function will be triggered by both click/tap and drop
+  const handleFile = (file: File | undefined | null) => {
     if (file && file.type.startsWith('image/')) {
-      setFileName(file.name.split('.').slice(0, -1).join('.') + '-cropped.png');
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        setImageSrc(reader.result as string);
-        setCroppedImage(null);
-      });
-      reader.readAsDataURL(file);
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Invalid File Type',
-        description: 'Please drop a valid image file.',
-      });
-    }
+        setFileName(file.name.split('.').slice(0, -1).join('.') + '-cropped.png');
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          setImageSrc(reader.result as string);
+          setCroppedImage(null);
+        });
+        reader.readAsDataURL(file);
+      } else if (file) {
+        toast({
+          variant: 'destructive',
+          title: 'Invalid File Type',
+          description: 'Please upload a valid image file.',
+        });
+      }
+  }
+
+  // Mobile and Desktop: Handle click/tap on the upload area
+  const handleUploadAreaClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Desktop only: Handle file drop
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    handleFile(event.dataTransfer.files?.[0]);
   };
 
   const handleCrop = () => {
@@ -103,8 +114,7 @@ export default function CircleCropPage() {
   const resetTool = () => {
     setImageSrc(null);
     setCroppedImage(null);
-    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (
@@ -123,26 +133,29 @@ export default function CircleCropPage() {
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!imageSrc && (
-                <Label
-                  htmlFor="file-upload"
+                // This div is now the clickable/tappable area for both desktop and mobile.
+                <div
+                  role="button"
+                  aria-label="Upload an image"
                   className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
+                  onClick={handleUploadAreaClick}
                 >
                   <div className="flex flex-col items-center space-y-4">
                     <UploadCloud className="h-12 w-12 text-muted-foreground" />
                     <span className="text-lg font-medium text-foreground">
-                      Drag & drop your image here
+                      Drag & drop an image or tap to upload
                     </span>
-                    <span className="text-muted-foreground">or click to browse</span>
                   </div>
-                  <Input id="file-upload" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
-                </Label>
+                  {/* The actual file input is hidden but triggered by the click handler. */}
+                  <Input ref={fileInputRef} id="file-upload" type="file" className="sr-only" onChange={(e) => handleFile(e.target.files?.[0])} accept="image/*" />
+                </div>
               )}
 
               {imageSrc && !croppedImage && (
                 <div className="space-y-4">
-                  <div className="h-[500px] w-full bg-muted/30 rounded-lg">
+                  <div className="h-[300px] sm:h-[500px] w-full bg-muted/30 rounded-lg">
                     <Cropper
                       ref={cropperRef}
                       src={imageSrc}
