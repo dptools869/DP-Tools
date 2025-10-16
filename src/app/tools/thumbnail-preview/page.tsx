@@ -165,7 +165,7 @@ export default function ThumbnailPreviewPage() {
     validateAndSetImage(file);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files?.[0];
     validateAndSetImage(file);
@@ -198,7 +198,7 @@ export default function ThumbnailPreviewPage() {
             img.src = e.target?.result as string;
         };
         reader.readAsDataURL(file);
-    } else {
+    } else if (file) {
         toast({
             variant: 'destructive',
             title: 'Invalid File Type',
@@ -253,8 +253,8 @@ export default function ThumbnailPreviewPage() {
 
                     {/* Mobile Uploader */}
                     <div className="block md:hidden">
-                        <Label htmlFor="thumbnail-upload-mobile">Upload Thumbnail (1280x720)</Label>
-                        <Input id="thumbnail-upload-mobile" type="file" className="w-full mt-2" onChange={handleFileChange} accept="image/*" />
+                        <Label htmlFor="thumbnail-upload-mobile" className="mb-2 block">Upload Thumbnail (1280x720)</Label>
+                        <Input id="thumbnail-upload-mobile" type="file" className="w-full" onChange={handleFileChange} accept="image/*" />
                     </div>
                 </div>
 
@@ -298,5 +298,3 @@ export default function ThumbnailPreviewPage() {
     </div>
   );
 }
-
-    
