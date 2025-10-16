@@ -222,32 +222,42 @@ export default function ThumbnailPreviewPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="max-w-2xl mx-auto space-y-6">
-                <div
-                    className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    onClick={handleUploadAreaClick}
-                    role="button"
-                    aria-label="Upload thumbnail"
-                >
-                    {image ? (
-                        <div className="flex flex-col items-center gap-2">
-                           <CheckCircle className="h-12 w-12 text-green-500" />
-                           <span className="text-lg font-medium text-foreground">Image Accepted!</span>
-                           <span className="text-sm text-muted-foreground">Replace by dragging a new file or clicking.</span>
-                        </div>
-                    ) : (
-                         <div className="flex flex-col items-center space-y-4">
-                            <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                            <span className="text-lg font-medium text-foreground">
-                                Drag & drop your 1280x720 thumbnail
-                            </span>
-                            <span className="text-muted-foreground">or click to browse</span>
-                        </div>
-                    )}
-                   
-                    <Input id="thumbnail-upload" ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+                <div className="space-y-4">
+                    {/* Desktop Uploader */}
+                    <div
+                        className="relative hidden md:block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={handleDrop}
+                        onClick={handleUploadAreaClick}
+                        role="button"
+                        aria-label="Upload thumbnail"
+                    >
+                        {image ? (
+                            <div className="flex flex-col items-center gap-2">
+                               <CheckCircle className="h-12 w-12 text-green-500" />
+                               <span className="text-lg font-medium text-foreground">Image Accepted!</span>
+                               <span className="text-sm text-muted-foreground">Drag a new file or click to replace.</span>
+                            </div>
+                        ) : (
+                             <div className="flex flex-col items-center space-y-4">
+                                <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                                <span className="text-lg font-medium text-foreground">
+                                    Drag & drop your 1280x720 thumbnail
+                                </span>
+                                <span className="text-muted-foreground">or click to browse</span>
+                            </div>
+                        )}
+                       
+                        <Input id="thumbnail-upload-desktop" ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+                    </div>
+
+                    {/* Mobile Uploader */}
+                    <div className="block md:hidden">
+                        <Label htmlFor="thumbnail-upload-mobile">Upload Thumbnail (1280x720)</Label>
+                        <Input id="thumbnail-upload-mobile" type="file" className="w-full mt-2" onChange={handleFileChange} accept="image/*" />
+                    </div>
                 </div>
+
                 {error && (
                     <div className="flex items-center gap-2 text-destructive font-medium p-3 rounded-md bg-destructive/10 border border-destructive/20">
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -288,3 +298,5 @@ export default function ThumbnailPreviewPage() {
     </div>
   );
 }
+
+    
