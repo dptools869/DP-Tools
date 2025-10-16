@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, useRef } from 'react';
@@ -101,14 +102,14 @@ const ChannelPageGridPreview = ({ image, title, seed }: { image: string, title: 
 const HistoryListPreview = ({ image, title, seed }: { image: string, title: string, seed: string }) => {
     const metadata = useSampleMetadata(seed);
     return (
-      <div className="flex gap-4 w-full max-w-lg">
-        <div className="w-40 sm:w-56 flex-shrink-0">
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+        <div className="w-full sm:w-56 flex-shrink-0">
           <Image src={image} alt="Thumbnail" width={1280} height={720} className="w-full h-auto rounded-lg aspect-video object-cover" />
         </div>
         <div className="flex-grow">
-          <h4 className="font-bold text-sm sm:text-base line-clamp-2 leading-snug">{title || "Your Awesome Video Title"}</h4>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">Your Channel \u2022 {metadata}</p>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-2 line-clamp-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <h4 className="font-bold text-base line-clamp-2 leading-snug">{title || "Your Awesome Video Title"}</h4>
+          <p className="text-sm text-muted-foreground mt-1">Your Channel \u2022 {metadata}</p>
+          <p className="text-sm text-muted-foreground mt-2 line-clamp-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         </div>
       </div>
     );
@@ -298,3 +299,4 @@ export default function ThumbnailPreviewPage() {
     </div>
   );
 }
+
