@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,28 +22,6 @@ export default function CircleCropPage() {
   const fileInputRef = useRef<HTMLInputElement>(null); // Ref for the file input
   const { toast } = useToast();
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      if (file.type.startsWith('image/')) {
-        setFileName(file.name.split('.').slice(0, -1).join('.') + '-cropped.png');
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          setImageSrc(reader.result as string);
-          setCroppedImage(null);
-        });
-        reader.readAsDataURL(file);
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Invalid File Type',
-          description: 'Please upload a valid image file.',
-        });
-      }
-    }
-  };
-  
-  // This function will be triggered by both click/tap and drop
   const handleFile = (file: File | undefined | null) => {
     if (file && file.type.startsWith('image/')) {
         setFileName(file.name.split('.').slice(0, -1).join('.') + '-cropped.png');
@@ -62,9 +40,16 @@ export default function CircleCropPage() {
       }
   }
 
-  // Mobile and Desktop: Handle click/tap on the upload area
+  // This handler triggers the hidden file input. It works reliably on both desktop and mobile.
   const handleUploadAreaClick = () => {
     fileInputRef.current?.click();
+  };
+
+  // This handles file selection from the dialog opened by the click handler.
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFile(e.target.files[0]);
+    }
   };
 
   // Desktop only: Handle file drop
@@ -133,7 +118,7 @@ export default function CircleCropPage() {
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!imageSrc && (
-                // This div is now the clickable/tappable area for both desktop and mobile.
+                // This div is now the clickable/tappable area. It triggers the hidden input.
                 <div
                   role="button"
                   aria-label="Upload an image"
@@ -148,8 +133,8 @@ export default function CircleCropPage() {
                       Drag & drop an image or tap to upload
                     </span>
                   </div>
-                  {/* The actual file input is hidden but triggered by the click handler. */}
-                  <Input ref={fileInputRef} id="file-upload" type="file" className="sr-only" onChange={(e) => handleFile(e.target.files?.[0])} accept="image/*" />
+                  {/* The actual file input is hidden but programmatically triggered. */}
+                  <Input ref={fileInputRef} id="file-upload" type="file" className="sr-only" onChange={onFileChange} accept="image/*" />
                 </div>
               )}
 
@@ -207,7 +192,7 @@ export default function CircleCropPage() {
             <h2 id="how-it-works">How to Use the Circle Crop Tool</h2>
             <p>The process is designed for maximum flexibility:</p>
             <ol>
-              <li><strong>Upload Your Image:</strong> Drag and drop an image file or click to browse and select one from your device.</li>
+              <li><strong>Upload Your Image:</strong> Drag and drop an image file or tap the upload area to select one from your device.</li>
               <li><strong>Adjust the Crop:</strong> A circular overlay will appear. You can drag the image to position it, use your mouse wheel to zoom, and drag the corners of the circle to resize it.</li>
               <li><strong>Crop and Download:</strong> Once you're happy with the preview, click the "Crop Image" button. Our tool will process the image and provide you with a high-quality, circular PNG file with a transparent background, ready for you to download.</li>
             </ol>
