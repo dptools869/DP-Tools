@@ -248,7 +248,7 @@ export default function ThumbnailPreviewPage() {
                             </div>
                         )}
                        
-                        <Input id="thumbnail-upload-desktop" ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+                        <Input ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
                     </div>
 
                     {/* Mobile Uploader */}
