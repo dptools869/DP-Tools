@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo, useRef } from 'react';
@@ -166,7 +165,7 @@ export default function ThumbnailPreviewPage() {
     validateAndSetImage(file);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files?.[0];
     validateAndSetImage(file);
@@ -223,41 +222,31 @@ export default function ThumbnailPreviewPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="max-w-2xl mx-auto space-y-6">
-                <div className="space-y-4">
-                    {/* Desktop Uploader */}
-                    <Label
-                        htmlFor="thumbnail-upload-desktop"
-                        className="relative hidden md:block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={handleDrop}
-                        onClick={handleUploadAreaClick}
-                        role="button"
-                        aria-label="Upload thumbnail"
-                    >
-                        {image ? (
-                            <div className="flex flex-col items-center gap-2">
-                               <CheckCircle className="h-12 w-12 text-green-500" />
-                               <span className="text-lg font-medium text-foreground">Image Accepted!</span>
-                               <span className="text-sm text-muted-foreground">Drag a new file or click to replace.</span>
-                            </div>
-                        ) : (
-                             <div className="flex flex-col items-center space-y-4">
-                                <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                                <span className="text-lg font-medium text-foreground">
-                                    Drag & drop your 1280x720 thumbnail
-                                </span>
-                                <span className="text-muted-foreground">or click to browse</span>
-                            </div>
-                        )}
-                       
-                        <Input ref={fileInputRef} id="thumbnail-upload-desktop" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
-                    </Label>
-
-                    {/* Mobile Uploader */}
-                    <div className="block md:hidden">
-                        <Label htmlFor="thumbnail-upload-mobile" className="mb-2 block">Upload Thumbnail (1280x720)</Label>
-                        <Input id="thumbnail-upload-mobile" type="file" className="w-full" onChange={handleFileChange} accept="image/*" />
-                    </div>
+                <div
+                    className="relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={handleDrop}
+                    onClick={handleUploadAreaClick}
+                    role="button"
+                    aria-label="Upload thumbnail"
+                >
+                    {image ? (
+                        <div className="flex flex-col items-center gap-2">
+                           <CheckCircle className="h-12 w-12 text-green-500" />
+                           <span className="text-lg font-medium text-foreground">Image Accepted!</span>
+                           <span className="text-sm text-muted-foreground">Drag a new file or tap to replace.</span>
+                        </div>
+                    ) : (
+                         <div className="flex flex-col items-center space-y-4">
+                            <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                            <span className="text-lg font-medium text-foreground">
+                                Drag & drop your 1280x720 thumbnail
+                            </span>
+                            <span className="text-muted-foreground">or tap to browse</span>
+                        </div>
+                    )}
+                   
+                    <Input ref={fileInputRef} id="thumbnail-upload" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
                 </div>
 
                 {error && (
