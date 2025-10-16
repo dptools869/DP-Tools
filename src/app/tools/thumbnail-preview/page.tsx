@@ -225,7 +225,8 @@ export default function ThumbnailPreviewPage() {
             <CardContent className="max-w-2xl mx-auto space-y-6">
                 <div className="space-y-4">
                     {/* Desktop Uploader */}
-                    <div
+                    <Label
+                        htmlFor="thumbnail-upload-desktop"
                         className="relative hidden md:block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={handleDrop}
@@ -249,8 +250,8 @@ export default function ThumbnailPreviewPage() {
                             </div>
                         )}
                        
-                        <Input ref={fileInputRef} type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
-                    </div>
+                        <Input ref={fileInputRef} id="thumbnail-upload-desktop" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
+                    </Label>
 
                     {/* Mobile Uploader */}
                     <div className="block md:hidden">
@@ -299,4 +300,3 @@ export default function ThumbnailPreviewPage() {
     </div>
   );
 }
-
