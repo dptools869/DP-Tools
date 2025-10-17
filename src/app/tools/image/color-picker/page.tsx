@@ -176,11 +176,12 @@ export default function ColorPickerPage() {
         if(ctx) {
             const imageData = ctx.getImageData(x, y, 1, 1).data;
             const { h, s, l } = rgbToHsl(imageData[0], imageData[1], imageData[2]);
-            setHue(h); // Hue is constant in this box, but this aligns all HSL values
+            // We use the original hue and only update saturation and lightness
+            // to prevent hue shifts when picking near black/white.
             setSaturation(s);
             setLightness(l);
         }
-    }, [setHue, setSaturation, setLightness]);
+    }, [setSaturation, setLightness]);
     
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = true;
@@ -199,9 +200,9 @@ export default function ColorPickerPage() {
         e.currentTarget.releasePointerCapture(e.pointerId);
     };
     
-    const pickerX = saturationCanvasRef.current ? (saturation / 100) * saturationCanvasRef.current.width : 0;
-    const pickerY = saturationCanvasRef.current ? (1 - lightness / 100) * saturationCanvasRef.current.height : 0;
-  
+    const saturationValue = saturation / 100;
+    const lightnessValue = 1 - (lightness / 100);
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
@@ -223,6 +224,8 @@ export default function ColorPickerPage() {
                 <div className="flex flex-col items-center gap-4">
                      <div
                         className="w-full h-52 relative cursor-crosshair focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
+                        // This style is essential for mobile devices to prevent page scrolling while dragging.
+                        style={{ touchAction: 'none' }}
                         onPointerDown={handlePointerDown}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
@@ -233,8 +236,8 @@ export default function ColorPickerPage() {
                          <div
                             className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg pointer-events-none -translate-x-1/2 -translate-y-1/2"
                             style={{
-                                left: `${pickerX}px`,
-                                top: `${pickerY}px`,
+                                left: `${saturationValue * 100}%`,
+                                top: `${lightnessValue * 100}%`,
                                 backgroundColor: color,
                             }}
                         />
