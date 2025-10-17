@@ -10,6 +10,7 @@ import { UploadCloud, Download, RefreshCw, Repeat } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AdBanner from '@/components/ad-banner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Image from 'next/image';
 
 type OutputFormat = 'jpeg' | 'png' | 'webp' | 'gif';
 
@@ -28,7 +29,7 @@ export default function ImageConverterPage() {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           setImage(img);
         };
@@ -149,7 +150,7 @@ export default function ImageConverterPage() {
                         <div className="space-y-4">
                             <Label>Preview</Label>
                             <div className="p-4 border rounded-lg bg-muted/30 aspect-video flex items-center justify-center">
-                                <img src={image.src} alt="Preview" style={{width: '100%', height: 'auto', objectFit: 'contain'}} />
+                                <Image src={image.src} alt="Preview" width={400} height={300} style={{maxWidth: '100%', height: 'auto', objectFit: 'contain'}} />
                             </div>
                             <div className="text-sm text-muted-foreground text-center">
                                Original Format: {originalFormat.toUpperCase()}
