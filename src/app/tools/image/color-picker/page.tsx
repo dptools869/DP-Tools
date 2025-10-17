@@ -282,16 +282,16 @@ export default function ColorPickerPage() {
                  <div className="w-full">
                     <h3 className="text-xl font-bold mb-4">Tints</h3>
                     <div className="flex flex-wrap gap-2">
-                        {tints.map(tint => (
-                             <Button key={tint} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: tint}} onClick={() => handleHexChange({ target: { value: tint } } as React.ChangeEvent<HTMLInputElement>)} aria-label={tint}></Button>
+                        {tints.map((tint, index) => (
+                             <Button key={`${tint}-${index}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: tint}} onClick={() => handleHexChange({ target: { value: tint } } as React.ChangeEvent<HTMLInputElement>)} aria-label={tint}></Button>
                         ))}
                     </div>
                 </div>
                 <div className="w-full">
                     <h3 className="text-xl font-bold mb-4">Shades</h3>
                     <div className="flex flex-wrap gap-2">
-                        {shades.map(shade => (
-                             <Button key={shade} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => handleHexChange({ target: { value: shade } } as React.ChangeEvent<HTMLInputElement>)} aria-label={shade}></Button>
+                        {shades.map((shade, index) => (
+                             <Button key={`${shade}-${index}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => handleHexChange({ target: { value: shade } } as React.ChangeEvent<HTMLInputElement>)} aria-label={shade}></Button>
                         ))}
                     </div>
                 </div>
