@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Palette, Copy } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
 
 // Color conversion utilities
 function hexToRgb(hex: string) {
@@ -55,7 +54,6 @@ function hslToRgb(h: number, s: number, l: number) {
     return { r: Math.round(255 * f(0)), g: Math.round(255 * f(8)), b: Math.round(255 * f(4)) };
 }
 
-
 const basicColors = [
     "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF",
     "#000000", "#FFFFFF", "#808080", "#FF6347", "#4682B4", "#32CD32"
@@ -80,7 +78,7 @@ function generateTints(hex: string, count = 10) {
     if (!rgb) return [];
     const tints = [];
     for (let i = 0; i < count; i++) {
-        const factor = i / (count-1);
+        const factor = i / (count - 1);
         const r = Math.round(rgb.r + (255 - rgb.r) * factor);
         const g = Math.round(rgb.g + (255 - rgb.g) * factor);
         const b = Math.round(rgb.b + (255 - rgb.b) * factor);
@@ -142,15 +140,18 @@ export default function ColorPickerPage() {
                 const width = canvas.width;
                 const height = canvas.height;
 
+                // This sets the main color for the gradient.
                 ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
                 ctx.fillRect(0, 0, width, height);
 
+                // This creates the white-to-transparent overlay.
                 const whiteGradient = ctx.createLinearGradient(0, 0, width, 0);
                 whiteGradient.addColorStop(0, 'rgba(255,255,255,1)');
                 whiteGradient.addColorStop(1, 'rgba(255,255,255,0)');
                 ctx.fillStyle = whiteGradient;
                 ctx.fillRect(0, 0, width, height);
                 
+                // This creates the black-to-transparent overlay.
                 const blackGradient = ctx.createLinearGradient(0, 0, 0, height);
                 blackGradient.addColorStop(0, 'rgba(0,0,0,0)');
                 blackGradient.addColorStop(1, 'rgba(0,0,0,1)');
@@ -165,30 +166,32 @@ export default function ColorPickerPage() {
         if (!canvas) return;
 
         const rect = canvas.getBoundingClientRect();
-        // Calculate pointer position relative to the canvas
+        // Calculate pointer position relative to the canvas, clamped between 0 and canvas dimensions
         const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
         const y = Math.max(0, Math.min(e.clientY - rect.top, rect.height));
 
         const ctx = canvas.getContext('2d');
         if(ctx) {
+            // Get color data from the exact pixel on the canvas
             const imageData = ctx.getImageData(x * (canvas.width / rect.width), y * (canvas.height / rect.height), 1, 1).data;
             const { h, s, l } = rgbToHsl(imageData[0], imageData[1], imageData[2]);
-            // Only update saturation and lightness to avoid hue shifts near white/black
+            // Only update saturation and lightness from the picker to avoid hue shifts at the edges
             setSaturation(s);
             setLightness(l);
         }
     }, [setSaturation, setLightness]);
     
+    // Using Pointer events for unified mouse/touch handling. This is the core fix for the cursor jump issue.
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = true;
-        // Capture the pointer to ensure events are received even if the pointer moves off the element
+        // Capture pointer events to ensure smooth dragging even if the cursor leaves the canvas.
         e.currentTarget.setPointerCapture(e.pointerId);
         updateColorFromPosition(e);
     };
 
     const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
         if(isDraggingRef.current) {
-            // Prevent default browser actions like scrolling on mobile
+            // Prevent default browser actions like scrolling on mobile while dragging.
             e.preventDefault();
             updateColorFromPosition(e);
         }
@@ -196,12 +199,13 @@ export default function ColorPickerPage() {
 
     const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = false;
-        // Release the pointer capture
+        // Release pointer capture when dragging ends.
         e.currentTarget.releasePointerCapture(e.pointerId);
     };
     
-    const saturationValue = saturation / 100;
-    const lightnessValue = 1 - (lightness / 100);
+    // Calculate cursor position for the UI
+    const saturationPosition = saturation / 100;
+    const lightnessPosition = 1 - (lightness / 100);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -224,21 +228,23 @@ export default function ColorPickerPage() {
                 <div className="flex flex-col items-center gap-4">
                      <div
                         className="w-full h-52 relative cursor-crosshair focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
-                        // This style is critical to prevent the browser from hijacking touch events for scrolling or zooming.
+                        // `touch-action: none` prevents the browser from hijacking touch gestures (like for scrolling),
+                        // which is critical for smooth dragging on mobile devices.
                         style={{ touchAction: 'none' }}
                         onPointerDown={handlePointerDown}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
-                        onPointerCancel={handlePointerUp}
+                        onPointerCancel={handlePointerUp} // Also end drag if event is cancelled
                         role="slider"
                         aria-label="Color saturation and lightness picker"
                      >
                         <canvas ref={saturationCanvasRef} width={300} height={200} className="w-full h-full rounded-md border" />
+                         {/* The circular cursor that follows the user's pointer */}
                          <div
                             className="absolute w-4 h-4 rounded-full border-2 border-white shadow-lg pointer-events-none -translate-x-1/2 -translate-y-1/2"
                             style={{
-                                left: `${saturationValue * 100}%`,
-                                top: `${lightnessValue * 100}%`,
+                                left: `${saturationPosition * 100}%`,
+                                top: `${lightnessPosition * 100}%`,
                                 backgroundColor: color,
                             }}
                         />
@@ -275,8 +281,8 @@ export default function ColorPickerPage() {
                 <div className="w-full">
                     <h3 className="text-xl font-bold mb-4">Basic Colors</h3>
                     <div className="flex flex-wrap gap-2">
-                        {basicColors.map(c => (
-                            <Button key={c} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: c}} onClick={() => handleHexChange({ target: { value: c } } as React.ChangeEvent<HTMLInputElement>)} aria-label={c}></Button>
+                        {basicColors.map((c, index) => (
+                            <Button key={`${c}-${index}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: c}} onClick={() => handleHexChange({ target: { value: c } } as React.ChangeEvent<HTMLInputElement>)} aria-label={c}></Button>
                         ))}
                     </div>
                 </div>
