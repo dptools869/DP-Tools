@@ -160,24 +160,20 @@ export default function ColorPickerPage() {
         }
     }, [hue]);
 
-    const updateColorFromPosition = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    const updateColorFromPosition = useCallback((e: PointerEvent | React.PointerEvent<HTMLCanvasElement>) => {
         const canvas = saturationCanvasRef.current;
         if (!canvas) return;
 
         const rect = canvas.getBoundingClientRect();
-        let x = e.clientX - rect.left;
-        let y = e.clientY - rect.top;
-        
-        // Clamp coordinates to canvas boundaries
-        x = Math.max(0, Math.min(canvas.width, x));
-        y = Math.max(0, Math.min(canvas.height, y));
-        
+        // Calculate pointer position relative to the canvas
+        const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+        const y = Math.max(0, Math.min(e.clientY - rect.top, rect.height));
+
         const ctx = canvas.getContext('2d');
         if(ctx) {
-            const imageData = ctx.getImageData(x, y, 1, 1).data;
+            const imageData = ctx.getImageData(x * (canvas.width / rect.width), y * (canvas.height / rect.height), 1, 1).data;
             const { h, s, l } = rgbToHsl(imageData[0], imageData[1], imageData[2]);
-            // We use the original hue and only update saturation and lightness
-            // to prevent hue shifts when picking near black/white.
+            // Only update saturation and lightness to avoid hue shifts near white/black
             setSaturation(s);
             setLightness(l);
         }
@@ -185,18 +181,22 @@ export default function ColorPickerPage() {
     
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = true;
+        // Capture the pointer to ensure events are received even if the pointer moves off the element
         e.currentTarget.setPointerCapture(e.pointerId);
         updateColorFromPosition(e);
     };
 
     const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
         if(isDraggingRef.current) {
+            // Prevent default browser actions like scrolling on mobile
+            e.preventDefault();
             updateColorFromPosition(e);
         }
     };
 
     const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
         isDraggingRef.current = false;
+        // Release the pointer capture
         e.currentTarget.releasePointerCapture(e.pointerId);
     };
     
@@ -224,11 +224,12 @@ export default function ColorPickerPage() {
                 <div className="flex flex-col items-center gap-4">
                      <div
                         className="w-full h-52 relative cursor-crosshair focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
-                        // This style is essential for mobile devices to prevent page scrolling while dragging.
+                        // This style is critical to prevent the browser from hijacking touch events for scrolling or zooming.
                         style={{ touchAction: 'none' }}
                         onPointerDown={handlePointerDown}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
+                        onPointerCancel={handlePointerUp}
                         role="slider"
                         aria-label="Color saturation and lightness picker"
                      >
@@ -283,7 +284,7 @@ export default function ColorPickerPage() {
                     <h3 className="text-xl font-bold mb-4">Tints</h3>
                     <div className="flex flex-wrap gap-2">
                         {tints.map((tint, index) => (
-                             <Button key={`${tint}-${index}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: tint}} onClick={() => handleHexChange({ target: { value: tint } } as React.ChangeEvent<HTMLInputElement>)} aria-label={tint}></Button>
+                             <Button key={`tint-${index}-${tint}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: tint}} onClick={() => handleHexChange({ target: { value: tint } } as React.ChangeEvent<HTMLInputElement>)} aria-label={tint}></Button>
                         ))}
                     </div>
                 </div>
@@ -291,7 +292,7 @@ export default function ColorPickerPage() {
                     <h3 className="text-xl font-bold mb-4">Shades</h3>
                     <div className="flex flex-wrap gap-2">
                         {shades.map((shade, index) => (
-                             <Button key={`${shade}-${index}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => handleHexChange({ target: { value: shade } } as React.ChangeEvent<HTMLInputElement>)} aria-label={shade}></Button>
+                             <Button key={`shade-${index}-${shade}`} className="w-10 h-10 rounded-full p-0 border-2 border-border" style={{backgroundColor: shade}} onClick={() => handleHexChange({ target: { value: shade } } as React.ChangeEvent<HTMLInputElement>)} aria-label={shade}></Button>
                         ))}
                     </div>
                 </div>
