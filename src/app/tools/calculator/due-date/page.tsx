@@ -10,11 +10,11 @@ import AdBanner from '@/components/ad-banner';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { format, addDays } from 'date-fns';
+import { format, addDays, differenceInWeeks } from 'date-fns';
 
 export default function DueDateCalculatorPage() {
   const [lmp, setLmp] = useState<Date | undefined>(undefined);
-  const [result, setResult] = useState<{ dueDate: string, week: number, day: number } | null>(null);
+  const [result, setResult] = useState<{ dueDate: string; week: number; day: number } | null>(null);
 
   const handleCalculate = () => {
     if (lmp) {
@@ -73,10 +73,14 @@ export default function DueDateCalculatorPage() {
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
                             <Calendar
-                            mode="single"
-                            selected={lmp}
-                            onSelect={setLmp}
-                            initialFocus
+                                mode="single"
+                                selected={lmp}
+                                onSelect={setLmp}
+                                captionLayout="dropdown-nav"
+                                fromYear={new Date().getFullYear() - 2}
+                                toYear={new Date().getFullYear()}
+                                disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                                initialFocus
                             />
                         </PopoverContent>
                         </Popover>
