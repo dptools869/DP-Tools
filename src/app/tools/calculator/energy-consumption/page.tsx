@@ -156,7 +156,8 @@ export default function EnergyCalculatorPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="overflow-x-auto">
+              {/* Responsive Appliance Input Section */}
+              <div className="hidden md:block">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -170,28 +171,37 @@ export default function EnergyCalculatorPage() {
                   <TableBody>
                     {appliances.map((app) => (
                       <TableRow key={app.id}>
-                        <TableCell>
-                          <Input placeholder="e.g., AC" value={app.name} onChange={(e) => handleApplianceChange(app.id, 'name', e.target.value)} />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="e.g., 1500" value={app.power} onChange={(e) => handleApplianceChange(app.id, 'power', e.target.value)} />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="e.g., 1" value={app.quantity} onChange={(e) => handleApplianceChange(app.id, 'quantity', e.target.value)} />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="e.g., 8" value={app.hours} onChange={(e) => handleApplianceChange(app.id, 'hours', e.target.value)} />
-                        </TableCell>
+                        <TableCell><Input placeholder="e.g., AC" value={app.name} onChange={(e) => handleApplianceChange(app.id, 'name', e.target.value)} /></TableCell>
+                        <TableCell><Input type="number" placeholder="e.g., 1500" value={app.power} onChange={(e) => handleApplianceChange(app.id, 'power', e.target.value)} /></TableCell>
+                        <TableCell><Input type="number" placeholder="e.g., 1" value={app.quantity} onChange={(e) => handleApplianceChange(app.id, 'quantity', e.target.value)} /></TableCell>
+                        <TableCell><Input type="number" placeholder="e.g., 8" value={app.hours} onChange={(e) => handleApplianceChange(app.id, 'hours', e.target.value)} /></TableCell>
                         <TableCell className="text-right">
-                          <Button variant="ghost" size="icon" onClick={() => removeAppliance(app.id)} aria-label="Remove appliance">
-                            <Trash2 className="w-5 h-5 text-destructive" />
-                          </Button>
+                          <Button variant="ghost" size="icon" onClick={() => removeAppliance(app.id)} aria-label="Remove appliance"><Trash2 className="w-5 h-5 text-destructive" /></Button>
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4">
+                {appliances.map(app => (
+                  <div key={app.id} className="p-4 border rounded-lg space-y-4">
+                    <div className="flex justify-between items-center">
+                      <Input className="text-lg font-bold" placeholder="Appliance Name" value={app.name} onChange={(e) => handleApplianceChange(app.id, 'name', e.target.value)} />
+                      <Button variant="ghost" size="icon" onClick={() => removeAppliance(app.id)} aria-label="Remove appliance"><Trash2 className="w-5 h-5 text-destructive" /></Button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-1"><Label>Power (Watts)</Label><Input type="number" placeholder="e.g., 1500" value={app.power} onChange={(e) => handleApplianceChange(app.id, 'power', e.target.value)} /></div>
+                      <div className="space-y-1"><Label>Quantity</Label><Input type="number" placeholder="e.g., 1" value={app.quantity} onChange={(e) => handleApplianceChange(app.id, 'quantity', e.target.value)} /></div>
+                      <div className="space-y-1"><Label>Hours/Day</Label><Input type="number" placeholder="e.g., 8" value={app.hours} onChange={(e) => handleApplianceChange(app.id, 'hours', e.target.value)} /></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+
               <div className="flex justify-between">
                 <Button onClick={addAppliance} variant="outline"><Plus className="mr-2 h-4 w-4" /> Add Appliance</Button>
                 <Button onClick={resetAll} variant="ghost"><RefreshCw className="mr-2 h-4 w-4" /> Reset All</Button>
@@ -199,34 +209,36 @@ export default function EnergyCalculatorPage() {
               <Separator className="my-6" />
               <div>
                   <h3 className="text-2xl font-bold mb-4">Consumption Breakdown</h3>
-                   <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Appliance</TableHead>
-                                <TableHead className="text-right">Daily Units (kWh)</TableHead>
-                                <TableHead className="text-right">Monthly Units (kWh)</TableHead>
-                                <TableHead className="text-right">Monthly Cost ({currency.symbol})</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {detailedConsumption.map(app => (
-                                <TableRow key={app.id}>
-                                    <TableCell className="font-medium">{app.name}</TableCell>
-                                    <TableCell className="text-right">{app.dailyKWh.toFixed(2)}</TableCell>
-                                    <TableCell className="text-right">{app.monthlyKWh.toFixed(2)}</TableCell>
-                                    <TableCell className="text-right">{app.monthlyCost.toFixed(2)}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                        <TableFoot>
-                            <TableRow className="font-bold text-lg">
-                                <TableCell>Total</TableCell>
-                                <TableCell className="text-right">{totals.dailyKWh.toFixed(2)}</TableCell>
-                                <TableCell className="text-right">{totals.monthlyKWh.toFixed(2)}</TableCell>
-                                <TableCell className="text-right text-primary">{currency.symbol}{totals.monthlyCost.toFixed(2)}</TableCell>
-                            </TableRow>
-                        </TableFoot>
-                    </Table>
+                   <div className="overflow-x-auto">
+                     <Table>
+                          <TableHeader>
+                              <TableRow>
+                                  <TableHead>Appliance</TableHead>
+                                  <TableHead className="text-right">Daily kWh</TableHead>
+                                  <TableHead className="text-right">Monthly kWh</TableHead>
+                                  <TableHead className="text-right">Monthly Cost ({currency.symbol})</TableHead>
+                              </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                              {detailedConsumption.map(app => (
+                                  <TableRow key={app.id}>
+                                      <TableCell className="font-medium">{app.name}</TableCell>
+                                      <TableCell className="text-right">{app.dailyKWh.toFixed(2)}</TableCell>
+                                      <TableCell className="text-right">{app.monthlyKWh.toFixed(2)}</TableCell>
+                                      <TableCell className="text-right">{app.monthlyCost.toFixed(2)}</TableCell>
+                                  </TableRow>
+                              ))}
+                          </TableBody>
+                          <TableFoot>
+                              <TableRow className="font-bold text-lg">
+                                  <TableCell>Total</TableCell>
+                                  <TableCell className="text-right">{totals.dailyKWh.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{totals.monthlyKWh.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right text-primary">{currency.symbol}{totals.monthlyCost.toFixed(2)}</TableCell>
+                              </TableRow>
+                          </TableFoot>
+                      </Table>
+                   </div>
               </div>
             </CardContent>
           </Card>
