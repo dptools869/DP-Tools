@@ -1,37 +1,83 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Baby, CalendarIcon } from 'lucide-react';
+import { Baby } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { format, addDays, differenceInWeeks } from 'date-fns';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { format, addDays, isFuture, getDaysInMonth } from 'date-fns';
+
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 100 }, (_, i) => (currentYear - i).toString());
+const months = Array.from({ length: 12 }, (_, i) => ({
+  value: i.toString(),
+  label: new Date(2000, i).toLocaleString('default', { month: 'long' }),
+}));
 
 export default function DueDateCalculatorPage() {
-  const [lmp, setLmp] = useState<Date | undefined>(undefined);
+  const [day, setDay] = useState<string>('');
+  const [month, setMonth] = useState<string>('');
+  const [year, setYear] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+
   const [result, setResult] = useState<{ dueDate: string; week: number; day: number } | null>(null);
 
-  const handleCalculate = () => {
-    if (lmp) {
-      const dueDate = addDays(lmp, 280);
-      const today = new Date();
-      const differenceInTime = today.getTime() - lmp.getTime();
-      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-      const currentWeek = Math.floor(differenceInDays / 7);
-      const currentDay = Math.floor(differenceInDays % 7);
-
-      setResult({
-        dueDate: format(dueDate, 'PPP'),
-        week: currentWeek,
-        day: currentDay,
-      });
+  const daysInSelectedMonth = useMemo(() => {
+    if (year && month) {
+      const days = getDaysInMonth(new Date(parseInt(year), parseInt(month)));
+      return Array.from({ length: days }, (_, i) => (i + 1).toString());
     }
-  };
+    return Array.from({ length: 31 }, (_, i) => (i + 1).toString());
+  }, [month, year]);
+
+  useEffect(() => {
+    if(day && month && year) {
+        const numDays = getDaysInMonth(new Date(parseInt(year), parseInt(month)));
+        if (parseInt(day) > numDays) {
+            setDay(numDays.toString());
+        }
+    }
+  }, [month, year, day]);
+
+  const handleCalculate = useCallback(() => {
+    if (!day || !month || !year) {
+      setError('Please select a complete date.');
+      setResult(null);
+      return;
+    }
+    
+    const lmpDate = new Date(parseInt(year), parseInt(month), parseInt(day));
+
+    if (isNaN(lmpDate.getTime()) || lmpDate.getDate() !== parseInt(day)) {
+        setError('The selected date is invalid. Please check your selections.');
+        setResult(null);
+        return;
+    }
+
+    if (isFuture(lmpDate)) {
+      setError('Date cannot be in the future.');
+      setResult(null);
+      return;
+    }
+
+    setError(null);
+
+    const dueDate = addDays(lmpDate, 280);
+    const today = new Date();
+    const differenceInTime = today.getTime() - lmpDate.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const currentWeek = Math.floor(differenceInDays / 7);
+    const currentDay = Math.floor(differenceInDays % 7);
+
+    setResult({
+      dueDate: format(dueDate, 'PPP'),
+      week: currentWeek,
+      day: currentDay,
+    });
+  }, [day, month, year]);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -55,38 +101,31 @@ export default function DueDateCalculatorPage() {
                 <CardDescription>Select the first day of your last menstrual period (LMP).</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                    <div className="space-y-2 w-full sm:w-auto">
-                        <Label htmlFor="lmp-date">Last Menstrual Period</Label>
-                        <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                            variant={"outline"}
-                            className={cn(
-                                "w-full sm:w-[280px] justify-start text-left font-normal",
-                                !lmp && "text-muted-foreground"
-                            )}
-                            >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {lmp ? format(lmp, "PPP") : <span>Pick a date</span>}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                            <Calendar
-                                mode="single"
-                                selected={lmp}
-                                onSelect={setLmp}
-                                captionLayout="dropdown-nav"
-                                fromYear={new Date().getFullYear() - 2}
-                                toYear={new Date().getFullYear()}
-                                disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                                initialFocus
-                            />
-                        </PopoverContent>
-                        </Popover>
-                    </div>
-                  <Button onClick={handleCalculate} className="w-full sm:w-auto mt-auto">Calculate Due Date</Button>
+                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="lmp-day">Day</Label>
+                    <Select value={day} onValueChange={setDay}>
+                        <SelectTrigger id="lmp-day"><SelectValue placeholder="Day" /></SelectTrigger>
+                        <SelectContent>{daysInSelectedMonth.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lmp-month">Month</Label>
+                     <Select value={month} onValueChange={setMonth}>
+                        <SelectTrigger id="lmp-month"><SelectValue placeholder="Month" /></SelectTrigger>
+                        <SelectContent>{months.map(m => <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lmp-year">Year</Label>
+                     <Select value={year} onValueChange={setYear}>
+                        <SelectTrigger id="lmp-year"><SelectValue placeholder="Year" /></SelectTrigger>
+                        <SelectContent>{years.map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
                 </div>
+                {error && <p className="text-destructive text-sm">{error}</p>}
+                <Button onClick={handleCalculate} className="w-full sm:w-auto">Calculate Due Date</Button>
                 {result && (
                   <div className="pt-6 text-center border-t mt-6 space-y-4">
                       <div>
