@@ -20,7 +20,7 @@ const socialLinks = [
   { icon: <Send />, href: '#', name: 'Telegram' },
   { icon: <Twitter />, href: '#', name: 'Twitter' },
   { icon: <Facebook />, href: '#', name: 'Facebook' },
-  { icon: <Instagram />, href: '#', name: 'Instagram' },
+  { icon: <Instagram />, href: 'https://www.instagram.com/digitalpiyush.yt', name: 'Instagram' },
 ];
 
 export default function Footer() {
