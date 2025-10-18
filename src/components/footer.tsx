@@ -17,7 +17,7 @@ const quickLinks = [
 
 const socialLinks = [
   { icon: <Youtube />, href: 'https://www.youtube.com/channel/UCRGvkegBkoawledHKKH4Zag', name: 'YouTube' },
-  { icon: <Send />, href: '#', name: 'Telegram' },
+  { icon: <Send />, href: 'https://telegram.me/joinchat/HTXGrS_MP4n0g4lC', name: 'Telegram' },
   { icon: <Twitter />, href: '#', name: 'Twitter' },
   { icon: <Facebook />, href: '#', name: 'Facebook' },
   { icon: <Instagram />, href: 'https://www.instagram.com/digitalpiyush.yt', name: 'Instagram' },
