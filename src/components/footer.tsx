@@ -16,7 +16,7 @@ const quickLinks = [
 ];
 
 const socialLinks = [
-  { icon: <Youtube />, href: '#', name: 'YouTube' },
+  { icon: <Youtube />, href: 'https://www.youtube.com/channel/UCRGvkegBkoawledHKKH4Zag', name: 'YouTube' },
   { icon: <Send />, href: '#', name: 'Telegram' },
   { icon: <Twitter />, href: '#', name: 'Twitter' },
   { icon: <Facebook />, href: '#', name: 'Facebook' },
@@ -55,7 +55,7 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-4 text-foreground">Follow Us</h3>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
-                <Link key={social.name} href={social.href} aria-label={social.name} className="text-muted-foreground hover:text-primary transition-colors">
+                <Link key={social.name} href={social.href} aria-label={social.name} className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
                     {social.icon}
                 </Link>
               ))}
