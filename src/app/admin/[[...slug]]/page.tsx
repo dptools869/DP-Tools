@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -284,8 +285,6 @@ function AdminApp() {
     );
   }
 
-  const publicRoutes = ['/admin/login', '/admin/signup'];
-
   return (
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/admin/dashboard" /> : <LoginPage />} />
@@ -298,11 +297,19 @@ function AdminApp() {
 
 
 export default function Page() {
-  // Since Next.js uses file-based routing, we wrap the React Router logic
-  // in a single Next.js page component.
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; 
+  }
+
   return (
     <Router basename="/admin">
-        <AdminApp />
+      <AdminApp />
     </Router>
   );
 }
