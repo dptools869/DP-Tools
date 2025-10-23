@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -308,7 +307,7 @@ export default function Page() {
   }
 
   return (
-    <Router basename="/admin">
+    <Router>
       <AdminApp />
     </Router>
   );
