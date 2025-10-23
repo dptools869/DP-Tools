@@ -5,12 +5,12 @@ import { firebaseConfig } from './config';
 import { useUser } from './auth/use-user';
 import { FirebaseProvider, useAuth, useFirestore, useFirebaseApp } from './provider';
 
-function initializeFirebase(): { app: FirebaseApp; auth: Auth; firestore: Firestore } {
+function initializeFirebase(): { app: FirebaseApp; auth: Auth; db: Firestore } {
   const apps = getApps();
   const app = apps.length ? getApp() : initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const firestore = getFirestore(app);
-  return { app, auth, firestore };
+  const db = getFirestore(app);
+  return { app, auth, db };
 }
 
 export {

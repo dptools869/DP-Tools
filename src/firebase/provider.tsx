@@ -22,7 +22,7 @@ const FirebaseContext = createContext<FirebaseContextType | undefined>(undefined
 export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const { app, auth, firestore } = initializeFirebase();
+  const { app, auth, db: firestore } = initializeFirebase();
 
   useEffect(() => {
     if (!auth) return;
