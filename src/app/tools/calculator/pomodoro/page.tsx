@@ -25,6 +25,7 @@ export default function PomodoroClockPage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Reset timer when mode changes, but only if it's not currently running.
     if (!isActive) {
       setTimeLeft(timeSettings[mode]);
     }
@@ -45,7 +46,7 @@ export default function PomodoroClockPage() {
         title: `Time's up!`,
         description: `Your ${mode === 'pomodoro' ? 'Pomodoro' : 'break'} session has ended.`,
       });
-      // Automatically switch to the next mode
+      // Automatically switch to the next appropriate mode
       if (mode === 'pomodoro') {
         setMode('shortBreak');
       } else {
@@ -111,7 +112,7 @@ export default function PomodoroClockPage() {
               </div>
 
               <div className="flex justify-center gap-4">
-                <Button onClick={toggleTimer} size="lg" className="px-10 py-6 text-xl">
+                <Button onClick={toggleTimer} size="lg" className="px-10 py-6 text-xl w-36">
                   {isActive ? <Pause className="mr-2" /> : <Play className="mr-2" />}
                   {isActive ? 'Pause' : 'Start'}
                 </Button>
