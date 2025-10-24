@@ -1,6 +1,6 @@
 
 
-import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop, Link as LinkIcon, Bolt, UserPlus, Wifi, Unlock, Shield } from 'lucide-react';
+import { Calculator, FileText, ImageIcon, Merge, Split, Shrink, CaseSensitive, Repeat, Percent, Ruler, FileType, Image, ScanText, Presentation, Copyright, Sheet, Globe, Lock, Info, BrainCircuit, FileMinus, Mail, Landmark, HandCoins, Activity, Timer, Baby, Scale, GraduationCap, Zap, Calendar as CalendarIcon, Fuel, Thermometer, Paintbrush, Leaf, Soup, Coffee, Clock, Ratio, Palette, KeyRound, Crop, Link as LinkIcon, Bolt, UserPlus, Wifi, Unlock, Shield, Disc } from 'lucide-react';
 import React from 'react';
 
 export interface Tool {
@@ -23,7 +23,7 @@ const YarnIcon = () => (
         <path d="M20 10c-.5-5-4.5-9-9.5-9"/>
         <path d="M4 14c.5 5 4.5 9 9.5 9"/>
         <path d="M16 4.5c-3 3-6 4-8.5 3.5"/>
-        <path d="M8 19.5c3-3 6-4 8.5-3.5"/>
+        <path d="M8 19.5c-3-3 6-4 8.5-3.5"/>
     </svg>
 )
 
