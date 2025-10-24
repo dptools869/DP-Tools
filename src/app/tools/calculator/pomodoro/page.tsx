@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 
 type Mode = 'pomodoro' | 'shortBreak' | 'longBreak';
 
-const timeSettings: Record<Mode, number> = {
+const MODE_SECONDS: Record<Mode, number> = {
   pomodoro: 25 * 60,
   shortBreak: 5 * 60,
   longBreak: 15 * 60,
@@ -19,58 +19,102 @@ const timeSettings: Record<Mode, number> = {
 
 export default function PomodoroClockPage() {
   const [mode, setMode] = useState<Mode>('pomodoro');
-  const [timeLeft, setTimeLeft] = useState(timeSettings[mode]);
-  const [isActive, setIsActive] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const [defaultSeconds, setDefaultSeconds] = useState(MODE_SECONDS.pomodoro);
+  const [remainingSeconds, setRemainingSeconds] = useState(MODE_SECONDS.pomodoro);
+  const [isRunning, setIsRunning] = useState(false);
+  
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const endTimestampRef = useRef<number | null>(null);
+  const alarmAudioRef = useRef<HTMLAudioElement>(null);
+  
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Reset timer when mode changes, but only if it's not currently running.
-    if (!isActive) {
-      setTimeLeft(timeSettings[mode]);
+  const clearIntervalSafely = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      endTimestampRef.current = null;
     }
-  }, [mode, isActive]);
+  }, []);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
-    } else if (isActive && timeLeft === 0) {
-      setIsActive(false);
-      if (audioRef.current) {
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-      }
-      toast({
-        title: `Time's up!`,
-        description: `Your ${mode === 'pomodoro' ? 'Pomodoro' : 'break'} session has ended.`,
-      });
-      // Automatically switch to the next appropriate mode
-      if (mode === 'pomodoro') {
-        setMode('shortBreak');
-      } else {
-        setMode('pomodoro');
-      }
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isActive, timeLeft, mode, toast]);
+    const newDefaultSeconds = MODE_SECONDS[mode];
+    setDefaultSeconds(newDefaultSeconds);
+    
+    // Stop any running timer and reset to the new mode's default time
+    clearIntervalSafely();
+    setIsRunning(false);
+    setRemainingSeconds(newDefaultSeconds);
+  }, [mode, clearIntervalSafely]);
 
-  const toggleTimer = () => {
-    setIsActive(!isActive);
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => clearIntervalSafely();
+  }, [clearIntervalSafely]);
+
+  const startOrResume = () => {
+    if (isRunning) return;
+
+    // Prevent duplicate intervals
+    if (intervalRef.current) {
+      clearIntervalSafely();
+    }
+
+    endTimestampRef.current = Date.now() + remainingSeconds * 1000;
+
+    intervalRef.current = setInterval(() => {
+      if (endTimestampRef.current) {
+        const msLeft = Math.max(0, endTimestampRef.current - Date.now());
+        const secLeft = Math.ceil(msLeft / 1000);
+        setRemainingSeconds(secLeft);
+
+        if (secLeft <= 0) {
+          clearIntervalSafely();
+          setIsRunning(false);
+          playAlarm();
+          toast({
+            title: `Time's up!`,
+            description: `Your ${mode === 'pomodoro' ? 'Pomodoro' : 'break'} session has ended.`,
+          });
+          // Automatically switch to the next appropriate mode after a short delay
+          setTimeout(() => {
+             handleModeChange(mode === 'pomodoro' ? 'shortBreak' : 'pomodoro');
+          }, 1000);
+        }
+      }
+    }, 300);
+
+    setIsRunning(true);
   };
 
+  const pause = () => {
+    if (!isRunning) return;
+
+    if (endTimestampRef.current) {
+        const msLeft = Math.max(0, endTimestampRef.current - Date.now());
+        const secLeft = Math.ceil(msLeft / 1000);
+        setRemainingSeconds(secLeft);
+    }
+    
+    clearIntervalSafely();
+    setIsRunning(false);
+  };
+  
   const resetTimer = () => {
-    setIsActive(false);
-    setTimeLeft(timeSettings[mode]);
+    clearIntervalSafely();
+    setIsRunning(false);
+    setRemainingSeconds(defaultSeconds);
+  };
+  
+  const handleModeChange = (newMode: string) => {
+    setMode(newMode as Mode);
   };
 
-  const handleModeChange = (newMode: string) => {
-    setIsActive(false);
-    setMode(newMode as Mode);
-    setTimeLeft(timeSettings[newMode as Mode]);
+  const playAlarm = () => {
+    if (alarmAudioRef.current) {
+        alarmAudioRef.current.currentTime = 0;
+        alarmAudioRef.current.play().catch(e => console.error("Audio play failed:", e));
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -107,14 +151,14 @@ export default function PomodoroClockPage() {
 
               <div className="my-10">
                 <p className="text-8xl font-bold font-mono text-primary tabular-nums">
-                  {formatTime(timeLeft)}
+                  {formatTime(remainingSeconds)}
                 </p>
               </div>
 
               <div className="flex justify-center gap-4">
-                <Button onClick={toggleTimer} size="lg" className="px-10 py-6 text-xl w-36">
-                  {isActive ? <Pause className="mr-2" /> : <Play className="mr-2" />}
-                  {isActive ? 'Pause' : 'Start'}
+                <Button onClick={isRunning ? pause : startOrResume} size="lg" className="px-10 py-6 text-xl w-48">
+                  {isRunning ? <Pause className="mr-2" /> : <Play className="mr-2" />}
+                  {isRunning ? 'Pause' : 'Start'}
                 </Button>
                 <Button onClick={resetTimer} size="lg" variant="outline" className="px-10 py-6 text-xl">
                   <RefreshCw className="mr-2" />
@@ -147,7 +191,7 @@ export default function PomodoroClockPage() {
           <AdBanner type="sidebar" />
         </aside>
       </div>
-      <audio ref={audioRef} src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+      <audio ref={alarmAudioRef} src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
     </div>
   );
 }
