@@ -89,21 +89,20 @@ export default function SpinWheelPage() {
   const sectorAngle = 360 / Math.max(1, entries.length);
 
   const detectWinner = useCallback((finalRotation: number) => {
-    // The pointer is at the top (270 degrees in SVG coordinate system).
+    // The pointer is at the top, which is 270 degrees in SVG's coordinate system.
     const pointerAngle = 270;
     
-    // Normalize final rotation to be within 0-360
-    const normalizedRotation = finalRotation % 360;
-    
-    // Calculate the angle of the pointer relative to the wheel's *rotated* orientation.
-    // The wheel starts with its first segment boundary at the top (-90 or 270 degrees).
-    // We add 360 to ensure the modulo result is positive.
-    const effectiveAngle = (360 - normalizedRotation + pointerAngle) % 360;
+    // Calculate the final angle of the wheel's zero-degree line.
+    const effectiveRotation = finalRotation % 360;
 
-    // Determine the winning index.
-    const winnerIndex = Math.floor(effectiveAngle / sectorAngle);
+    // Determine the angle of the pointer relative to the wheel's coordinate system.
+    // The wheel rotates, so we find where the static pointer is relative to the rotated wheel.
+    const relativePointerAngle = (360 - effectiveRotation + pointerAngle) % 360;
     
-    const selectedWinner = entries[winnerIndex];
+    // The first segment starts at an angle of -90 degrees, so we adjust for that.
+    const winningIndex = Math.floor(relativePointerAngle / sectorAngle);
+    
+    const selectedWinner = entries[winningIndex];
     if (selectedWinner) {
       setWinner(selectedWinner);
     }
