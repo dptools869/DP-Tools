@@ -89,18 +89,10 @@ export default function SpinWheelPage() {
   const sectorAngle = 360 / Math.max(1, entries.length);
 
   const detectWinner = useCallback((finalRotation: number) => {
-    // The pointer is at the top (visually 12 o'clock), which corresponds to 270 degrees in the geometric coordinate system.
     const pointerAngle = 270;
-    
-    // Normalize the final rotation to be within 0-359 degrees.
-    const normalizedRotation = finalRotation % 360;
-    
-    // Calculate where the pointer is relative to the wheel's starting position.
-    // We add 360 to handle negative modulo results and ensure it's always positive.
-    const winningAngle = (360 + pointerAngle - normalizedRotation) % 360;
-    
-    // Determine the index of the winning segment.
-    const winnerIndex = Math.floor(winningAngle / sectorAngle);
+    const normalizedRotation = (finalRotation % 360 + 360) % 360;
+    const effectiveAngle = (360 + pointerAngle - normalizedRotation) % 360;
+    const winnerIndex = Math.floor(effectiveAngle / sectorAngle);
     
     const selectedWinner = entries[winnerIndex];
     if (selectedWinner) {
@@ -282,5 +274,7 @@ export default function SpinWheelPage() {
  * - To test the Enter-to-Add feature: Type a name in the input box and press the 'Enter' key. The name should appear on the wheel.
  * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin smoothly and a winner will be announced below. The winning wedge will also be highlighted.
  */
+
+    
 
     
