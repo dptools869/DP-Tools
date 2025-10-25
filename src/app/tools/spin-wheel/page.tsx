@@ -89,15 +89,20 @@ export default function SpinWheelPage() {
   const sectorAngle = 360 / Math.max(1, entries.length);
 
   const detectWinner = useCallback((finalRotation: number) => {
+    // The pointer is at the top (visually 12 o'clock), which corresponds to 270 degrees in the geometric coordinate system.
     const pointerAngle = 270;
-    const effectiveRotation = (finalRotation % 360);
-    const relativePointerAngle = (360 - effectiveRotation + pointerAngle) % 360;
     
-    // The sectors are drawn starting from -90 degrees (top).
-    // So we need to calculate the index based on this offset.
-    const winningIndex = Math.floor(relativePointerAngle / sectorAngle);
+    // Normalize the final rotation to be within 0-359 degrees.
+    const normalizedRotation = finalRotation % 360;
     
-    const selectedWinner = entries[winningIndex];
+    // Calculate where the pointer is relative to the wheel's starting position.
+    // We add 360 to handle negative modulo results and ensure it's always positive.
+    const winningAngle = (360 + pointerAngle - normalizedRotation) % 360;
+    
+    // Determine the index of the winning segment.
+    const winnerIndex = Math.floor(winningAngle / sectorAngle);
+    
+    const selectedWinner = entries[winnerIndex];
     if (selectedWinner) {
       setWinner(selectedWinner);
     }
