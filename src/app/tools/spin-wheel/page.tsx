@@ -97,7 +97,7 @@ export default function SpinWheelPage() {
 
     // Calculate the effective angle of the pointer relative to the wheel's starting position.
     // This tells us which segment is under the pointer.
-    const effectiveAngle = (360 - normalizedRotation + pointerAngle) % 360;
+    const effectiveAngle = (pointerAngle - normalizedRotation + 360) % 360;
     
     // Determine the index of the winning segment.
     const winnerIndex = Math.floor(effectiveAngle / sectorAngle);
@@ -286,3 +286,4 @@ export default function SpinWheelPage() {
     
 
     
+
