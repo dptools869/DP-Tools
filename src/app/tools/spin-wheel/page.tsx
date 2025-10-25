@@ -96,10 +96,9 @@ export default function SpinWheelPage() {
     const effectiveRotation = finalRotation % 360;
 
     // Determine the angle of the pointer relative to the wheel's coordinate system.
-    // The wheel rotates, so we find where the static pointer is relative to the rotated wheel.
     const relativePointerAngle = (360 - effectiveRotation + pointerAngle) % 360;
     
-    // The first segment starts at an angle of -90 degrees, so we adjust for that.
+    // The first segment starts at an angle of 0 degrees, so we calculate the index directly.
     const winningIndex = Math.floor(relativePointerAngle / sectorAngle);
     
     const selectedWinner = entries[winningIndex];
@@ -282,3 +281,5 @@ export default function SpinWheelPage() {
  * - To test the Enter-to-Add feature: Type a name in the input box and press the 'Enter' key. The name should appear on the wheel.
  * - To test the Spin-to-Win feature: Click the 'SPIN' button. The wheel will spin smoothly and a winner will be announced below. The winning wedge will also be highlighted.
  */
+
+    
