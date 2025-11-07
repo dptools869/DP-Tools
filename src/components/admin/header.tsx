@@ -2,7 +2,7 @@
 
 import { LogOut, Menu, User } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useAuth } from '@/firebase';
+import { useAuth } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';

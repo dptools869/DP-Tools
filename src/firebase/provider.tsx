@@ -2,9 +2,9 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getAuth, onAuthStateChanged, User, Auth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { initializeFirebase } from '.';
 import { FirebaseApp } from 'firebase/app';
 import { Firestore } from 'firebase/firestore';
+import { app, auth, firestore } from './index';
 
 interface FirebaseContextType {
   app: FirebaseApp | null;
@@ -22,7 +22,6 @@ const FirebaseContext = createContext<FirebaseContextType | undefined>(undefined
 export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const { app, auth, db: firestore } = initializeFirebase();
 
   useEffect(() => {
     if (!auth) return;
@@ -31,7 +30,7 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
     return () => unsubscribe();
-  }, [auth]);
+  }, []);
   
   const signup = (email: string, password: string):Promise<any> => {
       if(!auth) return Promise.reject(new Error("Auth not initialized"));

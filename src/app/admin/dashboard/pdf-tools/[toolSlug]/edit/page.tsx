@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore } from '@/firebase';
+import { useFirestore } from '@/firebase/provider';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { toolsData } from '@/lib/tools-data';
@@ -35,11 +35,11 @@ export default function EditPdfToolPage() {
     }
 
     const fetchContent = async () => {
+      // Wait until firestore is available.
       if (!firestore) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Firestore is not available.' });
-        setIsLoading(false);
         return;
       }
+      
       setIsLoading(true);
       try {
         const docRef = doc(firestore, 'pdfToolsContent', toolSlug);

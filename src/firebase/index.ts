@@ -2,22 +2,20 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { firebaseConfig } from './config';
-import { useUser } from './auth/use-user';
-import { FirebaseProvider, useAuth, useFirestore, useFirebaseApp } from './provider';
 
-function initializeFirebase(): { app: FirebaseApp; auth: Auth; db: Firestore } {
-  const apps = getApps();
-  const app = apps.length ? getApp() : initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  return { app, auth, db };
+let app: FirebaseApp;
+let auth: Auth;
+let firestore: Firestore;
+
+// This check ensures firebase is only initialized on the client side.
+if (typeof window !== 'undefined') {
+    const apps = getApps();
+    app = apps.length > 0 ? getApp() : initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    firestore = getFirestore(app);
 }
 
-export {
-  initializeFirebase,
-  FirebaseProvider,
-  useUser,
-  useAuth,
-  useFirestore,
-  useFirebaseApp,
-};
+// Re-exporting hooks and providers
+export * from './provider';
+// @ts-ignore
+export { app, auth, firestore };

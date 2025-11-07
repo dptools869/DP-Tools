@@ -6,7 +6,7 @@ import { ToolCard } from "@/components/tool-card";
 import { Search } from "lucide-react";
 import { Input } from '@/components/ui/input';
 import { ToolCategory, Tool } from '@/lib/tools-data';
-import { useFirestore } from '@/firebase';
+import { useFirestore } from '@/firebase/provider';
 import { doc, getDoc } from 'firebase/firestore';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -51,7 +51,9 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
       setTools(toolsWithContent);
     };
 
-    fetchContent();
+    if(firestore) {
+        fetchContent();
+    }
   }, [firestore, category.tools]);
 
 
