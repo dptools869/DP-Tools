@@ -106,7 +106,7 @@ export function PasswordGeneratorClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <KeyRound className="w-10 h-10 text-primary" />
@@ -117,6 +117,11 @@ export function PasswordGeneratorClient() {
               </CardDescription>
             </CardHeader>
           </Card>
+          
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+                <p>Create Strong, Secure Passwords Instantly. Our Password Generator allows you to generate strong, unique passwords within seconds. You can select the password length of your choice, the type of characters to be used (lowercase letters, uppercase letters, numbers, special characters, etc.), and press the button "Generate." You will immediately be given a powerful password that will prevent hackers and unauthorized users from stealing your information.</p>
+           </div>
+
 
           <Tabs defaultValue="Facebook" className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
@@ -200,16 +205,59 @@ export function PasswordGeneratorClient() {
           </Tabs>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Why a Strong Password Matters</h2>
-            <p>Your online accounts are a gateway to your personal life, photos, private messages, and connections. A weak password makes it an easy target for hackers, putting your identity and data at risk. Our Password Generator creates strong, random, and complex passwords that are incredibly difficult to guess or crack, providing a powerful defense for your digital life.</p>
+            <h2>What Is a Password Generator?</h2>
+            <p>A password generator is a tool that creates strong, random passwords for your online accounts. It helps protect your personal data from hackers by avoiding weak or repeated passwords. Our free password generator is designed for both individuals and professionals who need secure access credentials in seconds.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h3>What Makes a Password Strong?</h3>
-             <ul>
-              <li><strong>Length:</strong> Longer passwords are exponentially harder to crack. Aim for at least 16 characters. Our tool goes up to 64 for maximum security.</li>
-              <li><strong>Complexity:</strong> A mix of uppercase letters, lowercase letters, numbers, and symbols creates a vast number of possibilities for a hacker to guess.</li>
-              <li><strong>Randomness:</strong> Avoid using predictable patterns, personal information (like birthdays), or common words. A truly random password is the most secure.</li>
+            <h3>Why Use a Password Generator?</h3>
+            <p>The average citizen maintains dozens of online accounts: email and bank accounts, social media, and shops. Using easy or repetitive passwords may compromise all your information. With weak passwords, hackers can crack them in a few seconds using automated tools.</p>
+            <p>Our Password Generator solves that issue by generating entirely random, complex passwords that violate modern security standards. Regardless of creating a new account, updating credentials, or handling sensitive data, this tool can help you generate strong, hard-to-guess passwords.</p>
+            <h3>Here is the reason why users use our tool:</h3>
+            <ul>
+                <li><strong>Unbreakable Strength:</strong> The passwords created by this tool are almost impossible to crack, even by brute-force attacks.</li>
+                <li><strong>Full Customization:</strong> Select the length and add or remove specific character types based on the site's requirements.</li>
+                <li><strong>Instant Generation:</strong> No waiting or signing up, click and copy.</li>
+                <li><strong>Complete Anonymity:</strong> All the operations are performed locally, and no data is saved or shared.</li>
+                <li><strong>Cross-Platform Compatibility:</strong> Works perfectly with desktops, tablets, and smartphones.</li>
             </ul>
-            <p>This tool empowers you to create passwords that meet all these criteria with a single click. The passwords it generates are perfect for any online account, from your email to your online banking. Protect yourself online by using a unique, strong password for every service.</p>
+            <h3>Password Generator: How it Works.</h3>
+            <p>Our strong password generator free tool uses a secure algorithm to combine letters, numbers, and symbols. You can:</p>
+            <ul>
+                <li>Generate 8-, 10-, or even longer-character passwords.</li>
+                <li>Customize password strength by selecting uppercase, lowercase, digits, and symbols.</li>
+                <li>Copy passwords instantly for easy use.</li>
+            </ul>
+            <p>Every password is generated locally in your browser, so no one—not even us—can access it.</p>
+            <h3>Key Features;</h3>
+            <ul>
+                <li><strong>Random Password Generator:</strong> Creates truly random passwords.</li>
+                <li><strong>8 Character Password Generator:</strong> Perfect for websites with short password limits.</li>
+                <li><strong>Password Generator 10 Characters:</strong> Ideal for stronger security.</li>
+                <li><strong>Password Generator Words:</strong> Option to include dictionary words for easy-to-remember combinations.</li>
+                <li><strong>Free and Secure:</strong> No sign-up or download required.</li>
+                <li><strong>Works Anywhere:</strong> Available on all devices and browsers.</li>
+            </ul>
+            <h3>Examples of Strong Passwords</h3>
+            <p>Here are some strong 8-character password examples:</p>
+            <ul>
+                <li>Tg#7pL@9</li>
+                <li>fW!9vQe2</li>
+                <li>Yt6#rLp8</li>
+            </ul>
+            <p>And some 10-character password examples:</p>
+            <ul>
+                <li>Kp$92Xl#Tg</li>
+                <li>nV4@zHt!Qm</li>
+            </ul>
+            <p>These follow best security practices, combining uppercase, lowercase letters, numbers, and special symbols.</p>
+            <h3>Benefits of Using a Strong Password Generator</h3>
+            <ul>
+                <li><strong>Prevents hacking:</strong> Strong passwords reduce the chance of brute-force attacks.</li>
+                <li><strong>Saves time:</strong> Generate passwords instantly without having to think.</li>
+                <li><strong>Enhances privacy:</strong> Keeps all your accounts safe and separate.</li>
+                <li><strong>Free forever:</strong> Use it unlimited times, no hidden fees.</li>
+            </ul>
+            <h3>Stay Safe with Strong Passwords</h3>
+            <p>In the digital world you live in today, passwords should be protected as your first line of defense. Hackers can access a system easily with weak or reused passwords. Our Free Online Password Generator is an application that generates secure, unique, and customisable passwords to protect your information.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
@@ -223,3 +271,5 @@ export function PasswordGeneratorClient() {
     </div>
   );
 }
+
+    
