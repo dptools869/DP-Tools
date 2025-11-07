@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { ToolCategory, Tool } from '@/lib/tools-data';
 import { useFirestore } from '@/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ContentAwareTool extends Tool {
@@ -56,7 +57,7 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
 
   const filteredTools = tools.filter(tool =>
     tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tool.description.toLowerCase().includes(searchQuery.toLowerCase())
+    (tool.customContent || tool.description).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -84,7 +85,7 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredTools.map((tool) => (
           tool.isLoadingContent ? (
-             <Card>
+             <Card key={tool.href}>
                 <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
                     <Skeleton className="w-12 h-12 rounded-full" />
                     <Skeleton className="h-6 w-32" />
@@ -96,10 +97,10 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
                 </CardContent>
              </Card>
           ) : (
-            <ToolCard
+             <ToolCard
                 key={tool.title}
                 title={tool.title}
-                description={tool.customContent || tool.description}
+                description={<div dangerouslySetInnerHTML={{ __html: tool.customContent || tool.description }} />}
                 icon={tool.icon}
                 href={tool.href}
             />

@@ -1,13 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { toolsData } from '@/lib/tools-data';
-import { useFirestore } from '@/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import EditContentModal from '@/components/admin/edit-content-modal';
 
 interface Tool {
   title: string;
@@ -16,11 +14,7 @@ interface Tool {
 
 export default function PdfToolsManagementPage() {
   const [pdfTools, setPdfTools] = useState<Tool[]>([]);
-  const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
-  const [initialContent, setInitialContent] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const firestore = useFirestore();
+  const router = useRouter();
 
   useEffect(() => {
     const pdfToolCategory = toolsData['pdf-tools'];
@@ -33,25 +27,8 @@ export default function PdfToolsManagementPage() {
     }
   }, []);
 
-  const handleEdit = async (tool: Tool) => {
-    if (!firestore) return;
-
-    setSelectedTool(tool);
-    const docRef = doc(firestore, 'pdfToolsContent', tool.slug);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setInitialContent(docSnap.data().content || '');
-    } else {
-      setInitialContent('');
-    }
-    setIsModalOpen(true);
-  };
-  
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedTool(null);
-    setInitialContent('');
+  const handleEdit = (tool: Tool) => {
+    router.push(`/admin/dashboard/pdf-tools/${tool.slug}/edit`);
   };
 
   return (
@@ -86,16 +63,6 @@ export default function PdfToolsManagementPage() {
           </Table>
         </CardContent>
       </Card>
-
-      {selectedTool && (
-        <EditContentModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          tool={selectedTool}
-          initialContent={initialContent}
-          collectionName="pdfToolsContent"
-        />
-      )}
     </>
   );
 }

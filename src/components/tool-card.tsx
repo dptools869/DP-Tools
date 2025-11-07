@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 interface ToolCardProps {
   icon: React.ReactNode;
   title: string;
-  description: string;
+  description: string | React.ReactNode;
   href: string;
 }
 
@@ -20,7 +20,7 @@ export function ToolCard({ icon, title, description, href }: ToolCardProps) {
         <CardTitle className="text-xl font-headline">{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-start">
-        <CardDescription className="mb-4 h-10">{description}</CardDescription>
+        <div className="mb-4 h-10 text-sm text-muted-foreground line-clamp-2">{description}</div>
         <Button asChild variant="secondary" size="sm" className="mt-auto">
           <Link href={href}>
             Open Tool <ArrowRight className="ml-2 h-4 w-4" />
