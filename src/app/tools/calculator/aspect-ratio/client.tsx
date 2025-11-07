@@ -51,7 +51,7 @@ export function AspectRatioClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Ratio className="w-10 h-10 text-primary" />
@@ -62,6 +62,12 @@ export function AspectRatioClient() {
               </CardDescription>
             </CardHeader>
           </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+              <h2>Keep Every Pixel in Perfect Proportion</h2>
+              <p>Be it editing pictures, making videos, or designing web- or print-based graphics, it is essential to maintain the correct aspect ratio. An inappropriate ratio can make your images look stretched, squashed, or unprofessional.</p>
+              <p>With our free Aspect Ratio Calculator, if you know the exact dimensions you want to use, you can adjust them using our tool instantly, accurately, and without any guesswork.</p>
+          </div>
 
           <Card>
               <CardHeader>
@@ -102,22 +108,39 @@ export function AspectRatioClient() {
             </Card>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Understanding Aspect Ratio</h2>
-            <p>Aspect ratio describes the proportional relationship between the width and height of an image or screen. It's written as two numbers separated by a colon, such as 16:9. Understanding and calculating aspect ratios is crucial for designers, photographers, and video editors to ensure that images and videos are displayed correctly without distortion.</p>
+            <p>The aspect ratio is the ratio of an image or video's width to its height. For example, a 16:9 ratio indicates that the image is 16 units wide for every nine units of height—the most common ratio of modern screens. Using our calculator, you can quickly adjust one dimension while keeping the other in the correct proportion.</p>
+            <p>This is an ideal tool for photographers, graphic designers, video editors, social media creators, and web developers who want their visuals to look very professional and balanced across devices and platforms.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h3>How to Calculate Aspect Ratio</h3>
-            <p>To calculate a new dimension while maintaining the aspect ratio, you can use a simple cross-multiplication formula:</p>
-            <p><strong>(Original Width / Original Height) = (New Width / New Height)</strong></p>
-            <p>Our calculator automates this for you. Just enter your original dimensions (W1 and H1). Then, enter one of the new dimensions you want (either W2 or H2), and the calculator will find the corresponding dimension that preserves the original aspect ratio.</p>
-            
-            <h3>Common Aspect Ratios</h3>
-             <ul>
-              <li><strong>16:9:</strong> The standard for widescreen displays, including HDTVs, computer monitors, and most online video.</li>
-              <li><strong>4:3:</strong> The standard for older televisions and computer monitors.</li>
-              <li><strong>1:1:</strong> The square format popular on social media platforms like Instagram.</li>
-              <li><strong>3:2:</strong> Common in photography, used by many DSLR and mirrorless cameras.</li>
+            <h3>Aspect ratio Calculator: How to Use it.</h3>
+            <p>Using our calculator is simple; no math or design experience is required.</p>
+            <ol>
+                <li><strong>Enter dimensions original size:</strong> Enter the width and height of your image or video.</li>
+                <li><strong>Resize your image:</strong> Choose the width and height you want.</li>
+                <li><strong>Calculate an ideal proportion:</strong> The calculator is programmed to compute the missing value to maintain the same ratio.</li>
+            </ol>
+            <p>Once you have the results, you can use the new dimensions in your image editor, video software, or website layout, ensuring a perfect fit every time.</p>
+            <h3>Why Aspect Ratios Matter</h3>
+            <p>Aspect ratios describe how your images will look on your screens, in print, and on the internet. Incorrect ratios will cause distortion, video cropping, or black bars. The correct ratio will make your work appear consistent, professional, and pleasing to the eye, regardless of the display's location.</p>
+            <p>For example:</p>
+            <ul>
+                <li>Photographers cut pictures without compromising on the quality.</li>
+                <li>YouTube (16:9) or TikTok (9:16) are the video formats that video editors export.</li>
+                <li>Designers rely on it to maintain balance in website layouts or posters.</li>
+                <li>Social media managers use it to resize content to fit each platform perfectly.</li>
             </ul>
-            <p>Whether you're resizing a photo for a blog post, cropping a video for social media, or designing a graphic for a specific display, our Aspect Ratio Calculator makes it easy to get your dimensions right every time.</p>
+            <h3>Key Features of Our Aspect Ratio Calculator</h3>
+            <ul>
+                <li><strong>Proper Dimensions:</strong> Achieve accurate dimensions anytime.</li>
+                <li><strong>Instant Results:</strong> There are no numbers to write or complex procedures to follow to get results; enter the numbers and see them immediately.</li>
+                <li><strong>Support All Setting Ratios:</strong> From 1:1 to 4:3 up to 16:1 (and 9:16 to 16:1), you can get any.</li>
+                <li><strong>Maintain Image Resolution:</strong> When resizing images, avoid stretching or squashing.</li>
+                <li><strong>Free and Secure:</strong> 100% web-based, no downloads or sign-ups.</li>
+                <li><strong>Creator-Friendly:</strong> Photographers, videographers, and content creators are busy people who appreciate a fast, free web development platform that is easy to use.</li>
+            </ul>
+            <h3>Why Choose DP Tools Aspect Ratio Calculator?</h3>
+            <p>At DPTools, we specialize in providing free, trustworthy, and easy-to-use tools to simplify daily computer tasks. Our Aspect Ratio Calculator is the tool that ensures your images and videos always appear professional, clean, and ready to go to press. It is quick, web-based, and requires no registration —enter your information, press calculate, and get your results in a flash.</p>
+            <h2>Start Calculating Now</h2>
+            <p>No need for complex software or tedious resizing. Use our Aspect Ratio Calculator today to maintain perfect proportions across all your visual projects. Whether you're resizing a photo for Instagram, editing a YouTube video, or designing a poster, this tool ensures your work looks sharp and balanced, every single time.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
