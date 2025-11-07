@@ -1,16 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdBanner from "@/components/ad-banner";
 import { ToolCard } from "@/components/tool-card";
 import { Search } from "lucide-react";
 import { Input } from '@/components/ui/input';
-import { ToolCategory } from '@/lib/tools-data';
+import { ToolCategory, Tool } from '@/lib/tools-data';
+import { useFirestore } from '@/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
+
+interface ContentAwareTool extends Tool {
+  customContent?: string;
+  isLoadingContent?: boolean;
+}
 
 export function PdfToolsClient({ category }: { category: ToolCategory }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [tools, setTools] = useState<ContentAwareTool[]>(
+      category.tools.map(t => ({...t, isLoadingContent: true}))
+  );
 
-  const filteredTools = category.tools.filter(tool =>
+  const firestore = useFirestore();
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      if (!firestore) {
+         setTools(category.tools.map(t => ({...t, isLoadingContent: false})));
+         return;
+      };
+
+      const toolsWithContent = await Promise.all(
+        category.tools.map(async (tool) => {
+          const slug = tool.href.split('/').pop();
+          if (slug) {
+            const docRef = doc(firestore, 'pdfToolsContent', slug);
+            try {
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                return { ...tool, customContent: docSnap.data().content, isLoadingContent: false };
+              }
+            } catch (error) {
+              console.error(`Failed to fetch content for ${slug}:`, error);
+            }
+          }
+          return { ...tool, isLoadingContent: false };
+        })
+      );
+      setTools(toolsWithContent);
+    };
+
+    fetchContent();
+  }, [firestore, category.tools]);
+
+
+  const filteredTools = tools.filter(tool =>
     tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tool.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -39,13 +83,27 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredTools.map((tool) => (
-          <ToolCard
-            key={tool.title}
-            title={tool.title}
-            description={tool.description}
-            icon={tool.icon}
-            href={tool.href}
-          />
+          tool.isLoadingContent ? (
+             <Card>
+                <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
+                    <Skeleton className="w-12 h-12 rounded-full" />
+                    <Skeleton className="h-6 w-32" />
+                </CardHeader>
+                 <CardContent>
+                    <Skeleton className="h-4 w-full mb-2" />
+                    <Skeleton className="h-4 w-3/4 mb-4" />
+                    <Skeleton className="h-8 w-24" />
+                </CardContent>
+             </Card>
+          ) : (
+            <ToolCard
+                key={tool.title}
+                title={tool.title}
+                description={tool.customContent || tool.description}
+                icon={tool.icon}
+                href={tool.href}
+            />
+          )
         ))}
       </div>
 
