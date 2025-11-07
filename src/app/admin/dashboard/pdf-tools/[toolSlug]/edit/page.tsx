@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore } from '@/firebase';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
@@ -13,7 +12,6 @@ import { toolsData } from '@/lib/tools-data';
 import { Editor } from '@tinymce/tinymce-react';
 
 export default function EditPdfToolPage() {
-  const [content, setContent] = useState('');
   const [initialContent, setInitialContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -49,12 +47,11 @@ export default function EditPdfToolPage() {
         if (docSnap.exists()) {
           const contentData = docSnap.data().content;
           setInitialContent(contentData);
-          setContent(contentData);
         } else {
           setInitialContent('');
-          setContent('');
         }
       } catch (error) {
+        console.error("Error fetching content:", error);
         toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch content.' });
       } finally {
         setIsLoading(false);
@@ -65,33 +62,41 @@ export default function EditPdfToolPage() {
   }, [toolSlug, firestore, toast]);
 
   const handleSave = async () => {
-    if (!firestore || typeof toolSlug !== 'string') {
+    if (!firestore || typeof toolSlug !== 'string' || !editorRef.current) {
       toast({ variant: 'destructive', title: 'Error', description: 'An unexpected error occurred.' });
       return;
     }
     
-    if (editorRef.current) {
-        // @ts-ignore
-        const newContent = editorRef.current.getContent();
-        setContent(newContent);
-    
-        setIsSaving(true);
-        try {
-          const docRef = doc(firestore, 'pdfToolsContent', toolSlug);
-          await setDoc(docRef, { 
-            content: newContent,
-            updatedAt: serverTimestamp()
-          }, { merge: true });
-          toast({
-            title: 'Content Saved',
-            description: `Successfully updated content for ${toolTitle}.`,
-          });
-        } catch (error) {
-          console.error("Error saving content: ", error);
-          toast({ variant: 'destructive', title: 'Save Failed' });
-        } finally {
-          setIsSaving(false);
-        }
+    // @ts-ignore
+    const newContent = editorRef.current.getContent();
+    if (!newContent.trim()) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Content cannot be empty.' });
+        return;
+    }
+
+    setIsSaving(true);
+    try {
+      const docRef = doc(firestore, 'pdfToolsContent', toolSlug);
+      await setDoc(docRef, { 
+        content: newContent,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      toast({
+        title: 'Content Saved',
+        description: `Successfully updated content for ${toolTitle}.`,
+      });
+      // Optionally, redirect after saving
+      // setTimeout(() => router.push('/admin/dashboard/pdf-tools'), 1500);
+    } catch (error) {
+      console.error("Error saving content: ", error);
+      toast({ 
+          variant: 'destructive', 
+          title: 'Save Failed', 
+          description: 'Could not save content to the database.'
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
