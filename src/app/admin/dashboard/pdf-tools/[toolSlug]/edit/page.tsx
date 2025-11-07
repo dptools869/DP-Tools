@@ -5,11 +5,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore } from '@/firebase/provider';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { toolsData } from '@/lib/tools-data';
 import { Editor } from '@tinymce/tinymce-react';
+import { getToolContent, saveToolContent } from '@/lib/localStorageManager';
 
 export default function EditPdfToolPage() {
   const [initialContent, setInitialContent] = useState('');
@@ -21,7 +20,6 @@ export default function EditPdfToolPage() {
   const router = useRouter();
   const { toolSlug } = params;
 
-  const firestore = useFirestore();
   const { toast } = useToast();
   const editorRef = useRef(null);
 
@@ -33,36 +31,16 @@ export default function EditPdfToolPage() {
     if (tool) {
       setToolTitle(tool.title);
     }
+    
+    setIsLoading(true);
+    const existingContent = getToolContent(toolSlug as string);
+    setInitialContent(existingContent);
+    setIsLoading(false);
 
-    const fetchContent = async () => {
-      // Wait until firestore is available.
-      if (!firestore) {
-        return;
-      }
-      
-      setIsLoading(true);
-      try {
-        const docRef = doc(firestore, 'pdfToolsContent', toolSlug);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const contentData = docSnap.data().content;
-          setInitialContent(contentData);
-        } else {
-          setInitialContent('');
-        }
-      } catch (error) {
-        console.error("Error fetching content:", error);
-        toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch content.' });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContent();
-  }, [toolSlug, firestore, toast]);
+  }, [toolSlug]);
 
   const handleSave = async () => {
-    if (!firestore || typeof toolSlug !== 'string' || !editorRef.current) {
+    if (typeof toolSlug !== 'string' || !editorRef.current) {
       toast({ variant: 'destructive', title: 'Error', description: 'An unexpected error occurred.' });
       return;
     }
@@ -76,24 +54,17 @@ export default function EditPdfToolPage() {
 
     setIsSaving(true);
     try {
-      const docRef = doc(firestore, 'pdfToolsContent', toolSlug);
-      await setDoc(docRef, { 
-        content: newContent,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-
+      saveToolContent(toolSlug, newContent);
       toast({
         title: 'Content Saved',
         description: `Successfully updated content for ${toolTitle}.`,
       });
-      // Optionally, redirect after saving
-      // setTimeout(() => router.push('/admin/dashboard/pdf-tools'), 1500);
     } catch (error) {
-      console.error("Error saving content: ", error);
+      console.error("Error saving content to Local Storage: ", error);
       toast({ 
           variant: 'destructive', 
           title: 'Save Failed', 
-          description: 'Could not save content to the database.'
+          description: 'Could not save content locally.'
       });
     } finally {
       setIsSaving(false);

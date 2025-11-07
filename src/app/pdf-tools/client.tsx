@@ -6,10 +6,9 @@ import { ToolCard } from "@/components/tool-card";
 import { Search } from "lucide-react";
 import { Input } from '@/components/ui/input';
 import { ToolCategory, Tool } from '@/lib/tools-data';
-import { useFirestore } from '@/firebase/provider';
-import { doc, getDoc } from 'firebase/firestore';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getAllToolContents } from '@/lib/localStorageManager';
 
 interface ContentAwareTool extends Tool {
   customContent?: string;
@@ -22,39 +21,22 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
       category.tools.map(t => ({...t, isLoadingContent: true}))
   );
 
-  const firestore = useFirestore();
-
   useEffect(() => {
-    const fetchContent = async () => {
-      if (!firestore) {
-         setTools(category.tools.map(t => ({...t, isLoadingContent: false})));
-         return;
-      };
+    // We can only access localStorage on the client
+    const allContents = getAllToolContents();
+    
+    const toolsWithContent = category.tools.map(tool => {
+        const slug = tool.href.split('/').pop() || '';
+        const contentData = allContents[slug];
+        return {
+            ...tool,
+            customContent: contentData?.content,
+            isLoadingContent: false
+        };
+    });
 
-      const toolsWithContent = await Promise.all(
-        category.tools.map(async (tool) => {
-          const slug = tool.href.split('/').pop();
-          if (slug) {
-            const docRef = doc(firestore, 'pdfToolsContent', slug);
-            try {
-              const docSnap = await getDoc(docRef);
-              if (docSnap.exists()) {
-                return { ...tool, customContent: docSnap.data().content, isLoadingContent: false };
-              }
-            } catch (error) {
-              console.error(`Failed to fetch content for ${slug}:`, error);
-            }
-          }
-          return { ...tool, isLoadingContent: false };
-        })
-      );
-      setTools(toolsWithContent);
-    };
-
-    if(firestore) {
-        fetchContent();
-    }
-  }, [firestore, category.tools]);
+    setTools(toolsWithContent);
+  }, [category.tools]);
 
 
   const filteredTools = tools.filter(tool =>
@@ -102,7 +84,7 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
              <ToolCard
                 key={tool.title}
                 title={tool.title}
-                description={<div dangerouslySetInnerHTML={{ __html: tool.customContent || tool.description }} />}
+                description={tool.customContent ? <div dangerouslySetInnerHTML={{ __html: tool.customContent }} /> : tool.description}
                 icon={tool.icon}
                 href={tool.href}
             />
