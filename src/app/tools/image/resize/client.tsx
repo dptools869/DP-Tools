@@ -105,7 +105,7 @@ export function ImageResizerClient() {
     
     const link = document.createElement('a');
     link.href = dataUrl;
-    link.download = `${fileName}-resized.${outputFormat}`;
+    link.download = `${fileName}-resized.${outputFormat === 'jpeg' ? 'jpg' : outputFormat}`;
     link.click();
   };
 
@@ -129,7 +129,7 @@ export function ImageResizerClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Ruler className="w-10 h-10 text-primary" />
@@ -139,6 +139,15 @@ export function ImageResizerClient() {
                 Resize images online quickly and easily. Adjust dimensions, reduce file size, and maintain quality, all for free. No downloads or sign-ups needed.
               </CardDescription>
             </CardHeader>
+          </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <h2>Image Re-sizer - Resize, Compress, and Enhance Images Online</h2>
+            <p>Have several images to resize? Use our Free Image Resizer Tool to resize your photos easily. Our tool can be used to edit graphics for your website, optimize product images for e-commerce, and scale images for social media, delivering fast, high-quality results.</p>
+            <p>All standard file formats, such as JPG, PNG, GIF, BMP, and WEBP, can be resized. And to top it all off, you do not need to install, register, or watermark anything, as it all happens in your browser.</p>
+          </div>
+
+          <Card>
             <CardContent className="space-y-8 mt-6">
                 {!image ? (
                     <Label
@@ -233,34 +242,53 @@ export function ImageResizerClient() {
                     </div>
                 )}
             </CardContent>
+             <CardFooter>
+              <p className="text-xs text-muted-foreground text-center w-full">Your images are processed securely in your browser and are never uploaded to our servers.</p>
+            </CardFooter>
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Resize Images with Precision</h2>
-            <p>Our Image Resizer tool provides a simple yet powerful way to change the dimensions of your images. Whether you need to scale an image down for a website to improve loading times, or resize it to specific dimensions for a social media post, our tool gives you the control you need. You can resize by specifying exact pixel dimensions or by a simple percentage.</p>
-            <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How to Use the Image Resizer</h2>
-            <p>The process is designed for ease of use and flexibility:</p>
-            <ol>
-                <li><strong>Upload Your Image:</strong> Drag and drop your image file or click to select one from your device.</li>
-                <li><strong>Choose Your Resize Method:</strong> Select whether you want to resize by specific dimensions (pixels) or by a percentage.</li>
-                <li><strong>Enter New Values:</strong> Input your desired width, height, or percentage. If "Keep Aspect Ratio" is enabled, the other dimension will update automatically to prevent distortion.</li>
-                <li><strong>Select Output Format:</strong> Choose your desired file format: JPG, PNG, or WEBP.</li>
-                <li><strong>Download:</strong> Click the download button to save your newly resized image.</li>
-            </ol>
-            <h3 id="key-features">Key Features and Benefits</h3>
+            <h2>What Is an Image Re-sizer?</h2>
+            <p>An image resizer helps you resize images without losing quality. Whether you need to resize an image to 100KB or 20KB, or increase its size in KB, our free image resizer does it quickly and automatically.</p>
+            
+            <h3>Why Choose Our Image Resizer?</h3>
+            <p>Photos are an essential element of your web image. Whether it's websites and portfolios, product listings, or even posts on your social media, well-sized pictures ensure your content looks professional. Large images may slow down the site and affect its search engine ranking, whereas small pictures can be blurred or distorted. Whenever you want to achieve the optimal balance between quality and performance, we make it easy with our Image Resizer Online.</p>
+
+            <h4>Key Benefits:</h4>
             <ul>
-              <li><strong>Flexible Resizing:</strong> Scale by pixels or percentage to fit your needs.</li>
-              <li><strong>Aspect Ratio Lock:</strong> Easily maintain your image's original proportions to avoid stretching or squashing.</li>
-              <li><strong>Multiple Formats:</strong> Export your resized image as a JPG, PNG, or modern WEBP file.</li>
-              <li><strong>Client-Side Processing:</strong> All resizing happens directly in your browser. Your images are never uploaded to a server, ensuring your privacy.</li>
-              <li><strong>Completely Free:</strong> Resize as many images as you need, at no cost.</li>
+                <li><strong>High-Quality Results:</strong> Maintain crisp, clear visuals without pixelation or blurriness.</li>
+                <li><strong>Fast and Efficient:</strong> Resize images within seconds using your web browser —no downloads required.</li>
+                <li><strong>Total Control:</strong> Customize width, height, and aspect ratio according to your needs.</li>
+                <li><strong>Multi-Format Support:</strong> Works seamlessly with JPG, PNG, GIF, BMP, and WEBP files.</li>
+                <li><strong>Web Performance Optimized:</strong> Create smaller image files that load faster and save bandwidth.</li>
+                <li><strong>Free Forever:</strong> No hidden fees, no registration, just resize and download.</li>
             </ul>
-            <p>Get the perfect size for your images every time with our fast, secure, and free online Image Resizer.</p>
+
+            <h3>Why You Need an Online Image Resizer</h3>
+            <p>Images that are too large slow down websites and affect upload limits on forms and social media. Our online image resizer helps you optimize images for better web performance and faster sharing. You don’t need any design skills or software; just upload, resize, and download instantly.</p>
+
+            <h3>Key Features of Our Free Image Re-sizer</h3>
+            <ul>
+                <li><strong>Image Re-sizer Free:</strong> No sign-up or installation needed.</li>
+                <li><strong>Bulk Image Re-sizer:</strong> Resize multiple photos at once.</li>
+                <li><strong>Image Resizer Online in KB:</strong> Set the exact upload size in KB.</li>
+                <li><strong>AI Image Resizer Enhancer:</strong> Powered by artificial intelligence for precision resizing.</li>
+                <li><strong>AI Image Enlarger Free:</strong> Enlarge small photos without pixelation.</li>
+                <li><strong>Image Size Increase:</strong> Enhance resolution and improve clarity.</li>
+            </ul>
+
+            <h3>How It Works</h3>
+            <ol>
+                <li>Upload your image.</li>
+                <li>Choose the desired output, width, height, or size in KB.</li>
+                <li>Click “Resize Image.”</li>
+                <li>Download your optimized photo instantly.</li>
+            </ol>
+            <p>Our tool works entirely online, and your images are never stored on our servers for security reasons.</p>
+            
+            <h3>Privacy and Security Guaranteed</h3>
+            <p>We respect your privacy. All resizing happens right in your browser, so your images never leave your device. We do not upload, store, or share any of your files. Once you close the page, your pictures are gone for good. Your creativity stays yours —private, secure, and protected.</p>
           </article>
-
-          <AdBanner type="bottom-banner" className="mt-12" />
-
         </main>
         
         <aside className="space-y-8 lg:sticky top-24 self-start">
@@ -271,3 +299,5 @@ export function ImageResizerClient() {
     </div>
   );
 }
+
+    
