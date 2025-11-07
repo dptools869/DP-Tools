@@ -218,10 +218,14 @@ export function ColorPickerClient() {
               </div>
               <CardTitle className="text-3xl font-headline">Color Picker - Find and Copy the Perfect Colour Instantly</CardTitle>
               <CardDescription className="text-lg">
-                Instantly find, match, and copy colors with our free online Color Picker tool. Get accurate HEX, RGB, and HSL codes for web, design, and print projects.
+                Your complete color toolkit for designing, web, and creative projects.
               </CardDescription>
             </CardHeader>
           </Card>
+
+          <p className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            DP Tools' Color Picker tool helps creators, designers, and developers easily match and find precise colors. Whether you're building a website, designing a logo, or editing a photo, it delivers accurate results quickly and effortlessly in seconds.
+          </p>
 
           <Card>
               <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -306,17 +310,38 @@ export function ColorPickerClient() {
             </Card>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Mastering Color Selection</h2>
-            <p>A color picker is an indispensable tool for designers, developers, and artists. It simplifies the process of selecting the perfect color for any project. Our Advanced Color Picker provides a comprehensive interface to explore colors, get their codes in multiple formats, and discover harmonious shades and palettes.</p>
+            <p>All you have to do is select a shade by using the palette. After this, you will be able to see the relevant HEX, RGB, and HSL codes of any color.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h3>Understanding Color Formats</h3>
-            <p>Our tool provides color codes in the most common web formats:</p>
-             <ul>
-              <li><strong>HEX:</strong> A hexadecimal representation of color, commonly used in CSS, HTML, and design software (e.g., #00C853).</li>
-              <li><strong>RGB:</strong> Represents colors using the Red, Green, and Blue light model. Each value ranges from 0 to 255 (e.g., rgb(0, 200, 83)).</li>
-              <li><strong>HSL:</strong> Represents colors using Hue, Saturation, and Lightness, which can be more intuitive for making adjustments (e.g., hsl(145, 100%, 39%)).</li>
+            <h2>How Does Our Color Palette Generator Work?</h2>
+            <p>Our tool is the universal translator for colors. You see a color your eyes can see, but we provide the exact color in every language that matters.</p>
+            <p>The tool offers an easy interface for identifying and converting colors instantly. After choosing a color, the system will automatically apply the correct color codes in web design, graphic projects, and digital platforms.</p>
+            <h3>Here’s what you get:</h3>
+            <p>You can pick a color by clicking anywhere on the gradient or use the sliders to make small changes. If you already have a color code, you can type it in to find colors automatically.</p>
+            <h3>Get Every Format Instantly</h3>
+            <p>When you choose a color, you’ll see its HEX code for websites, RGB values for digital designs, HSL values for color adjustments, and CMYK for printing. Everything updates right away with accurate results.</p>
+            <h3>One-Click Copy</h3>
+            <p>Want to use the color somewhere else? Just press the copy button next to the format you need, and it will be ready to paste into your design tool, website, or any other place.</p>
+            <h2>Why Use a Color Matching Tool?</h2>
+            <p>A Color Picker should be a great tool to have when dealing with visuals. It helps you to be consistent and accurate throughout your projects.</p>
+            <h3>Here’s how it helps:</h3>
+            <ul>
+                <li><strong>Design Consistency:</strong> You can easily and exactly match the colors of your brand or UI designs.</li>
+                <li><strong>Quick Web Development:</strong> Get the correct color code, CSS, or HTML.</li>
+                <li><strong>Creative Inspiration:</strong> Find new colors and save them for your future project.</li>
+                <li><strong>Quick Adjustments:</strong> Modify and change colors in real time to make your project even more precise.</li>
             </ul>
-            <p>With one-click copy functionality, you can quickly grab the exact code you need and paste it into your project. Whether you're designing a website, creating a graphic, or choosing a color scheme, our Advanced Color Picker gives you the control and information you need to make the right choice.</p>
+            <p>If you are a designer, marketer, hobbyist, or any other user, it is easy to find and use the best color code finder at any time, as our online color picker is free and user-friendly.</p>
+            <h3>Safe, Simple, and Fast</h3>
+            <p>No download or registration required. All you have to do is simply open our online color picker tool and start choosing colors. All your work is safe and confidential here.</p>
+            <h3>Try Out Different Shades</h3>
+            <p>With this tool, you can test colors side by side and see what fits best. It helps you understand how colors look on different screens or backgrounds.</p>
+            <p>If you’re unsure which color to use, just try a few. Mix light and dark, warm and cool.</p>
+            <p>You’ll quickly see what feels right for your design. The live preview shows you what each color will look like before you use it.</p>
+            <h2>Free Color Picker Online - Start Picking Colors Now</h2>
+            <p>Colors tell stories. They shape how people feel when they see your work. Using the right shades can make a design friendly, attractive, or calm.</p>
+            <p>Our free tool helps you explore endless tones and discover fresh combinations. You don’t have to be a pro to use it, just experiment and see what fits your needs.</p>
+            <p>It’s simple and made for anyone who loves creating. Try blending different colors to find what feels right for your project. Sometimes, the slightest shade change can make the most significant difference.</p>
+            <p>So you are just one click away from finding your own perfect shade. Choose color codes with the free Color Picker, and make your projects even more precise.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
