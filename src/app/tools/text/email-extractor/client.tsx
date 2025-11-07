@@ -67,6 +67,20 @@ export function EmailExtractorClient() {
               </CardDescription>
             </CardHeader>
           </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <h2>Search and Gather Emails in Real Time.</h2>
+            <p>Searching for email addresses in text, documents, or web data is time-consuming when done manually. With our Email Extractor tool, it's never been a problem: just copy and paste or upload a file, and it automatically finds and extracts all the valid email addresses you need.</p>
+            <p>Our free online email extractor is perfect for time-saving tasks for recruiters, researchers, or business owners. It allows you to save time and collect contacts in an organized, efficient way.</p>
+            <p>Our email extractor does this work in seconds. You type in your text, attach a document, or simply place a URL. We will automatically search through it and find every email address. There will be no scanning, copying, or errors—just instant results that you can download easily.</p>
+            <h3>Perfect for:</h3>
+             <ul className="text-left">
+                <li>Sales Professionals who create prospect lists based on business directories or industry reports.</li>
+                <li>Recruiters obtain candidates' email addresses from resumes and applications.</li>
+                <li>Event organizers gather the attendees' email addresses during the registration forms or sign-up sheets.</li>
+                <li>Researchers who collect contact data through academic publications or research databases.</li>
+            </ul>
+          </div>
 
           <Card>
               <CardHeader>
@@ -82,7 +96,7 @@ export function EmailExtractorClient() {
                       <div className="space-y-2">
                           <Label htmlFor="output-text">Extracted Emails ({extractedEmails.length})</Label>
                            <ScrollArea className="h-64 border rounded-md">
-                                <pre className="p-4 text-sm">{extractedEmails.join('\n')}</pre>
+                                <pre className="p-4 text-sm whitespace-pre-wrap break-all">{extractedEmails.join('\n')}</pre>
                            </ScrollArea>
                       </div>
                   </div>
@@ -95,16 +109,39 @@ export function EmailExtractorClient() {
             </Card>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>How to Use the Email Extractor Tool</h2>
-            <p>Our Email Extractor is a simple yet powerful tool designed to save you time by automatically finding and pulling all email addresses from a large block of text. Whether you have a long list of contacts, a webpage's source code, or any document with scattered email addresses, this tool can consolidate them for you in seconds.</p>
-            <AdBanner type="top-banner" className="my-8"/>
-            <h3>Simple Steps to Extract Emails:</h3>
-             <ol>
-              <li><strong>Paste Your Text:</strong> Copy the text from which you want to extract email addresses and paste it into the input box.</li>
-              <li><strong>Instant Results:</strong> The tool will automatically process the text and display all unique email addresses it finds in the results box.</li>
-              <li><strong>Copy or Download:</strong> You can then use the "Copy All" button to copy the list to your clipboard or download it as a simple text file.</li>
-            </ol>
-            <p>This tool is invaluable for marketers creating mailing lists, researchers gathering contact information, or anyone who needs to quickly compile a list of email addresses from unstructured text. It's fast, free, and does all the work on your device, ensuring your data remains private.</p>
+            <h2>How Our Email Extractor Works: The Principle Behind It</h2>
+            <p>Our tool is powered by sophisticated pattern recognition that searches all email addresses in a few seconds. It sifts through duplicates and invalid email formats, leaving you with a clean, ready-to-use list of confirmed emails.</p>
+            <p>Here’s what it does:</p>
+            <ul>
+                <li><strong>Instant Detection:</strong> This tool detects any valid email address in your document or text.</li>
+                <li><strong>Duplicate Removal:</strong> Cleans up your list by eliminating duplicate addresses.</li>
+                <li><strong>Smart Validation:</strong> Removes the incorrect or incomplete emails.</li>
+                <li><strong>Download Option:</strong> You can easily download the email list extracted for easy use.</li>
+            </ul>
+            <p>That is what happens when you extract emails using our tool:</p>
+            <h3>Intelligent Scanning</h3>
+            <p>We examine your characters, searching for the characteristic signature of email addresses and text followed by @ or a domain name. We pick up emails when they are hidden in tables, between other text, or under paragraphs.</p>
+            <h3>Format Recognition</h3>
+            <p>No matter what type of text you have —simple, in a PDF, Word document, Excel spreadsheet, or on a website —we can read it. Drag any file and drop it on the standard file, and we will extract the emails within seconds.</p>
+            <h3>Automatic Cleaning</h3>
+            <p>We will automatically eliminate duplicate emails so you do not receive the same email several times. We verify every email to ensure it is in the correct format. We remove any additional characters or formatting that could accompany the text.</p>
+            <h3>Export Ready</h3>
+            <p>Export your results in a simple list format, save it to Excel or Google Sheets, and save it as CSV or TXT. Your next move can be in whatever format you want, and we are ready.</p>
+            <h2>Why Use an Email Extractor?</h2>
+            <p>Contact information can be easily organized and gathered with an Email Extractor. This tool makes it easier to compile a list of emails, handle customer data, or clean old lists.</p>
+            <p>Here’s how it helps:</p>
+            <ul>
+                <li><strong>Save Time:</strong> Search hundreds of emails immediately without manual searching.</li>
+                <li><strong>Better Accuracy:</strong> Avoid misspellings or typographical errors in addresses.</li>
+                <li><strong>Increase Productivity:</strong> Focus on outreach rather than text sorting.</li>
+                <li><strong>Arrange Data:</strong> Export ya usable, clean list from our CRM or marketing tool.</li>
+            </ul>
+            <p>Our free email extraction software is designed to be the most precise, quick, and confidential —so you can work smarter and faster.</p>
+            <h3>Safe, Secure, and Private</h3>
+            <p>Your information is transmitted over a secure network and is deleted once the data has been extracted. We do not archive or save your files or results; we always respect your privacy.</p>
+            <h2>Start Extracting Emails Now</h2>
+            <p>Get the right email lists with a single click.</p>
+            <p>Copy and paste or upload your file, hit Extract, and it will automatically download all of the email addresses in seconds. It is free, fast, and safe!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
