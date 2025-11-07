@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { UserPlus, Copy, Download, Star, Trash2, Settings, RefreshCw } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
 import { useToast } from '@/hooks/use-toast';
@@ -198,6 +199,12 @@ export function NicknameGeneratorClient() {
                         </CardHeader>
                     </Card>
 
+                    <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+                      <h2>Make Unique Nicknames Instantly</h2>
+                      <p>Our Free Nickname Generator generates fun, creative, and original nicknames in just a few seconds. Whether you need a cool gaming tag, an attractive social media handle, or a playful alias for online platforms, this tool offers endless options.</p>
+                      <p>All one has to do is type their name, words, or themes they like, and our nickname generator tool will automatically generate a list of nicknames about them. You will find the name that suits your personality, whether it is a fancy name or a name based on fantasy.</p>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                        {/* Controls */}
                         <div className="md:col-span-1 space-y-6">
@@ -314,6 +321,44 @@ export function NicknameGeneratorClient() {
                              </CardContent>
                         </Card>
                     )}
+                    
+                     <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+                        <h2>How Our Nickname Generator Works?</h2>
+                        <p>Creating good nicknames is not random; it involves creativity, language patterns, and an understanding of what makes names memorable.</p>
+                        <h3>Intelligent Analysis</h3>
+                        <p>We use what you give us —be it your actual name, a word or idea you like —and understand the sounds, syllables, and letter sequences.</p>
+                        <h3>Style Application</h3>
+                        <p>Depending on the style you adopt, we use various creative approaches. Cool titles can involve word combinations. Competitive terms can be used as gaming names. Playful suffixes could be utilized in cute names.</p>
+                        <h3>Variation Creation</h3>
+                        <p>We generate multiple variants using various methods: word shortening, word combining, the use of prefixes and suffixes, the inclusion of related words, and creative spelling variants.</p>
+                        <h3>Uniqueness Checking</h3>
+                        <p>We prioritize combinations that are more likely to be available across platforms. No generic suggestions that are taken everywhere.</p>
+
+                        <h2>Why Use a Nickname Generator?</h2>
+                        <p>Nicknames are not only fun words; they can also be your identity on the internet. No matter whether you are creating a gaming profile, creating a new social media account, or writing under a pen name, a special nickname will make you stand out.</p>
+                        <p>To get the best nickname without spending hours brainstorming, it only takes one or two clicks to get the right one out of our Nickname Generator.</p>
+                        <h3>Here’s why users love it:</h3>
+                        <ul>
+                            <li><strong>Unlimited Ideas:</strong> Instantly generate dozens of creative nickname suggestions.</li>
+                            <li><strong>Personalized Results:</strong> Add your name, hobbies, or traits to get names that truly match you.</li>
+                            <li><strong>Free & Easy to Use:</strong> No registration or download required.</li>
+                            <li><strong>Perfect for Any Platform:</strong> Use nicknames for games, chats, social media, or creative projects.</li>
+                            <li><strong>Gender-Neutral Options:</strong> Get suggestions for male, female, or unisex nicknames.</li>
+                        </ul>
+
+                        <h2>How It Works</h2>
+                        <ol>
+                            <li><strong>Enter a Name or Word:</strong> Type your first or middle name, a favorite word, or a theme (such as space, music, or magic).</li>
+                            <li><strong>Select Your Style:</strong> Select between cool, cute, funny, stylish, or random nicknames.</li>
+                            <li><strong>Generate & Explore:</strong> Clicking the Generate button displays a list of nicknames as soon as they are generated.</li>
+                            <li><strong>Copy Your Favorite:</strong> When you have found the one that fits, copy it and start using it wherever you like.</li>
+                        </ol>
+                        <p>The tool employs intelligent mash-ups of letters, syllables, and frequently occurring patterns to form natural, memorable nicknames that sound natural, not arbitrary or robotically generated.</p>
+
+                        <h2>Find Your Perfect Name Today</h2>
+                        <p>Stand out online with a nickname that’s uniquely yours. Whether it’s for fun, branding, or creativity, our Free Nickname Generator Online helps you discover the correct name in seconds.</p>
+                        <p>Start generating now, and make your online identity unforgettable.</p>
+                    </article>
 
                     <AdBanner type="bottom-banner" className="mt-12" />
                 </main>
