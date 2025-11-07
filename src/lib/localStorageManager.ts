@@ -32,6 +32,9 @@ export function saveToolContent(toolSlug: string, content: string): void {
     updatedAt: new Date().toISOString()
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+  
+  // Dispatch a custom event to notify other parts of the application
+  window.dispatchEvent(new Event('storageUpdated'));
 }
 
 export function getAllToolContents(): { [key: string]: { content: string, updatedAt: string } } {

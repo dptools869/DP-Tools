@@ -21,8 +21,7 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
       category.tools.map(t => ({...t, isLoadingContent: true}))
   );
 
-  useEffect(() => {
-    // We can only access localStorage on the client
+  const loadToolContents = () => {
     const allContents = getAllToolContents();
     
     const toolsWithContent = category.tools.map(tool => {
@@ -36,6 +35,19 @@ export function PdfToolsClient({ category }: { category: ToolCategory }) {
     });
 
     setTools(toolsWithContent);
+  }
+
+  useEffect(() => {
+    // We can only access localStorage on the client
+    loadToolContents();
+
+    // Listen for the custom event to update content in real-time
+    window.addEventListener('storageUpdated', loadToolContents);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('storageUpdated', loadToolContents);
+    };
   }, [category.tools]);
 
 
