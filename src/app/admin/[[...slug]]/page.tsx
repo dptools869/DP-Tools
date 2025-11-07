@@ -137,9 +137,8 @@ function SignUpPage() {
       // Store additional user data in Firestore
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
-        name: name,
+        displayName: name,
         email: user.email,
-        createdAt: new Date(),
       });
 
       toast({ title: 'Sign Up Successful' });

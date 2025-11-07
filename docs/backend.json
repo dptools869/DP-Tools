@@ -19,7 +19,7 @@
           "description": "The user's display name."
         }
       },
-      "required": ["uid", "email"]
+      "required": ["uid", "email", "displayName"]
     }
   },
   "auth": {
