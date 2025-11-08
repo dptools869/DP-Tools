@@ -106,7 +106,7 @@ export function CircleCropClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Crop className="w-10 h-10 text-primary" />
@@ -114,6 +114,21 @@ export function CircleCropClient() {
               <CardTitle className="text-3xl font-headline">Circle Crop Tool Free | Instantly Turn Images Into Perfect Circles</CardTitle>
               <CardDescription className="text-lg">
                  Use our free Circle Crop Tool to convert any photo or graphic into a clean, round image in seconds. No signup needed, transparent background, ready for web or socials.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+              <h2>Crop the Perfect Circle in Seconds</h2>
+              <p>DP Tools' Circle Crop tool helps creators, designers, and developers easily crop and create precise circular images. Whether you're building a website, designing a profile picture, or editing a photo, it delivers accurate results quickly and effortlessly.</p>
+              <p>All you have to do is upload an image and adjust the circle. After this, you will be able to see the perfectly cropped circular result of any image.</p>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Circle Crop Tool</CardTitle>
+              <CardDescription>
+                Your complete image cropping toolkit for designing, web, and creative projects.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -186,26 +201,33 @@ export function CircleCropClient() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Create Perfect Circular Images with a Resizable Crop Area</h2>
-            <p>Our Circle Crop tool provides an easy and intuitive way to crop your photos into a perfect circle. This is ideal for creating profile pictures for social media, avatars for forums, or unique design elements for your website. Now with a resizable crop area, you have even more control. Simply upload your image, adjust the zoom, position, and circle size, and download your high-quality circular image with a transparent background.</p>
-            <AdBanner type="top-banner" className="my-8"/>
-            <h2 id="how-it-works">How to Use the Circle Crop Tool</h2>
-            <p>The process is designed for maximum flexibility:</p>
-            <ol>
-              <li><strong>Upload Your Image:</strong> Drag and drop an image file or tap the upload area to select one from your device.</li>
-              <li><strong>Adjust the Crop:</strong> A circular overlay will appear. You can drag the image to position it, use your mouse wheel to zoom, and drag the corners of the circle to resize it.</li>
-              <li><strong>Crop and Download:</strong> Once you're happy with the preview, click the "Crop Image" button. Our tool will process the image and provide you with a high-quality, circular PNG file with a transparent background, ready for you to download.</li>
-            </ol>
-            <h3 id="key-features">Key Features and Benefits</h3>
+            <h2>How Does Our Circle Crop Tool Work?</h2>
+            <p>Our tool is the universal solution for circular cropping. You see an image your eyes can see, but we provide the exact circular crop in every format that matters.</p>
+            <p>The tool offers an easy-to-use interface for instantly cropping and converting images. After uploading an image, the system will automatically apply the correct circular crop for web design, graphic projects, and digital platforms.</p>
+            <h3>Here’s what you get:</h3>
+            <p>You can crop an image by clicking anywhere on the preview or use the sliders to make small changes. If you already have specific dimensions, you can type them in to automatically crop images.</p>
+            <h3>Get Every Format Instantly</h3>
+            <p>When you crop an image, you’ll see it in PNG format for websites, with transparent backgrounds for digital designs, in JPG format for standard photos, and in high resolution for printing. Everything updates right away with accurate results.</p>
+            <h3>One-Click Download</h3>
+            <p>Want to use the cropped image somewhere else? Just press the download button next to the format you need, and it will be ready to paste into your design tool, website, or any other place.</p>
+            <h2>Why Use a Circle Crop Tool?</h2>
+            <p>A Circle Crop Tool should be a great tool to have when dealing with visuals. It helps you to be consistent and accurate throughout your projects.</p>
+            <h3>Here’s how it helps:</h3>
             <ul>
-              <li><strong>Resizable Circle:</strong> Adjust the size of the circular crop area to perfectly frame your subject.</li>
-              <li><strong>Easy to Use:</strong> A simple, intuitive interface with zoom, pan, and resize controls.</li>
-              <li><strong>High-Quality Output:</strong> Creates crisp, clean circular images in PNG format.</li>
-              <li><strong>Transparent Background:</strong> The area outside the circle is transparent, perfect for any background.</li>
-              <li><strong>Client-Side Processing:</strong> Your images are processed directly in your browser for maximum privacy and speed. Nothing is uploaded to our servers.</li>
-              <li><strong>Completely Free:</strong> Use this tool to crop as many images as you need, at no cost.</li>
+                <li><strong>Design Consistency:</strong> You can easily and exactly crop circular images for your brand or UI designs.</li>
+                <li><strong>Quick Web Development:</strong> Get the correct circular crop for CSS or HTML.</li>
+                <li><strong>Creative Inspiration:</strong> Create new circular designs and save them for your future project.</li>
+                <li><strong>Quick Adjustments:</strong> Modify and change crop sizes in real time to make your project even more precise.</li>
             </ul>
-            <p>Get the perfect circular crop for your profile pictures, logos, and designs every time with our free and secure online tool.</p>
+            <p>If you are a designer, marketer, hobbyist, or any other user, it is easy to find and use the best circle crop tool at any time, as our online circle crop tool is free and user-friendly.</p>
+            <h3>Safe, Simple, and Fast</h3>
+            <p>No download or registration required. All you have to do is open our online circle crop tool and start cropping images. All your work is safe and confidential here.</p>
+            <h3>Try Out Different Sizes</h3>
+            <p>With this tool, you can test circle sizes side by side and see what fits best. It helps you understand how circular images look on different screens or backgrounds. If you're unsure which size to use, try a few. Mix small and large, tight and loose. You'll quickly see what feels right for your design. The live preview shows you what each circular crop will look like before you use it.</p>
+            <h2>Free Circle Crop Tool Online - Start Cropping Images Now</h2>
+            <p>Circular images tell stories. They shape how people feel when they see your work. Using the right crop can make a design friendly, attractive, or professional.</p>
+            <p>Our free tool helps you explore endless sizes and discover fresh circular designs. You don't have to be a pro to use it, just experiment and see what fits your needs. It's simple and made for anyone who loves creating. Try adjusting different circle sizes to find what feels right for your project. Sometimes, the slightest size change can make the most significant difference.</p>
+            <p>So you are just one click away from creating your own perfect circular image. Crop images with the free Circle Crop Tool, and make your projects even more precise.</p>
           </article>
           <AdBanner type="bottom-banner" className="mt-12" />
         </main>
