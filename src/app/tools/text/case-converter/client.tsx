@@ -76,10 +76,23 @@ export function TextCaseConverterClient() {
               </div>
               <CardTitle className="text-3xl font-headline">Text Case Converter</CardTitle>
               <CardDescription className="text-lg">
-                Easily convert text between different letter cases.
+                Change Text Formatting in Seconds.
               </CardDescription>
             </CardHeader>
           </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>Manually switching text between different formats. Converting from uppercase to lowercase, title case, or sentence case takes time and often leads to mistakes. Our Text Case Converter makes formatting simple: paste your content or drop in a file, and it will instantly convert your text to the case style you want.</p>
+            <p>This free web-based text case tool is perfect for writers, coders, marketers, and students who need clean formatting fast. It helps you keep things consistent and polished across everything you write.</p>
+            <p>The tool gets it done in moments. Paste some text, add a document, or drop in a URL —it'll scan everything and convert it to your chosen format. No need to manually retype or worry about errors —you get accurate results ready to copy or download right away.</p>
+            <h3>Great for:</h3>
+             <ul className="text-left">
+                <li>Content creators format headlines, article titles, and body copy to match style requirements.</li>
+                <li>Programmers switch variable names, code notes, or documentation between naming styles.</li>
+                <li>Social media professionals are preparing posts, captions, and hashtags for different platforms.</li>
+                <li>Students and researchers are formatting essays, citations, and references to fit submission guidelines.</li>
+            </ul>
+          </div>
 
           <Card>
               <CardHeader>
@@ -118,18 +131,40 @@ export function TextCaseConverterClient() {
             </Card>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Mastering Text Transformation with a Case Converter</h2>
-            <p>A text case converter is an essential utility for writers, editors, developers, and marketers. It provides a quick and easy way to change the capitalization of your text to fit specific formatting requirements without having to manually retype everything. Our tool offers a wide variety of conversion options to suit any need.</p>
-            <AdBanner type="top-banner" className="my-8"/>
-            <h3>Common Use Cases</h3>
-             <ul>
-              <li><strong>UPPERCASE:</strong> For headlines, titles, or to make text stand out.</li>
-              <li><strong>lowercase:</strong> To standardize text or for stylistic purposes.</li>
-              <li><strong>Sentence case:</strong> The standard for most writing, ensuring proper capitalization at the beginning of sentences.</li>
-              <li><strong>Title Case:</strong> Often used for headlines and book titles, capitalizing the first letter of each major word.</li>
-              <li><strong>snake_case & kebab-case:</strong> Commonly used by programmers for variable and file naming conventions.</li>
+            <h2>How the Text Case Converter Functions: What Happens Behind the Scenes</h2>
+            <p>The tool uses innovative text-processing technology to analyze and convert case formatting within seconds. It carefully manages punctuation, symbols, and spacing while preserving your content.</p>
+            <h3>What it handles:</h3>
+            <ul>
+                <li><strong>Quick Conversion:</strong> Changes any text to your selected format immediately.</li>
+                <li><strong>Various Styles:</strong> Provides sentence case, lowercase, UPPERCASE, Title Case, camel case, and others.</li>
+                <li><strong>Context-Aware:</strong> Keeps acronyms, URLs, and special elements formatted correctly when needed.</li>
+                <li><strong>Easy Downloads:</strong> Grab your converted content in whatever format works best for you.</li>
             </ul>
-            <p>Our tool is designed to be intuitive and efficient. Simply paste your text into the input box, click the button for the desired case, and your converted text will instantly appear in the output box, ready to be copied. It's a simple way to save time and ensure your text meets any formatting standard.</p>
+
+            <h3>How Our Text Case Converter Works: The Process</h3>
+            <h4>Intelligent Scanning</h4>
+            <p>We examine your characters, searching for the characteristic signature of email addresses and text followed by @ or a domain name. We pick up emails when they are hidden in tables, between other text, or under paragraphs.</p>
+            <h4>Format Recognition</h4>
+            <p>No matter what type of text you have —simple, in a PDF, Word document, Excel spreadsheet, or on a website —we can read it. Drag any file and drop it on the standard file, and we will extract the emails within seconds.</p>
+            <h4>Automatic Cleaning</h4>
+            <p>We will automatically eliminate duplicate emails so you do not receive the same email several times. We verify every email to ensure it is in the correct format. We remove any additional characters or formatting that could accompany the text.</p>
+            <h4>Export Ready</h4>
+            <p>Export your results in a simple list format, save it to Excel or Google Sheets, and save it as CSV or TXT. Your next move can be in whatever format you want, and we are ready.</p>
+            <h2>Why Use a Text Case Conversion Tool</h2>
+            <p>A Text Case Converter streamlines formatting and keeps everything uniform across all your writing. Whether you're standardizing document styles, prepping social posts, or switching code formats, this tool handles it smoothly.</p>
+            <p>Benefits include:</p>
+            <ul>
+                <li><strong>Faster Workflow:</strong> Transform entire documents instantly, without retyping.</li>
+                <li><strong>Improved Uniformity:</strong> Keep formatting consistent throughout all your content.</li>
+                <li><strong>Better Efficiency:</strong> Spend time on writing instead of tedious formatting work.</li>
+                <li><strong>Clean Organization:</strong> Keep professional quality across everything you create.</li>
+            </ul>
+            <p>This free conversion tool prioritizes accuracy, speed, and simplicity, helping you get more done in less time.</p>
+            <h3>Safe, Secure, and Private</h3>
+            <p>Your content passes through encrypted connections and gets wiped after conversion completes. Nothing gets stored on our servers; we respect your privacy completely.</p>
+            <h2>Begin Converting Text Right Now</h2>
+            <p>Get cleanly formatted text with minimal effort.</p>
+            <p>Paste your content or upload whatever file you have, pick your preferred case style, and watch it change instantly. No cost, lightning fast, and totally secure!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
