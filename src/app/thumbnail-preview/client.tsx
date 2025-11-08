@@ -242,8 +242,22 @@ export function ThumbnailPreviewClient() {
                 Create and preview thumbnails instantly with our free Thumbnail Preview tool. Perfect for YouTube, blogs, and social media, quick, clear, and accurate.
               </CardDescription>
             </CardHeader>
+          </Card>
+
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>Our Thumbnail Preview is free and lets you easily preview, test, and optimize your thumbnails across platforms without installing software.</p>
+            <p>Thumbnail testing does not necessarily involve complexity. You are a designer, developer, content creator, or just a user: no matter your role, our online thumbnail preview tool makes your workflow easier.</p>
+            <p>You can preview thumbnails for social media platforms, check how they appear in different sizes, test them for YouTube, blogs, or websites, or even verify their appearance for web design —all in your browser.</p>
+            <p>No advanced editing software is required, and you do not need technical expertise. Our platform thumbnail preview tool is quick, user-friendly, and safe. All you need to do is upload your thumbnail, preview it across different platforms, and verify your optimized visual within a couple of seconds.</p>
+          </div>
+
+          <Card>
+            <CardHeader>
+                <CardTitle>Thumbnail Upload</CardTitle>
+                <CardDescription>Upload a 1280x720 image to see how your thumbnail will look on YouTube.</CardDescription>
+            </CardHeader>
             <CardContent className="max-w-2xl mx-auto space-y-6">
-                {/* --- Desktop Uploader --- */}
+                 {/* --- Desktop Uploader --- */}
                 <div
                     className="desktop-only-uploader relative w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-8 sm:p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
                     onDragOver={(e) => e.preventDefault()}
@@ -304,12 +318,50 @@ export function ThumbnailPreviewClient() {
                  <PreviewCard title="Web - Home Feed (Small)" icon={<Monitor className="w-4 h-4"/>}><WebHomeSmallPreview image={image} title={title} seed="1a2b3c4d5e6f" /></PreviewCard>
                  <PreviewCard title="Mobile - Home Feed" icon={<Smartphone className="w-4 h-4"/>}><MobileHomePreview image={image} title={title} seed="6f5e4d3c2b1a" /></PreviewCard>
                  <PreviewCard title="Web - Channel Page (Small Grid)" icon={<Monitor className="w-4 h-4"/>}><ChannelPageGridPreview image={image} title={title} seed="c3b2a1d4e5f6" /></PreviewCard>
-                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="e5f6a1d4e5f6" /></PreviewCard>
+                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="e5f6a1d4c3b2a1" /></PreviewCard>
                  <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
               </div>
             </div>
           )}
           
+          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+            <h2>Our Most Popular Thumbnail Preview Features</h2>
+            <ul>
+              <li><strong>YouTube Thumbnail Preview:</strong> Preview thumbnails by width and height without quality loss. YouTube Thumbnail Preview helps create the proper look for videos, channel pages, search results, and recommended content. You are free to test proportions or have your own dimensions; your thumbnail will remain sharp and clear.</li>
+              <li><strong>Facebook Thumbnail Preview:</strong> Large thumbnail files are time-consuming and can cause excessive loading time. Facebook Thumbnail Preview is used to test thumbnails without losing clarity or color quality.</li>
+              <li><strong>Instagram Thumbnail Preview:</strong> Switch between feed view, story view, and profile view with a single mouse click. Our Instagram Thumbnail Preview is compatible with all platforms and devices and maintains quality.</li>
+              <li><strong>Twitter/X Thumbnail Preview:</strong> Preview the appearance of your thumbnails on Twitter/X. The Twitter Thumbnail Preview lets you control the visual presentation, helping you create the perfect thumbnail for a social media platform or content layout.</li>
+              <li><strong>LinkedIn Thumbnail Preview:</strong> Easily preview thumbnail appearance across different LinkedIn formats or verify thumbnails for posts or articles to get the best visual. Our LinkedIn Thumbnail Preview is easy and very powerful, as you can verify your thumbnail instantly.</li>
+              <li><strong>Blog Thumbnail Preview:</strong> Content creators love precision. With our Blog Thumbnail Preview, you can immediately preview any thumbnail's appearance across different blog layouts, featured images, or post previews. Your thumbnails will always look correct, whether you are matching brand guidelines or perfecting your content. This tool will provide you with the utmost accuracy in your presentations.</li>
+            </ul>
+
+            <AdBanner type="top-banner" className="my-8"/>
+            
+            <h2>What Is So Special about our Online Thumbnail Preview?</h2>
+            <p>Our thumbnail preview tool is fast, precise, and simple to use, and it will enable you to handle thumbnail testing in very little time. Here's why users choose us:</p>
+            <ul>
+              <li><strong>100% Free and Online:</strong> There is no downloading or registration; everything is in your web browser.</li>
+              <li><strong>Lightning speed:</strong> Preview thumbnails in seconds, regardless of their size.</li>
+              <li><strong>Quality Results:</strong> Intelligent preview and scaling ensure that your thumbnails are sharp and professional.</li>
+              <li><strong>Secret and classified:</strong> Your files are stored safely and automatically removed from our servers after use.</li>
+              <li><strong>Cross-Platform:</strong> Optimally works on desktop, tablet, and mobile.</li>
+              <li><strong>All-in-One Solution:</strong> YouTube and Facebook to Instagram and blog previews—everything is in one place.</li>
+            </ul>
+
+            <h2>Perfect for Every Use Case</h2>
+            <p>Our tool is designed to include all types of users:</p>
+            <ul>
+              <li><strong>Content Creators:</strong> Optimize thumbnails to have good engagement on platforms.</li>
+              <li><strong>Marketers:</strong> Develop social media-ready thumbnails without outsourcing.</li>
+              <li><strong>YouTubers:</strong> Preview thumbnail appearances easily by testing across different views.</li>
+              <li><strong>Students and Teachers:</strong> Prepare thumbnails on projects, assignments, and presentations.</li>
+              <li><strong>Business Owners:</strong> Control thumbnail images or marketing visuals consistently in terms of quality and appearance.</li>
+            </ul>
+
+            <h2>Safe, Secure, and Private</h2>
+            <p>We value your privacy. All thumbnails uploaded to it are done safely in encrypted links. As soon as your thumbnail is previewed, tested, or verified, it will be automatically removed from our servers. You always have complete control over your content. We want to give you the freedom to preview and optimize your thumbnails while ensuring your data remains secure.</p>
+          </article>
+           
            <AdBanner type="bottom-banner" className="mt-12" />
         </main>
         
