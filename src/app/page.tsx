@@ -41,12 +41,6 @@ const categories = [
     icon: <Calculator className="w-12 h-12 text-primary" />,
     href: '/calculator-tools',
   },
-   {
-    title: 'Spin Wheel',
-    description: 'Enter names or images, spin, and see who wins!',
-    icon: <Disc className="w-12 h-12 text-primary" />,
-    href: '/tools/spin-wheel',
-  },
   {
     title: 'Internet Speed Checker',
     description: 'Test your internet download and upload speed.',
