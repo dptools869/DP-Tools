@@ -13,6 +13,7 @@ const quickLinks = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
   { label: 'Terms and Conditions', href: '/terms-and-conditions' },
   { label: 'Sitemap', href: '/sitemap.xml' },
+  { label: 'Robots.txt', href: '/robots.txt' },
   { label: 'PDF Tools', href: '/pdf-tools' },
 ];
 
