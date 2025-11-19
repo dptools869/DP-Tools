@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { FirebaseProvider } from '@/firebase/provider';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'DP Tools - All-in-One Tools Platform',
@@ -20,6 +21,17 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <meta name="google-site-verification" content="CaLkncHEeHV74bNvHyhEpV2_di0q04srlWOIQVxYJ-o" />
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4J5NPSY51Y"></Script>
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-4J5NPSY51Y');
+          `}
+        </Script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
