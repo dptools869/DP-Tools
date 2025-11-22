@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <meta name="google-site-verification" content="CaLkncHEeHV74bNvHyhEpV2_di0q04srlWOIQVxYJ-o" />
+        <meta name="yandex-verification" content="b975b59adc94efee" />
         {/* Google tag (gtag.js) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4J5NPSY51Y"></Script>
         <Script id="google-analytics">
