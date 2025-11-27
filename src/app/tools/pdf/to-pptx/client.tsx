@@ -134,7 +134,7 @@ export function PdfToPptxClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Presentation className="w-10 h-10 text-primary" />
@@ -144,11 +144,18 @@ export function PdfToPptxClient() {
                 Transform your PDFs into editable PowerPoint (PPTX) presentations.
               </CardDescription>
             </CardHeader>
+          </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>PowerPoint presentations are used everywhere—schools, offices, marketing teams, online training, and business meetings. But many important files come in PDF format, which is not editable. When you want to redesign slides, extract visuals, modify layouts, or reuse content, manually copy-pasting from PDF to PPT takes too much time.</p>
+            <p>This is where PDF to PowerPoint conversion becomes extremely valuable.</p>
+          </div>
+
+          <Card>
+            <CardHeader>
+                <CardTitle>PDF to PowerPoint Converter</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-8 mt-6">
-              <div className="prose prose-lg dark:prose-invert max-w-none text-center">
-                <p>PowerPoint presentations are used everywhere—schools, offices, marketing teams, online training, and business meetings. But many important files come in PDF format, which is not editable. When you want to redesign slides, extract visuals, modify layouts, or reuse content, manually copy-pasting from PDF to PPT takes too much time.</p>
-                <p>This is where PDF to PowerPoint conversion becomes extremely valuable.</p>
-              </div>
               {!conversionResult && (
                 <div className="space-y-6">
                   <Label
@@ -212,6 +219,7 @@ export function PdfToPptxClient() {
             <p>Whether you’re a student preparing class presentations, a business owner redesigning a pitch deck, or a marketer converting brochures into slides—this complete guide will show you how to convert PDF to PPT smoothly, accurately, and without losing quality.</p>
             <h3>What Is “PDF to PowerPoint Conversion”?</h3>
             <p>PDF to PowerPoint conversion is the process of turning a PDF file into an editable PPT or PPTX format. Once converted, you can freely edit text, change fonts, adjust colors, resize elements, add animations, insert new images or icons, and rearrange slides. PDFs are fixed-layout documents. PowerPoint is editable. Conversion bridges the gap and gives you full creative control.</p>
+            <p>Most users prefer online PDF to PPT converters because they’re fast, secure, and require no installation. You upload the PDF → download the converted PPT → and start editing instantly.</p>
             
             <h3>Why Convert PDF to PPT? (Real Benefits)</h3>
             <ol>
@@ -264,10 +272,11 @@ export function PdfToPptxClient() {
             </ul>
 
             <h3>Conclusion</h3>
-            <p>Converting PDF to PowerPoint is a simple but powerful way to turn static documents into dynamic, editable presentations. With the right tool, you can convert files in seconds, preserve quality, and redesign slides with full freedom. For fast and secure merging, try the DPToolsPro PDF to PowerPoint Tool — it’s simple, safe, and works on all devices.</p>
-
+            <p>Converting PDF to PowerPoint is a simple yet powerful way to turn static documents into dynamic, editable presentations. With the right tool, you can convert files in seconds, preserve quality, and redesign slides with full freedom. Whether you're a student, professional, marketer, or business owner, PDF to PPT conversion helps you create clear, attractive, and polished presentations without manual work.</p>
+            <p>To get started easily, try a reliable online converter or explore additional tools on DPToolsPro.com to manage, edit, and optimize your documents.</p>
+            
             <hr/>
-            <h3>About the Author — Piyush (DigitalPiyush)</h3>
+            <h3>About the Author — Piyush (Digital Piyush)</h3>
             <p>Piyush is a full-time developer & digital tools tester with 5+ years of hands-on experience in building, reviewing, and optimizing online productivity tools. He has tested 200+ converters, resizers, PDF utilities, and document automation apps for real-world performance. My goal is to simplify tech for everyday users through accurate, practical, and trusted guides.</p>
           </article>
           <AdBanner type="bottom-banner" className="mt-12" />
