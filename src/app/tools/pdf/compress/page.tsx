@@ -155,14 +155,15 @@ export default function CompressPdfPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Shrink className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">Compress PDF: The Complete, Easy Guide to Reducing PDF File Size (2025 Updated)</CardTitle>
+              <CardTitle className="text-3xl font-headline">Compress PDF Tool</CardTitle>
               <CardDescription className="text-lg max-w-3xl mx-auto">
-                PDF files are one of the most common document formats used today. We use them for assignments, invoices, e-books, office documents, scanned files, and more. But large PDF files can quickly become a problem — they slow down uploads, take longer to send, and often exceed email or website size limits.
+                Reduce the file size of your PDF files while optimizing for quality.
               </CardDescription>
             </CardHeader>
           </Card>
           
           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>PDF files are one of the most common document formats used today. We use them for assignments, invoices, e-books, office documents, scanned files, and more. But large PDF files can quickly become a problem — they slow down uploads, take longer to send, and often exceed email or website size limits.</p>
             <p>If you’ve ever faced the message “File size too large”, this guide will help you understand how to compress a PDF properly without ruining the quality.</p>
           </div>
 
@@ -229,7 +230,7 @@ export default function CompressPdfPage() {
             </CardFooter>
           </Card>
 
-          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary prose-li:my-1 prose-headings:my-4">
+          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-primary prose-a:text-primary prose-li:my-1 prose-headings:my-4">
             <h2>Why Do You Need to Compress PDF Files?</h2>
             <p>There are many situations where reducing PDF size becomes necessary. Here are the most common reasons:</p>
             <ol>
@@ -268,15 +269,6 @@ export default function CompressPdfPage() {
             <p>There are several easy ways to reduce PDF size depending on your device and needs.</p>
             <h3>1. Compress PDF Online (Fastest Method)</h3>
             <p>Online tools are the easiest option because they require no installation. You upload your PDF, compress it, and download the smaller version.</p>
-            <h4>Step-by-Step Guide</h4>
-            <ol>
-                <li>Open a trusted PDF compressor</li>
-                <li>Click Upload PDF</li>
-                <li>Select your compression level</li>
-                <li>Wait a few seconds</li>
-                <li>Download your compressed PDF</li>
-            </ol>
-            <p>You can try the DPToolsPro Compress PDF Tool right here on this page.</p>
             
             <h3>2. Desktop PDF Compression Software</h3>
             <p>If you work with private or sensitive files, consider offline software like Adobe Acrobat Pro, PDFsam, or Foxit PDF Editor. These apps allow for batch compression, better privacy, and more control over settings. Ideal for businesses, lawyers, financial documents, or anyone who prefers offline tools.</p>
