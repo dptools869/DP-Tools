@@ -128,7 +128,7 @@ export function MergePdfClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Merge className="w-10 h-10 text-primary" />
@@ -138,12 +138,18 @@ export function MergePdfClient() {
                 Combine multiple PDF files into one single document.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-8 mt-6">
-              <div className="prose prose-lg dark:prose-invert max-w-none text-center">
-                  <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
-                  <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
-              </div>
+          </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
+            <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
+          </div>
 
+          <Card>
+             <CardHeader>
+                <CardTitle className="text-center">Merge PDF Tool</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-8 mt-6">
               {!mergeResult && (
                 <div className="space-y-6">
                   <Label
@@ -274,6 +280,14 @@ export function MergePdfClient() {
                 <li><strong>Compress the Final PDF:</strong> If your merged PDF is too large, reduce its size with our <Link href="/tools/pdf/compress">Compress PDF</Link> tool.</li>
             </ul>
 
+            <h3>Common Use Cases for Merging PDFs</h3>
+            <ul>
+                <li><strong>Business:</strong> Combine invoices, contracts, proposals, financial documents.</li>
+                <li><strong>Education:</strong> Merge notes, assignments, reference PDFs, exam materials.</li>
+                <li><strong>Legal:</strong> Combine case files, evidence documents, court paperwork.</li>
+                <li><strong>Personal:</strong> Organize scanned receipts, bills, certificates, and IDs.</li>
+            </ul>
+
             <h3>Frequently Asked Questions</h3>
             <p><strong>Is it safe to use an online PDF merger?</strong><br/>Yes, as long as the tool uses encrypted connections and auto-deletes your files.</p>
             <p><strong>Can I merge PDF files for free?</strong><br/>Yes. Many online tools, including DPToolsPro, offer free merging without watermarks.</p>
@@ -281,6 +295,7 @@ export function MergePdfClient() {
 
             <h3>Conclusion</h3>
             <p>Merging PDF files is an easy and powerful way to organize information, improve productivity, and present documents professionally. Whether you prefer online tools, desktop software, or mobile apps, combining PDFs takes only a few clicks. For fast and secure merging, try the DPToolsPro Merge PDF Tool — it’s simple, safe, and works on all devices.</p>
+            <p>Make your document workflow easier today with a trusted PDF combiner.</p>
             
             <hr/>
 
