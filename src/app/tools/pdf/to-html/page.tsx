@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         'clean HTML from PDF',
         'professional PDF to HTML software',
         'responsive HTML from PDF',
-    ],
+    ]
 };
 
 export default function PdfToHtmlPage() {
