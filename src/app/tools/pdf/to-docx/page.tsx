@@ -1,139 +1,37 @@
 
-'use client';
-
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileCheck, FileText, Loader2, Download } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { pdfToDocx, PdfToDocxOutput } from '@/ai/flows/pdf-to-docx';
+import type { Metadata } from 'next';
+import { PdfToDocxClient } from './client';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AdBanner from '@/components/ad-banner';
+import { FileText } from 'lucide-react';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+    title: 'PDF to Word Conversion Guide 2025 | Best Tools & Accurate Methods',
+    description: 'Convert PDF to Word quickly and accurately. Learn best tools, OCR options, formatting tips, security guidelines, and expert methods for high-quality PDF to DOCX conversion.',
+    keywords: [
+        'PDF to Word converter',
+        'Convert PDF to Word',
+        'PDF to DOCX converter',
+        'Free PDF to Word',
+        'Online PDF to Word converter',
+        'accurate PDF to Word conversion',
+        'fast PDF to Word converter',
+        'OCR PDF to Word',
+        'editable Word document',
+        'scanned PDF converter',
+        'secure PDF conversion',
+        'formatting retention',
+        'PDF text extraction',
+    ],
+};
 
 export default function PdfToDocxPage() {
-  const [file, setFile] = useState<File | null>(null);
-  const [isConverting, setIsConverting] = useState(false);
-  const [conversionResult, setConversionResult] = useState<PdfToDocxOutput | null>(null);
-  const [fileName, setFileName] = useState('');
-  const { toast } = useToast();
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      if (selectedFile.type === 'application/pdf') {
-        setFile(selectedFile);
-        setFileName(selectedFile.name);
-        setConversionResult(null); // Reset previous result
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Invalid File Type',
-          description: 'Please upload a PDF file (.pdf).',
-        });
-        event.target.value = '';
-      }
-    }
-  };
-
-  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-  };
-
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    const droppedFile = event.dataTransfer.files?.[0];
-    if (droppedFile && droppedFile.type === 'application/pdf') {
-      setFile(droppedFile);
-      setConversionResult(null);
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Invalid File Type',
-        description: 'Please drop a PDF file (.pdf).',
-      });
-    }
-  };
-
-  const convertFile = async () => {
-    if (!file) {
-      toast({
-        variant: 'destructive',
-        title: 'No File Selected',
-        description: 'Please select a PDF file to convert.',
-      });
-      return;
-    }
-
-    setIsConverting(true);
-    setConversionResult(null);
-
-    try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64File = reader.result as string;
-        try {
-          const result = await pdfToDocx({ pdfDataUri: base64File, fileName: file.name });
-          setConversionResult(result);
-          toast({
-            title: 'Conversion Successful',
-            description: 'Your DOCX file is ready for download.',
-          });
-        } catch (error) {
-           toast({
-            variant: 'destructive',
-            title: 'Conversion Failed',
-            description: `An error occurred during conversion. ${error instanceof Error ? error.message : ''}`,
-          });
-        } finally {
-            setIsConverting(false);
-        }
-      };
-      reader.onerror = (error) => {
-        setIsConverting(false);
-        toast({
-            variant: 'destructive',
-            title: 'File Read Error',
-            description: 'Could not read the selected file.',
-          });
-      }
-    } catch (error) {
-      setIsConverting(false);
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: `An unexpected error occurred. ${error instanceof Error ? error.message : ''}`,
-      });
-    }
-  };
-
-  const downloadDocx = () => {
-    if (conversionResult) {
-      const link = document.createElement('a');
-      link.href = conversionResult.docxDataUri;
-      link.download = conversionResult.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
-  const resetTool = () => {
-    setFile(null);
-    setFileName('');
-    setIsConverting(false);
-    setConversionResult(null);
-    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-    if(fileInput) fileInput.value = '';
-  }
-
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileText className="w-10 h-10 text-primary" />
@@ -143,85 +41,74 @@ export default function PdfToDocxPage() {
                 Transform your PDFs into editable Word (DOCX) documents with ease.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-8 mt-6">
-              {!conversionResult && (
-                <div className="space-y-6">
-                  <Label
-                    htmlFor="file-upload"
-                    className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                        <span className="text-lg font-medium text-foreground">
-                            {fileName || 'Drag & drop your PDF file here'}
-                        </span>
-                        <span className="text-muted-foreground">or click to browse</span>
-                    </div>
-                    <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
-                  </Label>
-                   <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
-                    {isConverting ? (
-                      <>
-                        <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                        Converting...
-                      </>
-                    ) : (
-                      'Convert to Word'
-                    )}
-                  </Button>
-                </div>
-              )}
-
-              {conversionResult && (
-                 <Alert className="bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300">
-                    <FileCheck className="h-5 w-5 text-current" />
-                    <AlertTitle className="font-bold">Conversion Successful!</AlertTitle>
-                    <AlertDescription className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
-                       <p className="text-center sm:text-left">Your file <span className="font-semibold">{conversionResult.fileName}</span> is ready.</p>
-                        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                             <Button onClick={downloadDocx} size="sm" className="bg-primary hover:bg-primary/90">
-                                <Download className="mr-2 h-4 w-4" />
-                                Download DOCX
-                            </Button>
-                             <Button onClick={resetTool} size="sm" variant="outline">
-                                Convert Another File
-                            </Button>
-                        </div>
-                    </AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-            <CardFooter>
-                <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
-            </CardFooter>
           </Card>
+          
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+            <p>PDFs are one of the most widely used file formats in the digital world. They keep your layout intact, protect your information, and maintain consistent formatting across all devices. But when it comes to editing text, updating content, or making major changes, PDF files can be limiting.</p>
+            <p>That’s why converting a PDF to an editable Word document is one of the most in-demand tasks for students, professionals, freelancers, and businesses. Whether you're editing a resume, revising a business proposal, updating legal documents, or modifying client files, a PDF to Word converter makes the entire process effortless.</p>
+          </div>
+          
+          <PdfToDocxClient />
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Unlock Your Documents: From PDF to Editable Word</h2>
-            <p>The PDF format is excellent for sharing and preserving the layout of documents, but it falls short when you need to make edits. Our PDF to Word converter bridges this gap, transforming your static PDFs into fully editable DOCX files. This tool is designed for anyone who needs to reuse, update, or repurpose content locked within a PDF. Whether you're a student needing to quote a research paper, an administrator updating a form, or a professional modifying a report, our converter provides a fast, reliable, and high-fidelity solution. Keywords like "PDF to Word," "convert PDF to DOCX," and "free PDF converter" are at the heart of our service.</p>
+            <h2>The Ultimate Guide to PDF-to-Word Conversion (Best Tools, Expert Tips & Quality Practices)</h2>
+            <p>This complete guide explains:</p>
+            <ul>
+                <li>✔ Why PDF-to-Word conversion is important</li>
+                <li>✔ How to choose the best PDF-to-Word converter</li>
+                <li>✔ Key features like OCR, batch conversion, and formatting accuracy</li>
+                <li>✔ Best free & premium tools</li>
+                <li>✔ How to convert PDF to Word online safely</li>
+                <li>✔ Mistakes to avoid for best results</li>
+            </ul>
+            <p>Let’s dive in.</p>
+
+            <h3>Why Convert PDF to Word?</h3>
+            <p>PDFs are excellent for sharing — but terrible for editing. When you convert a PDF to Word (DOCX), you gain:</p>
+            <ol>
+                <li><strong>Full Editing Access:</strong> Modify text, update images, fix formatting, rewrite sections, and collaborate easily.</li>
+                <li><strong>Better Formatting Control:</strong> Word files allow font changes, color adjustments, spacing edits, and layout restructuring.</li>
+                <li><strong>Collaboration & Comments:</strong> Team members can highlight, comment, suggest edits, and track changes.</li>
+                <li><strong>Smart Content Updates:</strong> Resumes, agreements, invoices, brochures, contracts — all require easy editing.</li>
+                <li><strong>Faster Workflow:</strong> Saves time instead of recreating the entire document manually.</li>
+            </ol>
+            
+            <h3>PDF to Word Converter: What Features Should You Look For?</h3>
+            <p>Not all converters are equal. A high-quality PDF to Word converter should offer the following:</p>
+            <h4>1. High Accuracy & Formatting Preservation</h4>
+            <p>Good converters maintain: Font style, Font size, Paragraph spacing, Bold/italic formatting, Tables, Images, Headings, and Alignment. Cheap or low-quality tools break formatting, causing hours of manual cleanup.</p>
+            <h4>2. OCR Support (Scanned PDFs)</h4>
+            <p>OCR (Optical Character Recognition) is essential if your file is scanned, a picture of text, a photocopy, or a handwritten form converted into PDF. OCR converts images into editable text. Premium tools like Adobe and solid online converters like DPToolsPro PDF to Word Converter can extract text accurately using OCR.</p>
+            <h4>3. Speed (Fast Conversion)</h4>
+            <p>A fast converter processes large files quickly, doesn’t lag, doesn’t freeze, and gives instant DOCX output. Essential for tight deadlines.</p>
+            <h4>4. Security & File Protection</h4>
+            <p>A secure PDF to Word converter should never store files permanently, auto-delete files after conversion, use SSL encryption, and avoid data sharing. This is crucial for confidential files such as legal contracts, business proposals, IDs/certificates, and financial statements.</p>
+            
             <AdBanner type="top-banner" className="my-8"/>
-            <h2>How Our High-Fidelity Conversion Works</h2>
-            <p>Our tool uses advanced Optical Character Recognition (OCR) and layout analysis to accurately reconstruct your PDF in an editable Word format. When you upload a PDF, our system meticulously analyzes text, images, tables, and formatting. It identifies paragraphs, columns, and headers, ensuring that the structure of your original document is preserved. The result is a well-formatted DOCX file that looks just like your PDF but is completely editable in Microsoft Word or other compatible word processors.</p>
+
+            <h3>How to Convert PDF to Word Online (Step-by-Step)</h3>
+            <p>Regardless of which converter you use, the process is generally the same:</p>
+            <ol>
+                <li>Open your preferred PDF to Word converter (Example: DPToolsPro PDF to Word Converter).</li>
+                <li>Upload your PDF file by dragging and dropping or clicking “Choose File.”</li>
+                <li>Select conversion type: Standard PDF to DOCX or OCR for scanned PDFs.</li>
+                <li>Wait for processing (A good converter will take 2–10 seconds depending on size).</li>
+                <li>Download the Word (DOCX) file. You can now edit the document fully in Microsoft Word, Google Docs, or WPS Office.</li>
+            </ol>
+
+            <h3>Common PDF-to-Word Problems & How to Fix Them (Expert Tips)</h3>
             <ul>
-              <li><strong>Layout Retention:</strong> Columns, headers, footers, and other formatting elements are accurately maintained.</li>
-              <li><strong>Text Recognition:</strong> Even in scanned documents, our OCR technology extracts text with high accuracy.</li>
-              <li><strong>Table and Image Extraction:</strong> Tables are converted into editable Word tables, and images are placed correctly within the document.</li>
+                <li><strong>Problem: Formatting breaks after conversion.</strong><br/>Fix: Use tools with advanced layout retention (Adobe / DPToolsPro).</li>
+                <li><strong>Problem: Scanned PDF becomes blank Word file.</strong><br/>Fix: Turn on OCR mode during conversion.</li>
+                <li><strong>Problem: Images move or distort.</strong><br/>Fix: Use “Retain image layout” or convert in high resolution.</li>
+                <li><strong>Problem: Word file looks messy.</strong><br/>Fix: Export to DOCX, NOT DOC.</li>
             </ul>
-            <h2>Why Convert PDF to Word?</h2>
-            <p>The need to "edit a PDF" is a common challenge. Converting to Word opens up a world of possibilities:</p>
-            <ul>
-              <li><strong>Effortless Editing:</strong> Correct typos, update information, or rewrite entire sections without needing specialized PDF editing software.</li>
-              <li><strong>Content Reuse:</strong> Easily copy and paste text, tables, and images into other documents or presentations.</li>
-              <li><strong>Collaboration:</strong> Share the converted DOCX file with colleagues who can use Track Changes and commenting features in Microsoft Word.</li>
-              <li><strong>Accessibility:</strong> Word documents can be more accessible for users with screen readers compared to some PDF files.</li>
-            </ul>
-            <p>Our free "online PDF to DOCX converter" is secure, fast, and easy to use. Simply upload your file, and let our powerful engine do the heavy lifting. Your documents are handled securely and deleted from our servers after conversion, respecting your privacy. Start unlocking the potential of your PDFs today!</p>
+
+            <h3>Conclusion</h3>
+            <p>PDF-to-Word conversion is a powerful skill that helps students, professionals, and businesses work more efficiently. Whether you're using an online converter for quick edits or a premium tool for maximum accuracy, choosing the right PDF to Word converter ensures your documents maintain their formatting, structure, and clarity.</p>
+
           </article>
-
           <AdBanner type="bottom-banner" className="mt-12" />
-
         </main>
         
         <aside className="space-y-8 lg:sticky top-24 self-start">
