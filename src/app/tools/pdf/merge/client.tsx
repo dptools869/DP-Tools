@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { mergePdf, MergePdfOutput } from '@/ai/flows/merge-pdf';
 import AdBanner from '@/components/ad-banner';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function MergePdfClient() {
   const [files, setFiles] = useState<File[]>([]);
@@ -133,17 +134,17 @@ export function MergePdfClient() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Merge className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">PDF Merger</CardTitle>
+              <CardTitle className="text-3xl font-headline">Merge PDF Files Easily</CardTitle>
               <CardDescription className="text-lg">
                 Combine multiple PDF files into one single document.
               </CardDescription>
             </CardHeader>
           </Card>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
-            <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
-          </div>
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+                <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
+                <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
+           </div>
 
           <Card>
              <CardHeader>
@@ -229,11 +230,11 @@ export function MergePdfClient() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <h2>Merge PDF: The Complete Guide to Combining PDF Files Easily and Securely</h2>
-
+            <h2>The Complete Guide to Combining PDF Files Easily and Securely</h2>
             <p>This guide explains everything you need to know about merging PDFs safely and efficiently, along with the best tools and expert tips to get the best results.</p>
             
             <h3>Why Should You Merge PDF Files?</h3>
+            <p>Merging PDFs is more than just convenience — it improves organization and professionalism. Here are the top benefits:</p>
             <ul>
                 <li><strong>Easier to Manage:</strong> Instead of opening 10 separate documents, you work with only one combined file.</li>
                 <li><strong>Cleaner Sharing:</strong> Perfect for sending client reports, legal bundles, or school submissions.</li>
@@ -261,6 +262,9 @@ export function MergePdfClient() {
             <ol>
                 <li>Open a trusted online PDF combiner like the <Link href="/tools/pdf/merge">DPToolsPro Merge PDF</Link> tool.</li>
                 <li>Upload your PDF files by dragging and dropping or selecting from your device.</li>
+            </ol>
+            <Image src="https://storage.googleapis.com/project-spark-301121.appspot.com/97882255-6677-4c12-9c3f-916c5b057704" alt="Merge PDF Tool interface" width={1000} height={429} className="rounded-lg border my-4" data-ai-hint="PDF merge tool" />
+            <ol start={3}>
                 <li>Arrange the documents in the order you want them combined.</li>
                 <li>Click "Merge PDF".</li>
                 <li>Download your combined PDF.</li>
@@ -268,16 +272,20 @@ export function MergePdfClient() {
             <p>This method works on any device — laptop, tablet, or smartphone.</p>
 
             <h3>Desktop and Mobile PDF Merging Options</h3>
-            <p>For maximum privacy with confidential files, consider offline desktop software like Adobe Acrobat, PDFsam, or Foxit PDF Editor. For on-the-go use, mobile apps on iOS and Android allow you to merge PDFs and share files instantly.</p>
+            <h4>Desktop Software (For Maximum Privacy)</h4>
+            <p>Recommended when working with confidential files like legal documents or financial statements. Popular options include: Adobe Acrobat, PDFsam, and Foxit PDF Editor. Advantages: No internet needed, full privacy, batch merging, and advanced editing features.</p>
+            <h4>Mobile Apps (For On-the-Go Use)</h4>
+            <p>Useful for students, sales professionals, and remote workers. Apps on iOS and Android allow you to merge PDFs, reorder pages, scan and convert documents, and share files instantly. DPToolsPro tools also work smoothly on mobile browsers.</p>
 
             <h3>Security and Privacy Tips When Merging PDFs</h3>
             <p>Always ensure the website uses HTTPS encryption and has a clear privacy policy stating that files are auto-deleted. For highly sensitive information, offline desktop software is recommended. DPToolsPro ensures secure processing and auto-deletion for all PDFs.</p>
 
             <h3>Advanced PDF Merging Tips</h3>
             <ul>
-                <li><strong>Combine Multiple File Types:</strong> Convert other formats like Word or images to PDF first using our <Link href="/tools/pdf/office-to-pdf">Office to PDF</Link> or <Link href="/tools/image/jpg-to-pdf">Image to PDF</Link> converters, then merge.</li>
+                <li><strong>Combine Multiple File Types:</strong> Convert other formats like Word, Excel, or images to PDF first using our <Link href="/tools/pdf/office-to-pdf">Office to PDF</Link> or <Link href="/tools/image/jpg-to-pdf">Image to PDF</Link> converters, then merge.</li>
                 <li><strong>Split and Reorder Pages:</strong> Use a <Link href="/tools/pdf/split">Split PDF</Link> tool to remove unwanted pages or reorder sections before merging.</li>
                 <li><strong>Compress the Final PDF:</strong> If your merged PDF is too large, reduce its size with our <Link href="/tools/pdf/compress">Compress PDF</Link> tool.</li>
+                <li><strong>Add Bookmarks or Table of Contents:</strong> Useful for long reports, case files, manuals, or study guides. It makes navigation much easier.</li>
             </ul>
 
             <h3>Common Use Cases for Merging PDFs</h3>
