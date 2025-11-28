@@ -30,7 +30,6 @@ export async function RecommendedVideo({ toolName }: { toolName: string }) {
       </Card>
     );
   } catch (error) {
-    console.error("Failed to fetch video recommendation:", error);
      return (
         <Alert variant="destructive">
           <Video className="h-4 w-4" />
