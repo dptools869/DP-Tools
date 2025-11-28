@@ -14,6 +14,10 @@ import AdBanner from '@/components/ad-banner';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import Merge2 from '@/assets/images/merge2.png';
+import Merge3 from '@/assets/images/merge3.png';
+
+
 export function MergePdfClient() {
   const [files, setFiles] = useState<File[]>([]);
   const [isMerging, setIsMerging] = useState(false);
@@ -263,16 +267,16 @@ export function MergePdfClient() {
                 <li>Open a trusted online PDF combiner like the <Link href="/tools/pdf/merge">DPToolsPro Merge PDF</Link> tool.</li>
                 <li>Upload your PDF files by dragging and dropping or selecting from your device.</li>
             </ol>
-            <Image src="/merge1.png" alt="Merge PDF Tool - Upload files" width={1000} height={429} className="rounded-lg border my-4" />
+            <Image src="https://i.ibb.co/Df1J4Tm/merge1.png" alt="Merge PDF Tool interface" width={1000} height={429} className="rounded-lg border my-4" data-ai-hint="PDF merge tool" />
             <ol start={3}>
                 <li>Arrange the documents in the order you want them combined.</li>
             </ol>
-            <Image src="/merge2.png" alt="Merge PDF Tool - Arrange files" width={1000} height={253} className="rounded-lg border my-4" />
+            <Image src={Merge2} alt="Merge PDF Tool - Arrange files" width={1000} height={253} className="rounded-lg border my-4" />
             <ol start={4}>
                 <li>Click "Merge PDF".</li>
                 <li>Download your combined PDF.</li>
             </ol>
-            <Image src="/merge3.png" alt="Merge PDF Tool - Download merged file" width={1000} height={251} className="rounded-lg border my-4" />
+            <Image src={Merge3} alt="Merge PDF Tool - Download merged file" width={1000} height={251} className="rounded-lg border my-4" />
             <p>This method works on any device — laptop, tablet, or smartphone.</p>
 
             <h3>Desktop and Mobile PDF Merging Options</h3>
