@@ -142,8 +142,8 @@ export function MergePdfClient() {
           </Card>
           
            <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-                <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
-                <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
+            <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
+            <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
            </div>
 
           <Card>
@@ -263,12 +263,16 @@ export function MergePdfClient() {
                 <li>Open a trusted online PDF combiner like the <Link href="/tools/pdf/merge">DPToolsPro Merge PDF</Link> tool.</li>
                 <li>Upload your PDF files by dragging and dropping or selecting from your device.</li>
             </ol>
-            <Image src="https://storage.googleapis.com/project-spark-301121.appspot.com/97882255-6677-4c12-9c3f-916c5b057704" alt="Merge PDF Tool interface" width={1000} height={429} className="rounded-lg border my-4" data-ai-hint="PDF merge tool" />
+            <Image src="/merge1.png" alt="Merge PDF Tool - Upload files" width={1000} height={429} className="rounded-lg border my-4" />
             <ol start={3}>
                 <li>Arrange the documents in the order you want them combined.</li>
+            </ol>
+            <Image src="/merge2.png" alt="Merge PDF Tool - Arrange files" width={1000} height={253} className="rounded-lg border my-4" />
+            <ol start={4}>
                 <li>Click "Merge PDF".</li>
                 <li>Download your combined PDF.</li>
             </ol>
+            <Image src="/merge3.png" alt="Merge PDF Tool - Download merged file" width={1000} height={251} className="rounded-lg border my-4" />
             <p>This method works on any device — laptop, tablet, or smartphone.</p>
 
             <h3>Desktop and Mobile PDF Merging Options</h3>
