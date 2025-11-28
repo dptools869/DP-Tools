@@ -14,10 +14,6 @@ import AdBanner from '@/components/ad-banner';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import Merge2 from '@/assets/images/merge2.png';
-import Merge3 from '@/assets/images/merge3.png';
-
-
 export function MergePdfClient() {
   const [files, setFiles] = useState<File[]>([]);
   const [isMerging, setIsMerging] = useState(false);
@@ -145,10 +141,10 @@ export function MergePdfClient() {
             </CardHeader>
           </Card>
           
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
             <p>PDF files are widely trusted because they preserve formatting, look the same on every device, and are easy to share. But when you have several related documents—such as invoices, notes, scanned pages, assignments, contracts, or reports—managing dozens of separate PDFs can become messy.</p>
             <p>This is where merging PDF files becomes extremely useful. Whether you’re a student, professional, or business owner, combining multiple PDFs into one organized document can simplify your work, improve sharing, and save valuable time.</p>
-           </div>
+          </div>
 
           <Card>
              <CardHeader>
@@ -233,7 +229,7 @@ export function MergePdfClient() {
             </CardFooter>
           </Card>
 
-          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary prose-li:my-1 prose-headings:my-4">
             <h2>The Complete Guide to Combining PDF Files Easily and Securely</h2>
             <p>This guide explains everything you need to know about merging PDFs safely and efficiently, along with the best tools and expert tips to get the best results.</p>
             
@@ -271,12 +267,12 @@ export function MergePdfClient() {
             <ol start={3}>
                 <li>Arrange the documents in the order you want them combined.</li>
             </ol>
-            <Image src={Merge2} alt="Merge PDF Tool - Arrange files" width={1000} height={253} className="rounded-lg border my-4" />
+            <Image src="https://i.ibb.co/j3vX5C6/merge2.png" alt="Merge PDF Tool - Arrange files" width={1000} height={253} className="rounded-lg border my-4" />
             <ol start={4}>
                 <li>Click "Merge PDF".</li>
                 <li>Download your combined PDF.</li>
             </ol>
-            <Image src={Merge3} alt="Merge PDF Tool - Download merged file" width={1000} height={251} className="rounded-lg border my-4" />
+            <Image src="https://i.ibb.co/k2g3gWJ/merge3.png" alt="Merge PDF Tool - Download merged file" width={1000} height={251} className="rounded-lg border my-4" />
             <p>This method works on any device — laptop, tablet, or smartphone.</p>
 
             <h3>Desktop and Mobile PDF Merging Options</h3>
@@ -328,3 +324,5 @@ export function MergePdfClient() {
     </div>
   );
 }
+
+    
