@@ -11,6 +11,28 @@ import { UploadCloud, FileCheck, ScanText, Loader2, Download } from 'lucide-reac
 import { useToast } from '@/hooks/use-toast';
 import { pdfOcr, PdfOcrOutput } from '@/ai/flows/pdf-ocr';
 import AdBanner from '@/components/ad-banner';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+    title: 'PDF OCR Tool Online – Convert Scanned PDFs to Text or Word Easily',
+    description: 'Use the best PDF OCR tool to extract text from scanned PDFs instantly. Convert PDF OCR to text, Word, or searchable PDF online for free.',
+    keywords: [
+        'PDF OCR',
+        'PDF OCR Tool',
+        'OCR a PDF',
+        'PDF OCR to text',
+        'PDF OCR to Word',
+        'PDF OCR conversion',
+        'PDF OCR to PDF',
+        'OCR scanned PDF online free',
+        'convert PDF OCR easily',
+        'PDF OCR without software',
+        'extract text from scanned PDF',
+        'best free PDF OCR converter 2025'
+    ]
+};
+
 
 export default function PdfOcrPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -138,9 +160,9 @@ export default function PdfOcrPage() {
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <ScanText className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">PDF OCR Tool</CardTitle>
+              <CardTitle className="text-3xl font-headline">PDF OCR Tool Online – Convert Scanned PDFs to Text or Word Easily</CardTitle>
               <CardDescription className="text-lg">
-                Create a searchable PDF and extract text from scanned documents.
+                Use the best PDF OCR tool to extract text from scanned PDFs instantly. Convert PDF OCR to text, Word, or searchable PDF online for free.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
@@ -203,7 +225,7 @@ export default function PdfOcrPage() {
             <p>Ever had a scanned document or an image-based PDF that you couldn't search or copy text from? Our PDF OCR (Optical Character Recognition) tool is the solution. It transforms your non-searchable PDFs into fully searchable archives, making your information accessible and easy to manage. This technology is crucial for digitizing paper records, archiving invoices, or making academic papers and e-books fully searchable. Keywords like "PDF OCR," "searchable PDF," and "extract text from PDF" are at the core of what this tool provides.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2>How Does Optical Character Recognition (OCR) Work?</h2>
-            <p>When you upload a scanned PDF, our OCR engine analyzes the images of text on each page. It identifies letters, numbers, and symbols, and then creates an invisible text layer that sits behind the original image. This means the visual appearance of your document remains exactly the same, but now you can select text, copy it, and use search functions (like Ctrl+F or Cmd+F) to find words or phrases within the file. The process is highly accurate, supporting a wide range of fonts and languages.</p>
+            <p>When you upload a scanned PDF, our OCR engine analyzes the images of text on each page. It identifies letters, numbers, and symbols, and then creates an invisible text layer that sits behind the original image. This means the visual appearance of your document remains exactly the same, but now you can select text, copy it, and use search functions (like Ctrl+F or Cmd+F) to find words or phrases within the file. The process is highly accurate, supporting a wide range of fonts and languages. Even handwritten notes can be converted if scanning quality is good.</p>
             <h3>Key Benefits of Using Our PDF OCR Tool</h3>
             <ul>
               <li><strong>Make PDFs Searchable:</strong> Instantly find information in large documents without having to read through every page.</li>
@@ -212,8 +234,29 @@ export default function PdfOcrPage() {
               <li><strong>Preserve Original Layout:</strong> The OCR process adds a text layer without altering the original look and feel of your document.</li>
               <li><strong>Secure and Private:</strong> Your files are uploaded over a secure connection and are automatically deleted from our servers after processing.</li>
             </ul>
+            <h3>Related Tools:</h3>
+            <ul>
+              <li><Link href="/tools/pdf/to-word">PDF to Word Converter</Link></li>
+              <li><Link href="/tools/pdf/to-text">PDF to Text Converter</Link></li>
+              <li><Link href="/tools/pdf/merge">Merge PDF</Link></li>
+              <li><Link href="/tools/pdf/compress">Compress PDF</Link></li>
+              <li><Link href="/tools/pdf/split">Split PDF</Link></li>
+            </ul>
             <h2>Why OCR is Essential for Modern Document Management</h2>
             <p>In today's digital workflow, having searchable documents is not a luxury—it's a necessity. It saves countless hours that would otherwise be spent manually sifting through files. Legal professionals can quickly find case details, researchers can locate specific data points in academic papers, and businesses can efficiently archive and retrieve invoices and reports. By using a reliable "PDF OCR online" tool, you are not just converting a file; you are upgrading your entire document management process, making it faster, more efficient, and more productive.</p>
+
+            <h3>Frequently Asked Questions (FAQ)</h3>
+            <ol>
+                <li><strong>What is the purpose of PDF OCR?</strong><br/>OCR converts scanned PDF files into editable text so you can copy, edit, or search the content.</li>
+                <li><strong>Is PDF OCR free?</strong><br/>Yes — many online tools allow free PDF OCR conversion without installation.</li>
+                <li><strong>What file formats can OCR export to?</strong><br/>TXT, searchable PDF, Word (DOCX), and sometimes Excel.</li>
+                <li><strong>Does OCR work on handwritten PDFs?</strong><br/>Yes — if the handwriting is clean and properly scanned.</li>
+                <li><strong>Can PDF OCR be used on mobile?</strong><br/>Yes — online OCR tools work on mobile browsers without apps.</li>
+            </ol>
+
+            <hr/>
+            <h3>About the Author – Piyush (DigitalPiyush)</h3>
+            <p>I am a developer and productivity tool researcher with 5+ years of hands-on experience testing PDF tools, OCR engines, AI document analyzers, and file converters. My articles are based on real usage and practical results — not theory. I share only reliable, easy-to-use, and privacy-safe solutions for students, professionals, and businesses.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
