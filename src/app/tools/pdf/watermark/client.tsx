@@ -336,15 +336,19 @@ export function WatermarkPdfClient() {
 
             <h3>Frequently Asked Questions (FAQ)</h3>
             <ol>
-                <li><strong>What is a watermark in a PDF?</strong> A watermark is a text or logo added to a PDF to show ownership or protect content.</li>
-                <li><strong>Can I watermark a PDF without Adobe Acrobat?</strong> Yes — online Watermark PDF tools allow watermarking for free without installing software.</li>
-                <li><strong>Can I remove a watermark from a PDF?</strong> Yes — if you own the document and have permission.</li>
-                <li><strong>Is watermarking PDFs free?</strong> Yes — most online watermark tools are free for basic use.</li>
-                <li><strong>What file types support watermark conversion?</strong> Most tools support PDF from invoices, certificates, research papers, textbooks, agreements, etc.</li>
+                <li><strong>What is a watermark in a PDF?</strong><br/>A watermark is a text or logo added to a PDF to show ownership or protect content.</li>
+                <li><strong>Can I watermark a PDF without Adobe Acrobat?</strong><br/>Yes — online Watermark PDF tools allow watermarking for free without installing software.</li>
+                <li><strong>Can I remove a watermark from a PDF?</strong><br/>Yes — if you own the document and have permission.</li>
+                <li><strong>Is watermarking PDFs free?</strong><br/>Yes — most online watermark tools are free for basic use.</li>
+                <li><strong>What file types support watermark conversion?</strong><br/>Most tools support PDF from invoices, certificates, research papers, textbooks, agreements, etc.</li>
             </ol>
             
             <h3>Conclusion</h3>
             <p>Watermarking is one of the easiest ways to secure and brand your documents. Whether you want to put your company name on client invoices, mark files as confidential, or protect digital products from misuse, a Watermark PDF tool helps you add text or logo watermarks instantly — without installing software. Always protect original work and use watermark removal only when you legally own the document.</p>
+            
+            <hr/>
+            <h3>About the Author — Piyush (DigitalPiyush)</h3>
+            <p>I am a developer and productivity tool tester with 5+ years of experience experimenting with online PDF tools, converters, security utilities, and workflow automation systems. I test every tool practically before recommending it, ensuring users get reliable and safe solutions for daily digital tasks.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
