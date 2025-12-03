@@ -1,6 +1,6 @@
 
 import type { Metadata } from 'next';
-import { PdfToTextClient } from './client';
+import PdfToTextClient from './client';
 
 export const metadata: Metadata = {
     title: 'PDF to Text Converter | Extract Text From PDF Free (OCR)',
