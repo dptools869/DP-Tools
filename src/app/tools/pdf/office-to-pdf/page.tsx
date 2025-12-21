@@ -1,6 +1,9 @@
 
 import type { Metadata } from 'next';
 import { OfficeToPdfClient } from './client';
+import AdBanner from '@/components/ad-banner';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FileType } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: 'Convert Office Files to PDF: Complete Guide for Microsoft & Google (2025)',
