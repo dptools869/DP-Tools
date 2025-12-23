@@ -43,14 +43,13 @@ export default function PdfToDocxPage() {
             </CardHeader>
           </Card>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <p>PDFs are one of the most widely used file formats in the digital world. They keep your layout intact, protect your information, and maintain consistent formatting across all devices. But when it comes to editing text, updating content, or making major changes, PDF files can be limiting.</p>
-            <p>That’s why converting a PDF to an editable Word document is one of the most in-demand tasks for students, professionals, freelancers, and businesses. Whether you're editing a resume, revising a business proposal, updating legal documents, or modifying client files, a PDF to Word converter makes the entire process effortless.</p>
-          </div>
-          
           <PdfToDocxClient />
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+            <div className="text-center mb-12">
+              <p>PDFs are one of the most widely used file formats in the digital world. They keep your layout intact, protect your information, and maintain consistent formatting across all devices. But when it comes to editing text, updating content, or making major changes, PDF files can be limiting.</p>
+              <p>That’s why converting a PDF to an editable Word document is one of the most in-demand tasks for students, professionals, freelancers, and businesses. Whether you're editing a resume, revising a business proposal, updating legal documents, or modifying client files, a PDF to Word converter makes the entire process effortless.</p>
+            </div>
             <h2>The Ultimate Guide to PDF-to-Word Conversion (Best Tools, Expert Tips & Quality Practices)</h2>
             <p>This complete guide explains:</p>
             <ul>
@@ -63,8 +62,7 @@ export default function PdfToDocxPage() {
             </ul>
             <p>Let’s dive in.</p>
 
-            <h3>Why Convert PDF to Word?</h3>
-            <p>PDFs are excellent for sharing — but terrible for editing. When you convert a PDF to Word (DOCX), you gain:</p>
+            <h3>Why Convert PDF to Word? (Real Benefits)</h3>
             <ol>
                 <li><strong>Full Editing Access:</strong> Modify text, update images, fix formatting, rewrite sections, and collaborate easily.</li>
                 <li><strong>Better Formatting Control:</strong> Word files allow font changes, color adjustments, spacing edits, and layout restructuring.</li>
