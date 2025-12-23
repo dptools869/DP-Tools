@@ -146,11 +146,6 @@ export function HtmlToPdfClient() {
             </CardHeader>
           </Card>
           
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <p>In today’s digital environment, we deal with web pages more than ever—articles, invoices, receipts, certificates, dashboards, reports, templates, and more. But web pages (HTML) cannot always be shared easily, especially when you need a clean, consistent, and printable format. That is where HTML to PDF conversion becomes useful.</p>
-            <p>PDF files maintain their formatting, look professional on every device, and are perfect for sharing, archiving, and printing. Whether you are a student saving research material, a developer generating reports, a small business owner creating invoices, or a designer exporting layouts, learning how to convert HTML to PDF is extremely helpful.</p>
-          </div>
-
           <Card>
             <CardHeader>
                 <CardTitle>Convert HTML to PDF</CardTitle>
@@ -211,6 +206,8 @@ export function HtmlToPdfClient() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+            <p>In today’s digital environment, we deal with web pages more than ever—articles, invoices, receipts, certificates, dashboards, reports, templates, and more. But web pages (HTML) cannot always be shared easily, especially when you need a clean, consistent, and printable format. That is where HTML to PDF conversion becomes useful.</p>
+            <p>PDF files maintain their formatting, look professional on every device, and are perfect for sharing, archiving, and printing. Whether you are a student saving research material, a developer generating reports, a small business owner creating invoices, or a designer exporting layouts, learning how to convert HTML to PDF is extremely helpful.</p>
             <h2>HTML to PDF Conversion: The Complete, Simple & Practical Guide (2025 Updated)</h2>
             <p>This guide covers everything you need to know—including methods, tools, best practices, and common use cases—written in a clean, simple style that anyone can follow.</p>
             
@@ -263,7 +260,7 @@ export function HtmlToPdfClient() {
             <h3>FAQ (Human-Friendly)</h3>
             <ul>
                 <li><strong>Is HTML to PDF conversion free?</strong> Yes, many online tools, including ours, offer free conversions.</li>
-                <li><strong>Does the formatting stay the same?</strong> Modern converters keep layout, fonts, and images intact.</li>
+                <li><strong>Does the formatting stay the same after converting?</strong> Modern converters keep layout, fonts, and images intact.</li>
                 <li><strong>Can I convert long webpages?</strong> Yes, most tools convert full-length pages.</li>
                 <li><strong>Is it safe to use online tools?</strong> Reputable converters use secure connections and delete files automatically.</li>
                 <li><strong>Can developers automate this?</strong> Yes. APIs and libraries allow automated HTML to PDF generation.</li>
@@ -273,6 +270,11 @@ export function HtmlToPdfClient() {
             <p>HTML to PDF conversion is one of the simplest yet most powerful ways to create professional, shareable, and secure documents from webpages. Whether you are saving research material, generating invoices, creating printable layouts, or automating a business workflow, the PDF format keeps your content organized and accessible.</p>
             <p>With online tools, desktop software, browser features, and developer libraries, converting HTML to PDF is now easier than ever. For beginners, online tools provide quick results. For professionals and developers, advanced converters offer full control and automation capabilities.</p>
             <p>Start using HTML to PDF tools to work faster, stay organized, and produce high-quality documents without any technical difficulty.</p>
+            
+            <hr/>
+            
+            <h3>About the Author — Piyush (Digital Piyush)</h3>
+            <p>Piyush is a web tools developer, UI/UX researcher, and expert tester with 5+ years of hands-on experience analyzing digital tools, online converters, and productivity platforms. He has completed hundreds of user-testing sessions for global brands and specializes in building simple, accurate, and user-friendly online utilities for creators, students, and professionals. At DPToolsPro.com, he focuses on creating high-quality, secure, and fast tools that solve real problems with zero complexity.</p>
           </article>
 
 
