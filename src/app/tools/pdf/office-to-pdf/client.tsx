@@ -156,7 +156,7 @@ export function OfficeToPdfClient() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
-               <div className="prose prose-lg dark:prose-invert max-w-none text-center">
+                <div className="prose prose-lg dark:prose-invert max-w-none text-center">
                     <p>In today’s digital world, converting office documents to PDF is a must-have skill for students, professionals, freelancers, and businesses. Whether you're preparing official reports, sharing resumes, sending spreadsheets, or submitting assignments, PDFs ensure that your formatting stays clean and consistent on every device.</p>
                     <p>If you’ve ever wondered how to save a Word file as PDF, how to convert Excel to PDF, or how to download Google Docs as PDF, this guide will teach you everything — step-by-step, with best practices and helpful tips.</p>
                 </div>
