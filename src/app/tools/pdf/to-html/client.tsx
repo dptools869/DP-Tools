@@ -145,9 +145,6 @@ export function PdfToHtmlClient() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
-                <div className="prose prose-lg dark:prose-invert max-w-none text-center">
-                    <p>PDF files are widely used for sharing documents, but sometimes you need the flexibility and SEO advantages of HTML. Whether you are a content creator, developer, student, marketer, or business owner, converting a PDF into clean HTML unlocks new possibilities—better editing, better search visibility, and better user experience on the web.</p>
-                </div>
               {!conversionResult && (
                 <div className="space-y-6">
                   <Label
@@ -203,6 +200,9 @@ export function PdfToHtmlClient() {
           </Card>
 
            <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+            <div className="text-center mb-12">
+                <p>PDF files are widely used for sharing documents, but sometimes you need the flexibility and SEO advantages of HTML. Whether you are a content creator, developer, student, marketer, or business owner, converting a PDF into clean HTML unlocks new possibilities—better editing, better search visibility, and better user experience on the web.</p>
+            </div>
             <h2>PDF to HTML Conversion: The Complete, SEO-Friendly, Beginner-Safe Guide (2025 Updated)</h2>
             <p>This guide explains everything you need to know about PDF to HTML conversion—including how it works, tools you can use, SEO benefits, best practices, practical examples, and expert insights.</p>
             
@@ -228,7 +228,7 @@ export function PdfToHtmlClient() {
             
             <h4>3. Browser Print Tools (Quick but Limited)</h4>
             <p>Most browsers allow: CTRL + P → Save as HTML / Save as PDF workaround. Good for simple text PDFs but not reliable for complex formatting.</p>
-            
+
             <h4>4. Developer APIs (For Automation)</h4>
             <p>If you run a SaaS, website, or automated system, APIs allow programmatic PDF to HTML conversion. Used by developers for auto-generating HTML documents, converting reports, extracting PDF content, and dynamic documentation.</p>
 
