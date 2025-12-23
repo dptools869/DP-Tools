@@ -145,7 +145,7 @@ export function OfficeToPdfClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -155,11 +155,13 @@ export function OfficeToPdfClient() {
                 Convert Word, PowerPoint, Excel, and other Office documents to PDF.
               </CardDescription>
             </CardHeader>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+                <CardTitle>Convert Office Document to PDF</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-8 mt-6">
-                <div className="prose prose-lg dark:prose-invert max-w-none text-center">
-                    <p>In today’s digital world, converting office documents to PDF is a must-have skill for students, professionals, freelancers, and businesses. Whether you're preparing official reports, sharing resumes, sending spreadsheets, or submitting assignments, PDFs ensure that your formatting stays clean and consistent on every device.</p>
-                    <p>If you’ve ever wondered how to save a Word file as PDF, how to convert Excel to PDF, or how to download Google Docs as PDF, this guide will teach you everything — step-by-step, with best practices and helpful tips.</p>
-                </div>
               {!conversionResult && (
                 <div className="space-y-6">
                   <Label
@@ -209,6 +211,8 @@ export function OfficeToPdfClient() {
                 </Alert>
               )}
                <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+                    <p>In today’s digital world, converting office documents to PDF is a must-have skill for students, professionals, freelancers, and businesses. Whether you're preparing official reports, sharing resumes, sending spreadsheets, or submitting assignments, PDFs ensure that your formatting stays clean and consistent on every device.</p>
+                    <p>If you’ve ever wondered how to save a Word file as PDF, how to convert Excel to PDF, or how to download Google Docs as PDF, this guide will teach you everything — step-by-step, with best practices and helpful tips.</p>
                     <h2>The Ultimate Guide to Converting Office Files to PDF (Microsoft & Google Methods Explained)</h2>
                     <p>This guide explains everything you need to know about converting office documents to PDF—including why it matters, step-by-step instructions for Microsoft Office and Google Workspace, and advanced tips for the best results.</p>
                     <h3>Why Convert Office Documents to PDF?</h3>
@@ -277,3 +281,5 @@ export function OfficeToPdfClient() {
     </div>
   );
 }
+
+    
