@@ -242,7 +242,17 @@ export function ProtectPdfClient() {
               <li><strong>Completely Free:</strong> Add password protection to as many PDFs as you need, without any cost or limitations.</li>
             </ul>
             <p>Using a "PDF password protector" is a fundamental step in responsible document management. It gives you control over who can see your information, providing peace of mind when sharing files online. Secure your confidential documents with our free, fast, and reliable "Protect PDF online" tool today.</p>
-             <h3>Frequently Asked Questions (FAQ)</h3>
+            
+            <h4>Related Tools</h4>
+            <ul>
+                <li><Link href="/tools/pdf/merge">Merge PDF</Link></li>
+                <li><Link href="/tools/pdf/compress">Compress PDF</Link></li>
+                <li><Link href="/tools/pdf/split">Split PDF</Link></li>
+                <li><Link href="/tools/pdf/unlock">Unlock PDF</Link></li>
+                <li><Link href="/tools/pdf/to-docx">PDF to Word Converter</Link></li>
+            </ul>
+
+            <h3>Frequently Asked Questions (FAQ)</h3>
             <ol>
                 <li><strong>How do you password protect a PDF file for free?</strong><br/>Use a free Protect PDF online tool→ upload file → enter password → download locked PDF.</li>
                 <li><strong>Is online password protection safe?</strong><br/>Yes, if the platform uses secure encryption and deletes files automatically after processing.</li>
@@ -250,16 +260,10 @@ export function ProtectPdfClient() {
                 <li><strong>Can I remove a password later?</strong><br/>Yes — simply use an <Link href="/tools/pdf/unlock">“Unlock PDF” or “Remove PDF Password”</Link> tool.</li>
                 <li><strong>Do I need Adobe Acrobat to protect a PDF?</strong><br/>No, you can add a password to a PDF without Adobe Acrobat using free online tools.</li>
             </ol>
-            <h4>Related Tools</h4>
-            <ul>
-              <li><Link href="/tools/pdf/merge">Merge PDF</Link></li>
-              <li><Link href="/tools/pdf/compress">Compress PDF</Link></li>
-              <li><Link href="/tools/pdf/split">Split PDF</Link></li>
-              <li><Link href="/tools/pdf/unlock">Unlock PDF</Link></li>
-              <li><Link href="/tools/pdf/to-docx">PDF to Word Converter</Link></li>
-            </ul>
-             <hr/>
-            <h3>About the Author — Piyush (DigitalPiyush)</h3>
+             
+            <hr/>
+            <h3>Author Bio</h3>
+            <p>Written by Piyush — PDF Tools Developer & UX Researcher</p>
             <p>With more than 5 years of hands-on experience in testing, developing, and reviewing PDF conversion and encryption tools, Piyush helps users choose secure and high-performance productivity tools. He actively performs user-testing on document management apps and automation tools to provide reliable information backed by real usage and expert insights.</p>
           </article>
 
