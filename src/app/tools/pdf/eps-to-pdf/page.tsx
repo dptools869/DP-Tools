@@ -141,7 +141,7 @@ export default function EpsToPdfPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -150,6 +150,12 @@ export default function EpsToPdfPage() {
               <CardDescription className="text-lg">
                 Effortlessly convert your Encapsulated PostScript (.eps) files into professional PDF documents.
               </CardDescription>
+            </CardHeader>
+          </Card>
+          
+          <Card className="md:mt-12">
+            <CardHeader className="md:hidden">
+              <CardTitle>EPS to PDF Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
