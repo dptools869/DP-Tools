@@ -122,7 +122,7 @@ export function EnergyCalculatorClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Bolt className="w-10 h-10 text-primary" />
@@ -133,12 +133,7 @@ export function EnergyCalculatorClient() {
               </CardDescription>
             </CardHeader>
           </Card>
-
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <h2>Energy Consumption Calculator</h2>
-            <p>Calculate, analyze, and reduce your energy consumption easily, all in a single place. Our Energy Consumption Calculator is free and allows you to easily calculate, monitor, estimate, track, and optimize your energy usage without installing software.</p>
-          </div>
-
+          
           <Card>
             <CardHeader>
               <CardTitle>Appliance List</CardTitle>
@@ -248,6 +243,11 @@ export function EnergyCalculatorClient() {
             </CardContent>
           </Card>
           
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+            <h2>Energy Consumption Calculator</h2>
+            <p>Calculate, analyze, and reduce your energy consumption easily, all in a single place. Our Energy Consumption Calculator is free and allows you to easily calculate, monitor, estimate, track, and optimize your energy usage without installing software.</p>
+          </div>
+
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>Understanding and Calculating Your Energy Consumption</h2>
             <p>Our Energy Consumption Calculator is designed to help you understand how much electricity your household appliances use and how that translates into your monthly bill. By breaking down consumption by appliance, you can identify which devices contribute most to your costs and find opportunities to save money.</p>
