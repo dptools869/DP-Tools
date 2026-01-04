@@ -32,7 +32,7 @@ export default function AspectRatioCalculatorPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
                 <main className="lg:col-span-3">
-                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
                         <CardHeader className="text-center">
                             <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                                 <Ratio className="w-10 h-10 text-primary" />
@@ -43,15 +43,15 @@ export default function AspectRatioCalculatorPage() {
                             </CardDescription>
                         </CardHeader>
                     </Card>
+                    
+                    <AspectRatioClient />
 
-                    <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
+                    <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12">
                         <p>Maintaining the correct aspect ratio is one of the most important steps in resizing images, editing videos, designing graphics, or optimizing content for digital platforms. Whether you're a photographer preparing visuals, a video editor working on YouTube reels, a UI/UX designer building responsive layouts, or simply someone who wants their media to look clean and professional on every device, an aspect ratio calculator is the perfect tool to ensure accuracy.</p>
                         <p>This guide explains what an aspect ratio calculator is, why aspect ratios matter, and how you can use this tool effectively for web design, photography, videography, and social media content creation.</p>
                     </div>
-                    
-                    <AspectRatioClient />
           
-                    <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+                    <article className="prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
                         <h2>What Is an Aspect Ratio Calculator?</h2>
                         <p>An aspect ratio calculator is a simple but powerful tool that helps you determine the proportional relationship between the width and height of an image, screen, or video.</p>
                         <p>Aspect ratio is expressed as two numbers separated by a colon—for example:</p>
