@@ -209,7 +209,7 @@ export function WatermarkPdfClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Copyright className="w-10 h-10 text-primary" />
@@ -218,6 +218,12 @@ export function WatermarkPdfClient() {
               <CardDescription className="text-lg">
                 Add a text or image watermark to your PDF with advanced customization.
               </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader className="md:hidden">
+              <CardTitle>Watermark PDF</CardTitle>
             </CardHeader>
             <CardContent className="mt-6">
               {!file ? (
@@ -343,12 +349,9 @@ export function WatermarkPdfClient() {
                 <li><strong>What file types support watermark conversion?</strong><br/>Most tools support PDF from invoices, certificates, research papers, textbooks, agreements, etc.</li>
             </ol>
             
-            <h3>Conclusion</h3>
-            <p>Watermarking is one of the easiest ways to secure and brand your documents. Whether you want to put your company name on client invoices, mark files as confidential, or protect digital products from misuse, a Watermark PDF tool helps you add text or logo watermarks instantly — without installing software. Always protect original work and use watermark removal only when you legally own the document.</p>
-            
             <hr/>
             <h3>About the Author — Piyush (DigitalPiyush)</h3>
-            <p>I am a developer and productivity tool tester with 5+ years of experience experimenting with online PDF tools, converters, security utilities, and workflow automation systems. I test every tool practically before recommending it, ensuring users get reliable and safe solutions for daily digital tasks.</p>
+            <p>I am a developer and productivity tool researcher with 5+ years of hands-on experience testing, developing, and reviewing PDF conversion and encryption tools. I actively perform user-testing on document management apps and automation tools to provide reliable information backed by real usage and expert insights.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
