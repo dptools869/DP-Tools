@@ -143,6 +143,12 @@ export default function DjvuToPdfPage() {
                 Effortlessly convert your DJVU files into universal PDF documents.
               </CardDescription>
             </CardHeader>
+          </Card>
+          
+          <Card className="md:mt-12">
+            <CardHeader className="md:hidden">
+                <CardTitle>DJVU to PDF Converter</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
                 <div className="space-y-6">
