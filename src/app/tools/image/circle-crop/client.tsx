@@ -106,7 +106,7 @@ export function CircleCropClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Crop className="w-10 h-10 text-primary" />
@@ -117,12 +117,6 @@ export function CircleCropClient() {
               </CardDescription>
             </CardHeader>
           </Card>
-
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-              <h2>Crop the Perfect Circle in Seconds</h2>
-              <p>DP Tools' Circle Crop tool helps creators, designers, and developers easily crop and create precise circular images. Whether you're building a website, designing a profile picture, or editing a photo, it delivers accurate results quickly and effortlessly.</p>
-              <p>All you have to do is upload an image and adjust the circle. After this, you will be able to see the perfectly cropped circular result of any image.</p>
-          </div>
 
           <Card>
             <CardHeader>
@@ -199,6 +193,12 @@ export function CircleCropClient() {
               <p className="text-xs text-muted-foreground text-center w-full">Your images are processed securely on your device and are never uploaded to our servers.</p>
             </CardFooter>
           </Card>
+
+          <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12">
+            <h2 className="md:hidden">Crop the Perfect Circle in Seconds</h2>
+            <p>DP Tools' Circle Crop tool helps creators, designers, and developers easily crop and create precise circular images. Whether you're building a website, designing a profile picture, or editing a photo, it delivers accurate results quickly and effortlessly.</p>
+            <p>All you have to do is upload an image and adjust the circle. After this, you will be able to see the perfectly cropped circular result of any image.</p>
+          </div>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>How Does Our Circle Crop Tool Work?</h2>
