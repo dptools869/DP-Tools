@@ -134,7 +134,7 @@ export function PdfOcrClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <ScanText className="w-10 h-10 text-primary" />
@@ -144,6 +144,12 @@ export function PdfOcrClient() {
                 Use the best PDF OCR tool to extract text from scanned PDFs instantly. Convert PDF OCR to text, Word, or searchable PDF online for free.
               </CardDescription>
             </CardHeader>
+          </Card>
+
+          <Card>
+             <CardHeader className="md:hidden">
+                <CardTitle>PDF OCR Tool</CardTitle>
+             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
                 <div className="space-y-6">
@@ -232,7 +238,7 @@ export function PdfOcrClient() {
                 <li><strong>Does OCR work on handwritten PDFs?</strong><br/>Yes — if the handwriting is clean and properly scanned.</li>
                 <li><strong>Can PDF OCR be used on mobile?</strong><br/>Yes — online OCR tools work on mobile browsers without apps.</li>
             </ol>
-
+            
             <hr/>
             <h3>About the Author – Piyush (DigitalPiyush)</h3>
             <p>I am a developer and productivity tool researcher with 5+ years of hands-on experience testing PDF tools, OCR engines, AI document analyzers, and file converters. My articles are based on real usage and practical results — not theory. I share only reliable, easy-to-use, and privacy-safe solutions for students, professionals, and businesses.</p>
