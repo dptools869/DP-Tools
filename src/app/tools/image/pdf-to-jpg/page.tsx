@@ -142,7 +142,7 @@ export default function PdfToJpgPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Image className="w-10 h-10 text-primary" />
@@ -151,6 +151,12 @@ export default function PdfToJpgPage() {
               <CardDescription className="text-lg">
                 Convert each page of your PDF file into individual, high-quality JPG images.
               </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card>
+            <CardHeader className="md:hidden">
+                <CardTitle>PDF to JPG Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               <div className="space-y-6">
@@ -169,7 +175,7 @@ export default function PdfToJpgPage() {
                   </div>
                   <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf" disabled={isConverting} />
                 </Label>
-                <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
+                 <Button onClick={convertFile} className="w-full text-lg py-6" size="lg" disabled={!file || isConverting}>
                   {isConverting ? (
                     <>
                       <Loader2 className="mr-2 h-6 w-6 animate-spin" />
@@ -253,3 +259,5 @@ export default function PdfToJpgPage() {
     </div>
   );
 }
+
+    
