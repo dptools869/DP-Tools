@@ -141,7 +141,7 @@ export default function EpubToPdfPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -150,6 +150,11 @@ export default function EpubToPdfPage() {
               <CardDescription className="text-lg">
                 Easily convert your EPUB e-books to universal PDF documents.
               </CardDescription>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="md:hidden">
+              <CardTitle>EPUB to PDF Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
@@ -215,7 +220,7 @@ export default function EpubToPdfPage() {
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
               <li><strong>High-Fidelity Conversion:</strong> Retains the original layout, fonts, and images of your EPUB e-book.</li>
-              <li><strong>Universal Compatibility:</strong> Create PDFs that can be opened on virtually any device, not just dedicated e-readers.</li>
+              <li><strong>Universal Compatibility:</strong> Create PDFs that can be opened on any device, not just dedicated e-readers.</li>
               <li><strong>User-Friendly Interface:</strong> Simply drag and drop your file to begin the conversion process instantly.</li>
               <li><strong>Secure and Private:</strong> Your files are processed securely and are never stored on our servers.</li>
               <li><strong>Completely Free:</strong> Convert as many EPUB e-books to PDF as you need, at no cost.</li>
