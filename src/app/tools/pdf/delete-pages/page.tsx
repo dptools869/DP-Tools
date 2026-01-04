@@ -201,7 +201,7 @@ export default function DeletePdfPagesPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileMinus className="w-10 h-10 text-primary" />
@@ -211,11 +211,17 @@ export default function DeletePdfPagesPage() {
                 Visually select pages to remove from your PDF document.
               </CardDescription>
             </CardHeader>
+          </Card>
+          
+          <Card>
+            <CardHeader className="md:hidden">
+              <CardTitle>Delete PDF Pages</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!file ? (
                 <Label
                   htmlFor="file-upload"
-                  className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-colors duration-300 bg-background/30"
+                  className="relative block w-full rounded-lg border-2 border-dashed border-muted-foreground/30 p-12 text-center hover:border-primary/50 cursor-pointer"
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
                 >
