@@ -211,7 +211,7 @@ export function ColorPickerClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Palette className="w-10 h-10 text-primary" />
@@ -223,11 +223,10 @@ export function ColorPickerClient() {
             </CardHeader>
           </Card>
 
-          <p className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            DP Tools' Color Picker tool helps creators, designers, and developers easily match and find precise colors. Whether you're building a website, designing a logo, or editing a photo, it delivers accurate results quickly and effortlessly in seconds.
-          </p>
-
           <Card>
+              <CardHeader>
+                <CardTitle>Color Picker Tool</CardTitle>
+              </CardHeader>
               <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col items-center gap-4">
                      <div
@@ -308,9 +307,12 @@ export function ColorPickerClient() {
                 </div>
               </CardFooter>
             </Card>
+
+            <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+              <p>All you have to do is select a shade by using the palette. After this, you will be able to see the relevant HEX, RGB, and HSL codes of any color.</p>
+            </div>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <p>All you have to do is select a shade by using the palette. After this, you will be able to see the relevant HEX, RGB, and HSL codes of any color.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2>How Does Our Color Palette Generator Work?</h2>
             <p>Our tool is the universal translator for colors. You see a color your eyes can see, but we provide the exact color in every language that matters.</p>
