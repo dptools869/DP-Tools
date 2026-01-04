@@ -141,7 +141,7 @@ export default function HeicToPdfPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -150,6 +150,11 @@ export default function HeicToPdfPage() {
               <CardDescription className="text-lg">
                 Effortlessly convert your HEIC/HEIF image files into professional, high-quality PDFs.
               </CardDescription>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="md:hidden">
+              <CardTitle>HEIC/HEIF to PDF Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
@@ -208,7 +213,7 @@ export default function HeicToPdfPage() {
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2 id="about-tool">Convert HEIC/HEIF Images to PDF Seamlessly</h2>
-            <p>Our HEIC/HEIF to PDF converter offers a straightforward solution to convert modern HEIC (High-Efficiency Image Container) and HEIF images into universally compatible PDF documents. These formats are used by default on newer Apple devices, but they are not always supported on other platforms. Converting to PDF ensures your images can be viewed, shared, and printed anywhere.</p>
+            <p>Our HEIC/HEIF to PDF converter offers a straightforward solution to convert modern HEIC (High-Efficiency Image Container) and HEIF images into universally supported PDF documents. While HEIC offers superior compression, it's not yet compatible with all devices and platforms. Converting to PDF ensures your images can be viewed, shared, and printed anywhere.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2 id="how-it-works">How Does HEIC/HEIF to PDF Conversion Work?</h2>
             <p>The process is simple. Upload your HEIC or HEIF image, and our system will embed it into a standard PDF page. The converter ensures that the image quality is preserved during the process, resulting in a high-fidelity PDF document. Your privacy is important; all files are handled securely and automatically deleted from our servers after processing.</p>
