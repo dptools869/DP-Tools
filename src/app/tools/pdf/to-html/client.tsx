@@ -134,15 +134,21 @@ export function PdfToHtmlClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
-            <CardHeader className="text-center">
-              <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
-                <FileType className="w-10 h-10 text-primary" />
-              </div>
-              <CardTitle className="text-3xl font-headline">PDF to HTML Converter</CardTitle>
-              <CardDescription className="text-lg">
-                Transform your PDFs into web-ready HTML documents.
-              </CardDescription>
+            <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
+                <CardHeader className="text-center">
+                    <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                        <FileType className="w-10 h-10 text-primary" />
+                    </div>
+                    <CardTitle className="text-3xl font-headline">PDF to HTML Converter</CardTitle>
+                    <CardDescription className="text-lg">
+                        Transform your PDFs into web-ready HTML documents.
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+          
+          <Card>
+            <CardHeader className="md:hidden">
+                <CardTitle>PDF to HTML Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
@@ -198,7 +204,7 @@ export function PdfToHtmlClient() {
                 <p className="text-xs text-muted-foreground text-center w-full">Your files are processed securely and deleted from our servers after conversion.</p>
             </CardFooter>
           </Card>
-
+          
            <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <div className="text-center mb-12">
                 <p>PDF files are widely used for sharing documents, but sometimes you need the flexibility and SEO advantages of HTML. Whether you are a content creator, developer, student, marketer, or business owner, converting a PDF into clean HTML unlocks new possibilities—better editing, better search visibility, and better user experience on the web.</p>
