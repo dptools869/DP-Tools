@@ -133,7 +133,7 @@ export default function GifToPdfPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -142,6 +142,11 @@ export default function GifToPdfPage() {
               <CardDescription className="text-lg">
                 Effortlessly convert your animated GIF files into static PDF documents.
               </CardDescription>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="md:hidden">
+              <CardTitle>GIF to PDF Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
@@ -203,16 +208,16 @@ export default function GifToPdfPage() {
             <p>Our GIF to PDF converter offers a straightforward solution to convert animated GIF images into static, universally compatible PDF documents. This is perfect for when you need to capture a specific frame of a GIF or share the image in a standard document format for printing or archiving.</p>
             <AdBanner type="top-banner" className="my-8"/>
             <h2 id="how-it-works">How Does GIF to PDF Conversion Work?</h2>
-            <p>The process is simple. Upload your GIF image, and our system will embed it into a standard PDF page. Note that the animation will not be preserved; typically, the first frame of the GIF is used for the conversion. The converter ensures that the image quality is maintained, resulting in a high-fidelity PDF document. Your privacy is important; all files are handled securely and automatically deleted from our servers after processing.</p>
+            <p>The process is simple. Upload your GIF image, and our system will embed it into a standard PDF page. Note that the animation will not be preserved; typically, the first frame of the GIF is used for the conversion. The converter ensures that the image quality is maintained, resulting in a high-fidelity PDF document. Your privacy is important to us; all files are handled securely and are automatically deleted from our servers after processing.</p>
             <h3 id="key-features">Key Features and Benefits</h3>
             <ul>
-              <li><strong>High-Quality Conversion:</strong> Retains the visual quality of your original GIF image.</li>
+              <li><strong>Frame Extraction:</strong> Creates a static JPG from your animated GIF, effectively capturing a single frame.</li>
               <li><strong>Standardized Format:</strong> Create PDFs that are easy to share, print, and view on any device.</li>
-              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your GIF file to start the conversion.</li>
-              <li><strong>Secure and Private:</strong> Your files are encrypted during transfer and are not stored long-term.</li>
-              <li><strong>Completely Free:</strong> Convert your GIF images to PDF for free, without limits.</li>
+              <li><strong>User-Friendly Interface:</strong> Simply drag and drop your GIF to start the conversion process instantly.</li>
+              <li><strong>Secure and Private:</strong> Your files are encrypted during transfer and are not stored.</li>
+              <li><strong>Completely Free:</strong> Convert as many GIFs to PDFs as you need, at no cost.</li>
             </ul>
-            <p>Experience the simplicity and quality of our free online conversion tool today and make your GIF files more versatile for documentation!</p>
+            <p>Make your animated GIFs more versatile by converting them to standard PDF images. Experience the simplicity and quality of our free online conversion tool today!</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
