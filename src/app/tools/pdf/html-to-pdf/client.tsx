@@ -134,7 +134,7 @@ export function HtmlToPdfClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <FileType className="w-10 h-10 text-primary" />
@@ -147,8 +147,8 @@ export function HtmlToPdfClient() {
           </Card>
           
           <Card>
-            <CardHeader>
-                <CardTitle>Convert HTML to PDF</CardTitle>
+            <CardHeader className="md:hidden">
+                <CardTitle>HTML to PDF Converter</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
               {!conversionResult && (
@@ -206,8 +206,10 @@ export function HtmlToPdfClient() {
           </Card>
 
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
-            <p>In today’s digital environment, we deal with web pages more than ever—articles, invoices, receipts, certificates, dashboards, reports, templates, and more. But web pages (HTML) cannot always be shared easily, especially when you need a clean, consistent, and printable format. That is where HTML to PDF conversion becomes useful.</p>
-            <p>PDF files maintain their formatting, look professional on every device, and are perfect for sharing, archiving, and printing. Whether you are a student saving research material, a developer generating reports, a small business owner creating invoices, or a designer exporting layouts, learning how to convert HTML to PDF is extremely helpful.</p>
+            <div className="text-center mb-12 hidden md:block">
+                <p>In today’s digital environment, we deal with web pages more than ever—articles, invoices, receipts, certificates, dashboards, reports, templates, and more. But web pages (HTML) cannot always be shared easily, especially when you need a clean, consistent, and printable format. That is where HTML to PDF conversion becomes useful.</p>
+                <p>PDF files maintain their formatting, look professional on every device, and are perfect for sharing, archiving, and printing. Whether you are a student saving research material, a developer generating reports, a small business owner creating invoices, or a designer exporting layouts, learning how to convert HTML to PDF is extremely helpful.</p>
+            </div>
             <h2>HTML to PDF Conversion: The Complete, Simple & Practical Guide (2025 Updated)</h2>
             <p>This guide covers everything you need to know—including methods, tools, best practices, and common use cases—written in a clean, simple style that anyone can follow.</p>
             
