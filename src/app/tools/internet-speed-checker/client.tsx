@@ -10,7 +10,7 @@ export function InternetSpeedCheckerClient() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
                 <main className="lg:col-span-3">
-                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
                         <CardHeader className="text-center">
                             <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                                 <Wifi className="w-10 h-10 text-primary" />
@@ -21,12 +21,6 @@ export function InternetSpeedCheckerClient() {
                             </CardDescription>
                         </CardHeader>
                     </Card>
-
-                    <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-                        <h2>Test Your Internet Connection Within a Few Seconds</h2>
-                        <p>Streaming, video calls, gaming, and remote work require a strong internet connection. Our free Internet Speed Checker helps you accurately measure your current internet performance — download, upload, and ping — to understand how well your internet connection is performing.</p>
-                        <p>This tool offers fast, credible, and real-time answers, whether troubleshooting Wi-Fi connectivity on a slow network, checking the strength of your mobile data, or comparing Wi-Fi providers.</p>
-                    </div>
 
                     <Card>
                         <CardContent className="p-4">
@@ -46,6 +40,12 @@ export function InternetSpeedCheckerClient() {
                             </div>
                         </CardContent>
                     </Card>
+                    
+                    <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+                        <h2>Test Your Internet Connection Within a Few Seconds</h2>
+                        <p>Streaming, video calls, gaming, and remote work require a strong internet connection. Our free Internet Speed Checker helps you accurately measure your current internet performance — download, upload, and ping — to understand how well your internet connection is performing.</p>
+                        <p>This tool offers fast, credible, and real-time answers, whether troubleshooting Wi-Fi connectivity on a slow network, checking the strength of your mobile data, or comparing Wi-Fi providers.</p>
+                    </div>
 
                     <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
                         <h2>How It Works</h2>
