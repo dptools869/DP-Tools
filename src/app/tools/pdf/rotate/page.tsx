@@ -158,6 +158,15 @@ export default function RotatePdfPage() {
                         </div>
                         <p>Page rotation is a small correction that dramatically improves presentation and professionalism.</p>
 
+                        <h4>Expert Tips for PDF Rotation</h4>
+                        <ol>
+                            <li>Use tools that offer 90, 180, and 270-degree rotation options for full flexibility.</li>
+                            <li>Check the preview before finalizing to ensure the pages are oriented correctly.</li>
+                            <li>Use batch rotation to apply changes to all pages at once and save time.</li>
+                            <li>Select “apply to all pages” for scanned multi-page documents.</li>
+                            <li>Keep a backup of the original file if editing official documents.</li>
+                        </ol>
+                        
                         <h4>Related Tools</h4>
                         <ul>
                             <li><Link href="/tools/pdf/split">Split PDF Pages</Link></li>
