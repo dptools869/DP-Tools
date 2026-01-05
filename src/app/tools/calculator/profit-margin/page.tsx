@@ -64,7 +64,7 @@ export default function ProfitMarginCalculatorPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Percent className="w-10 h-10 text-primary" />
@@ -135,7 +135,7 @@ export default function ProfitMarginCalculatorPage() {
               <li><strong>Calculate Net Profit:</strong> Subtract your cost of goods sold from your revenue. <code>Net Profit = Revenue - Cost</code>.</li>
               <li><strong>Calculate the Margin:</strong> Divide your net profit by your revenue, and then multiply by 100 to get the percentage. <code>Profit Margin = (Net Profit / Revenue) * 100</code>.</li>
             </ol>
-            <p>For example, if your revenue is $120 and your cost is $50, your net profit is $70. Your profit margin would then be <code>($70 / $120) * 100 = 58.33%</code>. Our calculator provides a quick and error-free way to determine your profitability, helping you make informed decisions about pricing, cost management, and business strategy.</p>
+            <p>For example, if your revenue is $120 and your cost is $50, your net profit is $70. Your profit margin would then be <code>($70 / 120) * 100 = 58.33%</code>. Our calculator provides a quick and error-free way to determine your profitability, helping you make informed decisions about pricing, cost management, and business strategy.</p>
           </article>
 
           <AdBanner type="bottom-banner" className="mt-12" />
