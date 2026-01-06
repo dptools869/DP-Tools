@@ -43,7 +43,7 @@ export function PasswordStrengthClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Shield className="w-10 h-10 text-primary" />
@@ -55,15 +55,10 @@ export function PasswordStrengthClient() {
             </CardHeader>
           </Card>
 
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-              <h2>Check Your Password Security Instantly</h2>
-              <p>Our free Password Strength Checker lets you evaluate your passwords for security vulnerabilities in just seconds. You can enter your password, and the tool will analyze its length and the types of characters used (lowercase letters, uppercase letters, numbers, special characters, etc.), then provide an instant, detailed security assessment to ensure hackers or unauthorized users do not steal your information.</p>
-          </div>
-
           <Card>
               <CardHeader>
-                <CardTitle>Check Your Password</CardTitle>
-                <CardDescription>Enter a password to see how secure it is.</CardDescription>
+                <CardTitle className="text-center md:text-left">Check Your Password</CardTitle>
+                <CardDescription className="text-center md:text-left">Enter a password to see how secure it is.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
@@ -77,6 +72,11 @@ export function PasswordStrengthClient() {
                  </div>
               </CardContent>
             </Card>
+
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+              <h2>Check Your Password Security Instantly</h2>
+              <p>Our free Password Strength Checker lets you evaluate your passwords for security vulnerabilities in just seconds. You can enter your password, and the tool will analyze its length and the types of characters used (lowercase letters, uppercase letters, numbers, special characters, etc.), then provide an instant, detailed security assessment to ensure hackers or unauthorized users do not steal your information.</p>
+          </div>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>What Is a Password Strength Checker?</h2>
