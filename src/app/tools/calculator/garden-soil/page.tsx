@@ -25,41 +25,33 @@ export default function GardenSoilCalculatorPage() {
 
   const [result, setResult] = useState<{ volume: string, unit: string } | null>(null);
 
-  const calculateSoil = () => {
-    let volume = 0;
-    let resultUnit = '';
+  const handleCalculate = () => {
+    const l = parseFloat(length);
+    const w = parseFloat(width);
+    const wastePercent = parseFloat(wastage);
 
-    if (unit === 'imperial') {
-      const l = parseFloat(lengthFt);
-      const w = parseFloat(widthFt);
-      const d = parseFloat(depthIn);
-      if (l > 0 && w > 0 && d > 0) {
-        const volumeCubicFeet = l * w * (d / 12);
-        volume = volumeCubicFeet;
-        resultUnit = 'cubic feet';
-      }
-    } else { // Metric
-      const l = parseFloat(lengthM);
-      const w = parseFloat(widthM);
-      const d = parseFloat(depthCm);
-      if (l > 0 && w > 0 && d > 0) {
-        volume = l * w * (d / 100); // Convert cm depth to meters
-        resultUnit = 'cubic meters';
-      }
-    }
-
-    if (volume > 0) {
-      setResult({ volume: volume.toFixed(2), unit: resultUnit });
+    if (!isNaN(l) && !isNaN(w) && l > 0 && w > 0 && !isNaN(wastePercent) && wastePercent >= 0) {
+      const baseArea = l * w;
+      const totalNeeded = baseArea * (1 + (wastePercent / 100));
+      
+      setResult({
+        baseArea: baseArea.toLocaleString(undefined, { maximumFractionDigits: 2 }),
+        totalNeeded: totalNeeded.toLocaleString(undefined, { maximumFractionDigits: 2 }),
+      });
     } else {
-      setResult(null);
+        setResult(null);
     }
   };
+
+  const length = unit === 'imperial' ? lengthFt : lengthM;
+  const width = unit === 'imperial' ? widthFt : widthM;
+  const wastage = '10'; // Hardcoded for simplicity as it's not in the new UI but needed for calc
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Leaf className="w-10 h-10 text-primary" />
@@ -71,8 +63,8 @@ export default function GardenSoilCalculatorPage() {
             </CardHeader>
           </Card>
 
-          <Card>
-            <CardHeader>
+            <Card>
+              <CardHeader>
                <Tabs defaultValue="imperial" onValueChange={(val) => setUnit(val)} className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="imperial">Imperial (feet, inches)</TabsTrigger>
@@ -111,7 +103,7 @@ export default function GardenSoilCalculatorPage() {
                       </div>
                     </div>
                   </TabsContent>
-                  <Button onClick={calculateSoil} className="w-full sm:w-auto mt-6">Calculate Soil Needed</Button>
+                  <Button onClick={handleCalculate} className="w-full sm:w-auto mt-6">Calculate Soil Needed</Button>
                 </CardContent>
               </Tabs>
             </CardHeader>
