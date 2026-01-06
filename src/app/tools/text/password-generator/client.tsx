@@ -118,7 +118,7 @@ export function PasswordGeneratorClient() {
             </CardHeader>
           </Card>
           
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12 hidden md:block">
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12 hidden">
                 <h2>Create Strong, Secure Passwords Instantly</h2>
                 <p>Our Password Generator allows you to generate strong, unique passwords within seconds. You can select the password length of your choice, the type of characters to be used (lowercase letters, uppercase letters, numbers, special characters, etc.), and press the button "Generate." You will immediately be given a powerful password that will prevent hackers and unauthorized users from stealing your information.</p>
            </div>
