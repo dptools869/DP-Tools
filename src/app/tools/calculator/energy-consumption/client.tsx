@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -136,7 +136,7 @@ export function EnergyCalculatorClient() {
           
           <Card>
             <CardHeader>
-              <CardTitle>Appliance List</CardTitle>
+              <CardTitle className="md:hidden">Energy Consumption Calculator</CardTitle>
               <div className="flex flex-col sm:flex-row gap-4 pt-4 items-start sm:items-center justify-between">
                 <CardDescription>Enter your appliances, their power, and usage to calculate costs.</CardDescription>
                 <div className='space-y-2'>
