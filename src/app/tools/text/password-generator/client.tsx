@@ -106,7 +106,7 @@ export function PasswordGeneratorClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <KeyRound className="w-10 h-10 text-primary" />
@@ -118,8 +118,9 @@ export function PasswordGeneratorClient() {
             </CardHeader>
           </Card>
           
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-                <p>Create Strong, Secure Passwords Instantly. Our Password Generator allows you to generate strong, unique passwords within seconds. You can select the password length of your choice, the type of characters to be used (lowercase letters, uppercase letters, numbers, special characters, etc.), and press the button "Generate." You will immediately be given a powerful password that will prevent hackers and unauthorized users from stealing your information.</p>
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12 hidden md:block">
+                <h2>Create Strong, Secure Passwords Instantly</h2>
+                <p>Our Password Generator allows you to generate strong, unique passwords within seconds. You can select the password length of your choice, the type of characters to be used (lowercase letters, uppercase letters, numbers, special characters, etc.), and press the button "Generate." You will immediately be given a powerful password that will prevent hackers and unauthorized users from stealing your information.</p>
            </div>
 
 
@@ -271,5 +272,3 @@ export function PasswordGeneratorClient() {
     </div>
   );
 }
-
-    
