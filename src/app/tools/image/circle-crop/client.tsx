@@ -226,7 +226,8 @@ export function CircleCropClient() {
             <p>With this tool, you can test circle sizes side by side and see what fits best. It helps you understand how circular images look on different screens or backgrounds. If you're unsure which size to use, try a few. Mix small and large, tight and loose. You'll quickly see what feels right for your design. The live preview shows you what each circular crop will look like before you use it.</p>
             <h2>Free Circle Crop Tool Online - Start Cropping Images Now</h2>
             <p>Circular images tell stories. They shape how people feel when they see your work. Using the right crop can make a design friendly, attractive, or professional.</p>
-            <p>Our free tool helps you explore endless sizes and discover fresh circular designs. You don't have to be a pro to use it, just experiment and see what fits your needs. It's simple and made for anyone who loves creating. Try adjusting different circle sizes to find what feels right for your project. Sometimes, the slightest size change can make the most significant difference.</p>
+            <p>Our free tool helps you explore endless sizes and discover fresh circular designs. You don't have to be a pro to use it, just experiment and see what fits your needs.</p>
+            <p>It's simple and made for anyone who loves creating. Try adjusting different circle sizes to find what feels right for your project. Sometimes, the slightest size change can make the most significant difference.</p>
             <p>So you are just one click away from creating your own perfect circular image. Crop images with the free Circle Crop Tool, and make your projects even more precise.</p>
           </article>
           <AdBanner type="bottom-banner" className="mt-12" />
