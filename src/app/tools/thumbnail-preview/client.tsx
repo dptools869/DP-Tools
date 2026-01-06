@@ -232,24 +232,16 @@ export function ThumbnailPreviewClient() {
       `}</style>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <View className="w-10 h-10 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">Thumbnail Preview</CardTitle>
+              <CardTitle className="text-3xl font-headline">Thumbnail Preview Generator | Free Online Tool</CardTitle>
               <CardDescription className="text-lg">
-                Preview your thumbnails instantly before publishing, all in a single place.
+                Create and preview thumbnails instantly with our free Thumbnail Preview tool. Perfect for YouTube, blogs, and social media, quick, clear, and accurate.
               </CardDescription>
             </CardHeader>
-            <CardContent className="max-w-2xl mx-auto space-y-6">
-                <div className="prose prose-base dark:prose-invert max-w-none text-center">
-                    <p>Our Thumbnail Preview is free and lets you easily preview, test, and optimize your thumbnails across platforms without installing software.</p>
-                    <p>Thumbnail testing does not necessarily involve complexity. You are a designer, developer, content creator, or just a user: no matter your role, our online thumbnail preview tool makes your workflow easier.</p>
-                    <p>You can preview thumbnails for social media platforms, check how they appear in different sizes, test them for YouTube, blogs, or websites, or even verify their appearance for web design —all in your browser.</p>
-                    <p>No advanced editing software is required, and you do not need technical expertise. Our platform thumbnail preview tool is quick, user-friendly, and safe. All you need to do is upload your thumbnail, preview it across different platforms, and verify your optimized visual within a couple of seconds.</p>
-                </div>
-            </CardContent>
           </Card>
 
           <Card>
@@ -308,6 +300,13 @@ export function ThumbnailPreviewClient() {
                 </div>
             </CardContent>
           </Card>
+          
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+            <p>Our Thumbnail Preview is free and lets you easily preview, test, and optimize your thumbnails across platforms without installing software.</p>
+            <p>Thumbnail testing does not necessarily involve complexity. You are a designer, developer, content creator, or just a user: no matter your role, our online thumbnail preview tool makes your workflow easier.</p>
+            <p>You can preview thumbnails for social media platforms, check how they appear in different sizes, test them for YouTube, blogs, or websites, or even verify their appearance for web design —all in your browser.</p>
+            <p>No advanced editing software is required, and you do not need technical expertise. Our platform thumbnail preview tool is quick, user-friendly, and safe. All you need to do is upload your thumbnail, preview it across different platforms, and verify your optimized visual within a couple of seconds.</p>
+          </div>
 
           {image && (
             <div className="mt-12">
@@ -319,13 +318,13 @@ export function ThumbnailPreviewClient() {
                  <PreviewCard title="Web - Home Feed (Small)" icon={<Monitor className="w-4 h-4"/>}><WebHomeSmallPreview image={image} title={title} seed="1a2b3c4d5e6f" /></PreviewCard>
                  <PreviewCard title="Mobile - Home Feed" icon={<Smartphone className="w-4 h-4"/>}><MobileHomePreview image={image} title={title} seed="6f5e4d3c2b1a" /></PreviewCard>
                  <PreviewCard title="Web - Channel Page (Small Grid)" icon={<Monitor className="w-4 h-4"/>}><ChannelPageGridPreview image={image} title={title} seed="c3b2a1d4e5f6" /></PreviewCard>
-                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="e5f6a1d4e5f6" /></PreviewCard>
+                 <PreviewCard title="Web - Sidebar" icon={<Monitor className="w-4 h-4"/>}><SidebarPreview image={image} title={title} seed="e5f6a1b2c3d4e5f6" /></PreviewCard>
                  <PreviewCard title="Apple TV" icon={<Tv className="w-4 h-4"/>}><AppleTVPreview image={image} title={title} /></PreviewCard>
               </div>
             </div>
           )}
           
-           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
+          <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>Our Most Popular Thumbnail Preview Features</h2>
             <ul>
               <li><strong>YouTube Thumbnail Preview:</strong> Preview thumbnails by width and height without quality loss. YouTube Thumbnail Preview helps create the proper look for videos, channel pages, search results, and recommended content. You are free to test proportions or have your own dimensions; your thumbnail will remain sharp and clear.</li>
@@ -374,3 +373,5 @@ export function ThumbnailPreviewClient() {
     </div>
   );
 }
+
+    

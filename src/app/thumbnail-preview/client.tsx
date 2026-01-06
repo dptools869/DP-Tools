@@ -232,7 +232,7 @@ export function ThumbnailPreviewClient() {
       `}</style>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <View className="w-10 h-10 text-primary" />
@@ -243,13 +243,6 @@ export function ThumbnailPreviewClient() {
               </CardDescription>
             </CardHeader>
           </Card>
-
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <p>Our Thumbnail Preview is free and lets you easily preview, test, and optimize your thumbnails across platforms without installing software.</p>
-            <p>Thumbnail testing does not necessarily involve complexity. You are a designer, developer, content creator, or just a user: no matter your role, our online thumbnail preview tool makes your workflow easier.</p>
-            <p>You can preview thumbnails for social media platforms, check how they appear in different sizes, test them for YouTube, blogs, or websites, or even verify their appearance for web design —all in your browser.</p>
-            <p>No advanced editing software is required, and you do not need technical expertise. Our platform thumbnail preview tool is quick, user-friendly, and safe. All you need to do is upload your thumbnail, preview it across different platforms, and verify your optimized visual within a couple of seconds.</p>
-          </div>
 
           <Card>
             <CardHeader>
@@ -307,6 +300,14 @@ export function ThumbnailPreviewClient() {
                 </div>
             </CardContent>
           </Card>
+
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+            <p>Our Thumbnail Preview is free and lets you easily preview, test, and optimize your thumbnails across platforms without installing software.</p>
+            <p>Thumbnail testing does not necessarily involve complexity. You are a designer, developer, content creator, or just a user: no matter your role, our online thumbnail preview tool makes your workflow easier.</p>
+            <p>You can preview thumbnails for social media platforms, check how they appear in different sizes, test them for YouTube, blogs, or websites, or even verify their appearance for web design —all in your browser.</p>
+            <p>No advanced editing software is required, and you do not need technical expertise. Our platform thumbnail preview tool is quick, user-friendly, and safe. All you need to do is upload your thumbnail, preview it across different platforms, and verify your optimized visual within a couple of seconds.</p>
+          </div>
+          
 
           {image && (
             <div className="mt-12">
@@ -373,3 +374,5 @@ export function ThumbnailPreviewClient() {
     </div>
   );
 }
+
+    
