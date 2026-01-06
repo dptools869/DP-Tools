@@ -69,7 +69,7 @@ export function TextCaseConverterClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <CaseSensitive className="w-10 h-10 text-primary" />
@@ -81,11 +81,6 @@ export function TextCaseConverterClient() {
             </CardHeader>
           </Card>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <p>Manually switching text between different formats. Converting from uppercase to lowercase, title case, or sentence case takes time and often leads to mistakes. Our Text Case Converter makes formatting simple: paste your content or drop in a file, and it will instantly convert your text to the case style you want.</p>
-            <p>This free web-based text case tool is perfect for writers, coders, marketers, and students who need clean formatting fast. It helps you keep things consistent and polished across everything you write.</p>
-          </div>
-
           <Card>
               <CardHeader>
                   <CardTitle>Convert Your Text</CardTitle>
@@ -121,6 +116,11 @@ export function TextCaseConverterClient() {
                   </div>
               </CardFooter>
             </Card>
+
+            <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+                <p>Manually switching text between different formats. Converting from uppercase to lowercase, title case, or sentence case takes time and often leads to mistakes. Our Text Case Converter makes formatting simple: paste your content or drop in a file, and it will instantly convert your text to the case style you want.</p>
+                <p>This free web-based text case tool is perfect for writers, coders, marketers, and students who need clean formatting fast. It helps you keep things consistent and polished across everything you write.</p>
+            </div>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <p>The tool gets it done in moments. Paste some text, add a document, or drop in a URL —it'll scan everything and convert it to your chosen format. No need to manually retype or worry about errors —you get accurate results ready to copy or download right away.</p>
