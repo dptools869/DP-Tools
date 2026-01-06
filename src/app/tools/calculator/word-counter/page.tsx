@@ -3,11 +3,12 @@
 
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { CaseSensitive } from 'lucide-react';
+import { CaseSensitive, Copy, Trash2 } from 'lucide-react';
 import AdBanner from '@/components/ad-banner';
-import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 export default function WordCounterPage() {
   const [text, setText] = useState('');
@@ -41,7 +42,7 @@ export default function WordCounterPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <CaseSensitive className="w-10 h-10 text-primary" />
