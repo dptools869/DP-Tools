@@ -52,11 +52,19 @@ export function EmailExtractorClient() {
     setInputText('');
   }
 
+  const stats = useMemo(() => {
+    const words = inputText.trim().split(/\s+/).filter(Boolean);
+    return {
+      words: words.length,
+      characters: inputText.length,
+    };
+  }, [inputText]);
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Mail className="w-10 h-10 text-primary" />
@@ -68,20 +76,6 @@ export function EmailExtractorClient() {
             </CardHeader>
           </Card>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <h2>Search and Gather Emails in Real Time.</h2>
-            <p>Searching for email addresses in text, documents, or web data is time-consuming when done manually. With our Email Extractor tool, it's never been a problem: just copy and paste or upload a file, and it automatically finds and extracts all the valid email addresses you need.</p>
-            <p>Our free online email extractor is perfect for time-saving tasks for recruiters, researchers, or business owners. It allows you to save time and collect contacts in an organized, efficient way.</p>
-            <p>Our email extractor does this work in seconds. You type in your text, attach a document, or simply place a URL. We will automatically search through it and find every email address. There will be no scanning, copying, or errors—just instant results that you can download easily.</p>
-            <h3>Perfect for:</h3>
-             <ul className="text-left">
-                <li>Sales Professionals who create prospect lists based on business directories or industry reports.</li>
-                <li>Recruiters obtain candidates' email addresses from resumes and applications.</li>
-                <li>Event organizers gather the attendees' email addresses during the registration forms or sign-up sheets.</li>
-                <li>Researchers who collect contact data through academic publications or research databases.</li>
-            </ul>
-          </div>
-
           <Card>
               <CardHeader>
                   <CardTitle>Extract Emails</CardTitle>
@@ -107,6 +101,20 @@ export function EmailExtractorClient() {
                   <Button onClick={clearText} variant="destructive" disabled={!inputText}><Trash2 className="mr-2 h-4 w-4" /> Clear</Button>
               </CardFooter>
             </Card>
+
+            <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+                <h2>Search and Gather Emails in Real Time.</h2>
+                <p>Searching for email addresses in text, documents, or web data is time-consuming when done manually. With our Email Extractor tool, it's never been a problem: just copy and paste or upload a file, and it automatically finds and extracts all the valid email addresses you need.</p>
+                <p>Our free online email extractor is perfect for time-saving tasks for recruiters, researchers, or business owners. It allows you to save time and collect contacts in an organized, efficient way.</p>
+                <p>Our email extractor does this work in seconds. You type in your text, attach a document, or simply place a URL. We will automatically search through it and find every email address. There will be no scanning, copying, or errors—just instant results that you can download easily.</p>
+                <h3>Perfect for:</h3>
+                 <ul className="text-left">
+                    <li>Sales Professionals who create prospect lists based on business directories or industry reports.</li>
+                    <li>Recruiters obtain candidates' email addresses from resumes and applications.</li>
+                    <li>Event organizers gather the attendees' email addresses during the registration forms or sign-up sheets.</li>
+                    <li>Researchers who collect contact data through academic publications or research databases.</li>
+                </ul>
+            </div>
           
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <h2>How Our Email Extractor Works: The Principle Behind It</h2>
