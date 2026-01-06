@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -73,7 +73,7 @@ export default function PaintCalculatorPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Paintbrush className="w-10 h-10 text-primary" />
@@ -174,13 +174,17 @@ export default function PaintCalculatorPage() {
             <h2>How to Calculate How Much Paint You Need</h2>
             <p>Estimating the right amount of paint for your project is crucial to avoid multiple trips to the store or wasting money on excess paint. Our calculator simplifies this process, but understanding the steps can help you plan better.</p>
             <AdBanner type="top-banner" className="my-8"/>
-            <h3>The Paint Calculation Formula</h3>
-             <ol>
-              <li><strong>Calculate Total Wall Area:</strong> For each wall, multiply its width by its height to get the square footage (or square meters). Add the area of all walls together.</li>
-              <li><strong>Subtract Areas You Don't Paint:</strong> Measure the width and height of each window and door. Calculate their area and subtract it from your total wall area.</li>
-              <li><strong>Account for Coats:</strong> Multiply the final painting area by the number of coats you plan to apply. Two coats is standard for good coverage.</li>
-              <li><strong>Divide by Coverage:</strong> Check your paint can for its coverage rate (e.g., 350 sq ft per gallon or 8.5 sq m per liter). Divide your total paint area by this number to find out how many gallons or liters you need.</li>
-            </ol>
+            <h3>1. Calculate Total Wall Area:</h3>
+            <p>For each wall, multiply its width by its height to get the square footage (or square meters). Add the area of all walls together.</p>
+
+            <h3>2. Subtract Areas You Don't Paint:</h3>
+            <p>Measure the width and height of each window and door. Calculate their area and subtract it from your total wall area.</p>
+
+            <h3>3. Account for Coats:</h3>
+            <p>Multiply the final painting area by the number of coats you plan to apply. Two coats is standard for good coverage.</p>
+
+            <h3>4. Divide by Coverage:</h3>
+            <p>Check your paint can for its coverage rate (e.g., 350 sq ft per gallon or 8.5 sq m per liter). Divide your total paint area by this number to find out how many gallons or liters you need.</p>
             <p>Our calculator automates these steps, providing a quick and reliable estimate. Always consider buying a little extra paint to account for touch-ups and variations in surface texture, which can absorb more paint.</p>
           </article>
 
