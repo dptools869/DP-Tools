@@ -187,7 +187,7 @@ export function NicknameGeneratorClient() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
                 <main className="lg:col-span-3">
-                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+                    <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
                         <CardHeader className="text-center">
                             <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                                 <UserPlus className="w-10 h-10 text-primary" />
@@ -198,12 +198,6 @@ export function NicknameGeneratorClient() {
                             </CardDescription>
                         </CardHeader>
                     </Card>
-
-                    <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-                      <h2>Make Unique Nicknames Instantly</h2>
-                      <p>Our Free Nickname Generator generates fun, creative, and original nicknames in just a few seconds. Whether you need a cool gaming tag, an attractive social media handle, or a playful alias for online platforms, this tool offers endless options.</p>
-                      <p>All one has to do is type their name, words, or themes they like, and our nickname generator tool will automatically generate a list of nicknames about them. You will find the name that suits your personality, whether it is a fancy name or a name based on fantasy.</p>
-                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                        {/* Controls */}
@@ -299,6 +293,19 @@ export function NicknameGeneratorClient() {
                         </div>
                     </div>
 
+                    <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+                        <h2>Make Unique Nicknames Instantly</h2>
+                        <p>Our Free Nickname Generator generates fun, creative, and original nicknames in just a few seconds. Whether you need a cool gaming tag, an attractive social media handle, or a playful alias for online platforms, this tool offers endless options.</p>
+                        <p>All one has to do is type their name, words, or themes they like, and our nickname generator tool will automatically generate a list of nicknames about them. You will find the name that suits your personality, whether it is a fancy name or a name based on fantasy.</p>
+                        <h3>Perfect for:</h3>
+                        <ul className="text-left">
+                            <li>Sales Professionals who create prospect lists based on business directories or industry reports.</li>
+                            <li>Recruiters obtain candidates' email addresses from resumes and applications.</li>
+                            <li>Event organizers gather the attendees' email addresses during the registration forms or sign-up sheets.</li>
+                            <li>Researchers who collect contact data through academic publications or research databases.</li>
+                        </ul>
+                    </div>
+
                     {favorites.length > 0 && (
                         <Card className="mt-8">
                             <CardHeader>
@@ -380,3 +387,5 @@ export function NicknameGeneratorClient() {
         </div>
     );
 }
+
+    
