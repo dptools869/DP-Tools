@@ -72,7 +72,7 @@ export function PermalinkGeneratorClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-16 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <LinkIcon className="w-10 h-10 text-primary" />
@@ -84,12 +84,6 @@ export function PermalinkGeneratorClient() {
             </CardHeader>
           </Card>
           
-          <div className="prose prose-lg dark:prose-invert max-w-none text-center mb-12">
-            <h2>Create Clean URLs in Seconds.</h2>
-            <p>Manually creating SEO-friendly permalinks from titles and headings can be time-consuming and often results in messy URLs. Our Permalink Generator simplifies URL creation, saving you time: paste your text or title, and it will instantly convert it into a clean, web-ready permalink you can use right away.</p>
-            <p>This free web-based permalink tool is perfect for bloggers, web developers, content managers, and digital marketers who need properly formatted URLs fast. It helps you create search-engine optimized links while keeping everything readable and professional.</p>
-          </div>
-
           <Card>
               <CardHeader>
                 <CardTitle>Generate Your Permalink</CardTitle>
@@ -134,10 +128,16 @@ export function PermalinkGeneratorClient() {
               </CardFooter>
             </Card>
           
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
+            <h2>Create Clean URLs in Seconds.</h2>
+            <p>Manually creating SEO-friendly permalinks from titles and headings can be time-consuming and often results in messy URLs. Our Permalink Generator simplifies URL creation, saving you time: paste your text or title, and it will instantly convert it into a clean, web-ready permalink you can use right away.</p>
+            <p>This free web-based permalink tool is perfect for bloggers, web developers, content managers, and digital marketers who need properly formatted URLs fast. It helps you create search-engine optimized links while keeping everything readable and professional.</p>
+          </div>
+
           <article className="mt-16 prose prose-lg dark:prose-invert max-w-none prose-h2:font-headline prose-h2:text-3xl prose-h2:text-primary prose-a:text-primary">
             <p>The tool gets it done in moments. Paste a title, add some text, or drop in multiple headings, and it will process everything and generate clean permalinks instantly. No need to manually format or worry about memorable characters —you get perfect results ready to copy or download right away.</p>
             <h3>Great for:</h3>
-            <ul>
+             <ul className="text-left">
                 <li>Bloggers create SEO-friendly URLs for articles, posts, and page titles.</li>
                 <li>Web developers generate clean link structures for websites and applications.</li>
                 <li>Content managers organize page URLs for CMS platforms and documentation sites.</li>
