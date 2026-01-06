@@ -129,7 +129,7 @@ export function ImageResizerClient() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <main className="lg:col-span-3">
-          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-8 hidden md:block">
+          <Card className="shadow-2xl shadow-primary/10 border-primary/20 bg-card/80 backdrop-blur-sm mb-12 hidden md:block">
             <CardHeader className="text-center">
               <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                 <Ruler className="w-10 h-10 text-primary" />
@@ -142,8 +142,8 @@ export function ImageResizerClient() {
           </Card>
           
           <Card>
-            <CardHeader>
-              <CardTitle className="text-center md:text-left">Image Re-sizer - Resize, Compress, and Enhance Images Online</CardTitle>
+            <CardHeader className="md:hidden">
+              <CardTitle>Image Re-sizer - Resize, Compress, and Enhance Images Online</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 mt-6">
                 {!image ? (
@@ -243,7 +243,7 @@ export function ImageResizerClient() {
               <p className="text-xs text-muted-foreground text-center w-full">Your images are processed securely in your browser and are never uploaded to our servers.</p>
             </CardFooter>
           </Card>
-           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12">
+           <div className="prose prose-lg dark:prose-invert max-w-none text-center my-12 hidden md:block">
                 <p>Have several images to resize? Use our Free Image Resizer Tool to resize your photos easily. Our tool can be used to edit graphics for your website, optimize product images for e-commerce, and scale images for social media, delivering fast, high-quality results.</p>
                 <p>All standard file formats, such as JPG, PNG, GIF, BMP, and WEBP, can be resized. And to top it all off, you do not need to install, register, or watermark anything, as it all happens in your browser.</p>
             </div>
