@@ -1,5 +1,4 @@
 
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -123,7 +122,7 @@ const categories = [
 
 const youtubeVideos = [
   'https://youtu.be/iF8U6QNk-D4?si=1XO3bcuQJO5rVlFF',
-  'https://www.youtube.com/watch?v=GQpP-1oAN_A',
+  'https://youtu.be/SHA0s41me7c?si=2_49lXjbymwLe7-Z',
   'https://www.youtube.com/watch?v=F1OK94tJ9_E',
 ];
 
