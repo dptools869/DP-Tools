@@ -122,7 +122,7 @@ const categories = [
 ];
 
 const youtubeVideos = [
-  'https://www.youtube.com/watch?v=k_2k-4K0fM4',
+  'https://youtu.be/iF8U6QNk-D4?si=1XO3bcuQJO5rVlFF',
   'https://www.youtube.com/watch?v=GQpP-1oAN_A',
   'https://www.youtube.com/watch?v=F1OK94tJ9_E',
 ];
