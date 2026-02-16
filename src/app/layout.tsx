@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,7 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="CaLkncHEeHV74bNvHyhEpV2_di0q04srlWOIQVxYJ-o" />
         <meta name="yandex-verification" content="b975b59adc94efee" />
+        <meta name="google-adsense-account" content="ca-pub-6496082028691621" />
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6496082028691621" crossOrigin="anonymous"></Script>
         {/* Google tag (gtag.js) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-4J5NPSY51Y"></Script>
